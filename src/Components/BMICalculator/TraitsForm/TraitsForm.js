@@ -3,28 +3,47 @@ import { useState, useEffect } from 'react';
 import BoolToggle from '../../Common/BoolToggle/BoolToggle';
 import FeetInchesInput from '../FeetInchesInput/FeetInchesInput';
 import NumInput from '../../Common/NumInput/NumInput';
+import SubmitButton from '../../Common/SubmitButton/SubmitButton';
 
 
-const TraitsForm = ({ setTraits, isMetricSystem, setMetricSystem }) => {
+const TraitsForm = ({ setTraits, callback, isMetricSystem, setMetricSystem }) => {
 
     const [_isMale, setMale] = useState('');
     const [_age, setAge] = useState('');
     const [_height, setHeight] = useState('');
-    const [_initialWeight, setInitialWeight] = useState('');
+    const [_weightMetric, setWeightMetric] = useState('');
+    const [_weightImperial, setWeightImperial] = useState('');
 
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        callback();
+    }
 
     useEffect(() => {
+        let _weight;
+        if (isMetricSystem) {
+            _weight = _weightMetric;
+        } else {
+            if (_weightImperial !== '' && _weightImperial !== undefined) {
+                _weight = _weightImperial * 0.4536;
+            } else {
+                _weight = '';
+            }
+        }
+        
         let updatedTraits = {
             isMale: _isMale,
             age: _age,
-            height: _height,
-            initialWeight: _initialWeight
+            height: _height / 100.0,
+            initialWeight: _weight
         }
+
         setTraits(updatedTraits)
-    }, [_isMale, _age, _height, _initialWeight])
+    }, [_isMale, _age, _height, _weightMetric, _weightImperial, isMetricSystem])
 
   return (
-    <form>
+    <form onSubmit={(e) => handleSubmit(e)}>
         <BoolToggle 
             className="unitSystemToggle"
             boolValue={isMetricSystem} 
@@ -47,15 +66,16 @@ const TraitsForm = ({ setTraits, isMetricSystem, setMetricSystem }) => {
         {isMetricSystem && 
             <div>
                 <NumInput number={_height} setNumber={setHeight} units='cm' description='Height'/>
-                <NumInput number={_initialWeight} setNumber={setInitialWeight} units='kg' description='Weight'/>
+                <NumInput number={_weightMetric} setNumber={setWeightMetric} units='kg' description='Weight'/>
             </div>
         }
         {!isMetricSystem && 
             <div>
-                <FeetInchesInput number={_height} setNumber={setHeight} description='Height'/>
-                <NumInput number={_initialWeight} setNumber={setInitialWeight} units='lb' description='Weight'/>
+                <FeetInchesInput number={_height} setOutput={setHeight} description='Height'/>
+                <NumInput number={_weightImperial} setNumber={setWeightImperial} units='lb' description='Weight'/>
             </div>
         }
+        <SubmitButton />
 
     </form>
   )

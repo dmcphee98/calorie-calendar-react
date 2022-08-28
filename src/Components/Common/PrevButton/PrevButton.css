@@ -1,0 +1,44 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.prev-btn-container {
+    width: 7vw;
+    min-width: 7rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgb(151, 151, 151);
+    background-color: transparent;
+    padding: 0.3rem;
+}
+
+.prev-btn-text {
+    margin-bottom: 0.2rem;
+    opacity: 70%;
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.prev-btn-arrow {
+    width: 5vw;
+    min-width: 5rem;
+    margin-top: 0.3rem;
+}
+
+.no-fade {
+    border: 1px solid rgb(151, 151, 151);
+}
+
+.fade {
+    border-color: rgba(255, 255, 255, 0);
+    transition: border-color 0.5s ease;
+}
+
+.fade:hover {
+    border: 1px solid rgb(151, 151, 151);
+}

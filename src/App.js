@@ -1,16 +1,27 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import LandingPage from './Components/LandingPage/LandingPage';
+import BMICalculator from './Components/BMICalculator/BMICalculator';
 import './App.css';
+import TDEECalculator from './Components/TDEECalculator/TDEECalculator';
 
 function App() {
 
   const [isMetricSystem, setMetricSystem] = useState(true);
   const [traits, setTraits] = useState({});
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden"
+  }, [])
+
   return (
     <div className="App">
-      <LandingPage 
+      <BMICalculator 
+        traits={traits}
+        setTraits={setTraits}
+        isMetricSystem={isMetricSystem}
+        setMetricSystem={setMetricSystem}/>
+      <TDEECalculator
+        traits={traits}
         setTraits={setTraits}
         isMetricSystem={isMetricSystem}
         setMetricSystem={setMetricSystem}/>

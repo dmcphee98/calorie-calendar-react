@@ -1,0 +1,59 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.next-btn-container {
+    width: 7vw;
+    min-width: 7rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgb(151, 151, 151);
+    background-color: transparent;
+    padding: 0.3rem 0rem;
+}
+
+.next-btn-text {
+    margin-top: 0.2rem;
+    opacity: 70%;
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.next-btn-arrow {
+    width: 5vw;
+    min-width: 5rem;
+    margin-bottom: 0.2rem;
+}
+
+.no-fade {
+    animation-name: changeBorderWidth;
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.fade {
+    border-color: rgba(255, 255, 255, 0);
+    transition: border-color 0.5s ease;
+}
+
+.fade:hover {
+    border: 1px solid rgb(151, 151, 151);
+}
+
+@keyframes changeBorderWidth {
+    from {
+        border-color: rgba(255, 255, 255, 0);
+    }
+  
+    to {
+        border-color: rgb(151, 151, 151);
+    }
+}
+  
+  
