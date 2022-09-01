@@ -10,7 +10,7 @@ function App() {
   const [traits, setTraits] = useState({});
 
   useEffect(() => {
-    document.body.style.overflow = "hidden"
+    //document.body.style.overflow = "hidden"
   }, [])
 
   return (

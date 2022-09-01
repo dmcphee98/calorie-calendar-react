@@ -3,7 +3,7 @@
     margin: 0;
 }
 
-.landing-title {
+.tdee-title {
     font-size: 72px;
     font-weight: 700;
     font-style: italic;
@@ -15,7 +15,7 @@
     -webkit-text-fill-color: transparent;
   }
 
-.landing-header {
+.tdee-header {
     height: 17.5vh;
     width: 100%;
     display: flex;
@@ -23,20 +23,28 @@
     align-items: center;
 }
 
-.landing-spacer {
+.tdee-spacer {
     height: 10vh;
 }
 
 
-.landing-body {
-    height: 62.5vh;
+.tdee-body {
+    height: 50vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 
-.landing-img-container {
+.tdee-result-container {
+    height: 12.5vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tdee-img-container {
     max-width: 50%;
     height: 100%;
     display: flex;
@@ -44,11 +52,11 @@
     align-items: center;
 }
 
-.landing-img {
+.tdee-img {
     height: 100%;
 }
 
-.landing-form-container {
+.tdee-form-container {
     max-width: 50%;
     min-width: 15rem;
     height: 100%;
@@ -58,12 +66,12 @@
     justify-content: flex-start;
 }
 
-.landing-form {
+.tdee-form {
     width: 100%;
     min-height: 65%;
 }
 
-.landing-info-container {
+.tdee-info-container {
     height: 12.5%;
     width: 100%;
     font-size: 1.25rem;
@@ -72,13 +80,13 @@
     align-items: center;
 }
 
-.landing-info {
+.tdee-info {
     display: inline-block;
     white-space: pre-wrap;
 }
 
-.landing-output-valid,
-.landing-output-invalid  {
+.tdee-output-valid,
+.tdee-output-invalid  {
     height: 25%;
     width: 100%;
     font-size: 1.25rem;
@@ -94,27 +102,27 @@
     user-select: none; /* Standard */
 }
 
-.landing-output-invalid {
+.tdee-output-invalid {
     flex-direction: column;
 }
 
-.landing-output-valid {
+.tdee-output-valid {
     flex-direction: row;
 }
 
 
-.landing-output-column {
+.tdee-output-column {
     margin: 1rem;
     font-size: 1.25rem;
     width: 50%;
 }
 
-.landing-left {
+.tdee-left {
     height: 100%;
     min-width: 10%;
 }
 
-.landing-right {
+.tdee-right {
     height: 100%;
     min-width: 20%;
 }
@@ -130,7 +138,7 @@
     align-items: center;
 }
 
-.landing-footer {
+.tdee-footer {
     height: 20vh;
     width: 100%;
     display: flex;

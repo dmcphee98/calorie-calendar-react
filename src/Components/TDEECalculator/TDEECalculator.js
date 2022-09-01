@@ -78,21 +78,21 @@ const TDEECalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =
 
   return (
     <div>
-      <div className='landing-header'>
+      <div className='tdee-header'>
         <PrevButton callback={goPrevPage} fade={true}/>
       </div>
-      <div className='landing-body'>
-        <div className='landing-left'/>
-        <div className='landing-img-container'>
-          <img className='landing-img' src={soccerImg} alt="My Happy SVG"/>
+      <div className='tdee-body'>
+        <div className='tdee-left'/>
+        <div className='tdee-img-container'>
+          <img className='tdee-img' src={soccerImg} alt="My Happy SVG"/>
         </div>
-        <div className='landing-form-container'>
-          <div className='landing-info-container'>
-            <p className='landing-info'>
-              <span>First, let's calculate your BMI.</span>
+        <div className='tdee-form-container'>
+          <div className='tdee-info-container'>
+            <p className='tdee-info'>
+              <span>Next, lets figure out your activity level.</span>
             </p>
           </div>
-          <div className='landing-form'>
+          <div className='tdee-form'>
             <ActivityForm 
                 setTraits={setTraits}
                 callback={onformSubmission}
@@ -100,8 +100,8 @@ const TDEECalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =
                 setMetricSystem={setMetricSystem}/>
           </div>
             {isFormSubmitted && isValidBMI &&
-              <div className='landing-output-valid'>
-                <div className='landing-output-column'>
+              <div className='tdee-output-valid'>
+                <div className='tdee-output-column'>
                   <div style={{margin: '0.5rem 0rem'}}>BMI</div>
                   <div 
                     className='inline-bold' 
@@ -112,7 +112,7 @@ const TDEECalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =
                       }}
                   >{lockedBMI}</div>
                 </div>
-                <div className='landing-output-column'>
+                <div className='tdee-output-column'>
                 <div style={{margin: '0.5rem 0rem'}}>Category</div>
                   <div 
                     className='inline-bold' 
@@ -126,7 +126,7 @@ const TDEECalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =
               </div>
             }
             {isFormSubmitted && !isValidBMI &&
-              <div className='landing-output-invalid'>
+              <div className='tdee-output-invalid'>
                   <div>Your BMI is </div>
                   <div 
                     className='inline-bold' 
@@ -140,9 +140,10 @@ const TDEECalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =
             }
 
           </div>
-        <div className='landing-right'/>
+        <div className='tdee-right'/>
       </div>
-      <div className='landing-footer'>
+      <div className='tdee-result-container'></div>
+      <div className='tdee-footer'>
         <NextButton fade={true}/>
       </div>
     </div>

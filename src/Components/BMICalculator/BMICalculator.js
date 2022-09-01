@@ -80,21 +80,21 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
 
   return (
     <div>
-      <div className='landing-header'>
-        <h1 className='landing-title'>Calorie Calendar</h1>
+      <div className='bmi-header'>
+        <h1 className='bmi-title'>Calorie Calendar</h1>
       </div>
-      <div className='landing-body'>
-        <div className='landing-left'/>
-        <div className='landing-img-container'>
-          <img className='landing-img' src={treeImg} alt="My Happy SVG"/>
+      <div className='bmi-body'>
+        <div className='bmi-left'/>
+        <div className='bmi-img-container'>
+          <img className='bmi-img' src={treeImg} alt="My Happy SVG"/>
         </div>
-        <div className='landing-form-container'>
-          <div className='landing-info-container'>
-            <p className='landing-info'>
+        <div className='bmi-form-container'>
+          <div className='bmi-info-container'>
+            <p className='bmi-info'>
               <span>First, let's calculate your BMI.</span>
             </p>
           </div>
-          <div className='landing-form'>
+          <div className='bmi-form'>
             <TraitsForm 
                 setTraits={setTraits}
                 callback={onformSubmission}
@@ -102,8 +102,8 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
                 setMetricSystem={setMetricSystem}/>
           </div>
             {isFormSubmitted && isValidBMI &&
-              <div className='landing-output-valid'>
-                <div className='landing-output-column'>
+              <div className='bmi-output-valid'>
+                <div className='bmi-output-column'>
                   <div style={{margin: '0.5rem 0rem'}}>BMI</div>
                   <div 
                     className='inline-bold' 
@@ -114,7 +114,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
                       }}
                   >{lockedBMI}</div>
                 </div>
-                <div className='landing-output-column'>
+                <div className='bmi-output-column'>
                 <div style={{margin: '0.5rem 0rem'}}>Category</div>
                   <div 
                     className='inline-bold' 
@@ -128,7 +128,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
               </div>
             }
             {isFormSubmitted && !isValidBMI &&
-              <div className='landing-output-invalid'>
+              <div className='bmi-output-invalid'>
                   <div>Your BMI is </div>
                   <div 
                     className='inline-bold' 
@@ -142,9 +142,9 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
             }
 
           </div>
-        <div className='landing-right'/>
+        <div className='bmi-right'/>
       </div>
-      <div className='landing-footer'>
+      <div className='bmi-footer'>
         {mayProceed && <NextButton callback={goNextPage}/>}
       </div>
     </div>
