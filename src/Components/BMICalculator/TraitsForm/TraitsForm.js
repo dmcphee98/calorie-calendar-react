@@ -8,7 +8,7 @@ import SubmitButton from '../../Common/SubmitButton/SubmitButton';
 
 const TraitsForm = ({ setTraits, callback, isMetricSystem, setMetricSystem }) => {
 
-    const [_isMale, setMale] = useState('');
+    const [_isMale, setMale] = useState(true);
     const [_age, setAge] = useState('');
     const [_height, setHeight] = useState('');
     const [_weightMetric, setWeightMetric] = useState('');
@@ -37,9 +37,9 @@ const TraitsForm = ({ setTraits, callback, isMetricSystem, setMetricSystem }) =>
             age: _age,
             height: _height / 100.0,
             initialWeight: _weight
-        }
+        };
 
-        setTraits(updatedTraits)
+        setTraits(updatedTraits);
     }, [_isMale, _age, _height, _weightMetric, _weightImperial, isMetricSystem])
 
   return (

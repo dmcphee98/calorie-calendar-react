@@ -1,18 +1,23 @@
+.TDEE-form {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
 .radio-row {
-    height: 8vh;
+    height: 6vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.5rem 0rem;
+    margin-top: 0.5rem;
 }
 
 .radio {
     height: 6vh;
-    width: 100%;
+    width: 6vh;
     cursor: pointer;
-    /*border: solid rgb(218, 218, 218);*/
-    border-width: 5px;
     position: relative;
     display: flex;
     align-items: center;
@@ -43,8 +48,48 @@
     align-items: center;
     justify-content: center;
     color: rgba(0, 0, 0, 0.6);
+    border-radius: 1rem;
+    cursor: pointer;
 }
 
 .radio-btn {
     display: none;
+}
+
+.radio-selected-inner {
+    font-size: 2rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+}
+
+.radio-selected-outer {
+    height: 7.5vh;
+    width: 7.5vh;
+}
+
+.activity-lvl-container {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.activity-lvl-title {
+    font-family: 'Lobster Two', cursive;
+    font-weight: 700;
+    font-size: 2.5rem;
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
+    border-bottom: 3px solid black;
+    width: fit-content;
+}
+
+.activity-lvl-desc {
+    font-style: italic;
+    color: gray;
+    margin-bottom: 0.5rem;
 }

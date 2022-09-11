@@ -10,8 +10,8 @@ import treeImg from './tree.svg'
 
 const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) => {
 
-
   const [BMI, setBMI] = useState('');
+  const [BMR, setBMR] = useState('');
   const [lockedBMI, setLockedBMI] = useState('');
   const [healthStatus, setHealthStatus] = useState('');
   const [healthColor, setHealthColor] = useState('#ffffff');
@@ -35,7 +35,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
   }, [traits])
 
   // Update BMI display on press of 'submit' button
-  const onformSubmission = () => {
+  const onFormSubmission = () => {
     setFormSubmitted(true);
     if (BMI > 0 && BMI < 100) {
       setValidBMI(true);
@@ -54,10 +54,13 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
     });
   }
   
-
-  // Assign health status and colour to locked-in BMI value
+  // Add new locked BMI to traits, assign health status and colour to locked-in BMI value
   useEffect(() => {
     if (lockedBMI === '' || lockedBMI === undefined) return;
+
+    calculateBMR();
+
+    // Assign health status and colour to locked-in BMI value
     switch (true) {
       case (lockedBMI < 18.5):
         setHealthStatus('underweight');          
@@ -78,6 +81,20 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
   }
     }, [lockedBMI])
 
+  const calculateBMR = () => {
+    const { isMale, initialWeight, height, age } = traits;
+    if (isMale) {
+      setBMR(88.362 + (13.397 * initialWeight) + (479.9 * height) - (5.677 * age));
+    } else {
+      setBMR(447.593 + (9.247 * initialWeight) + (309.8 * height) - (4.330 * age));
+    }
+  }
+
+  useEffect(() => {
+    // Add updated BMI and BMR to traits
+    setTraits({...traits, 'bmi':lockedBMI, 'bmr':BMR});
+  }, [BMR])
+
   return (
     <div>
       <div className='bmi-header'>
@@ -97,7 +114,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
           <div className='bmi-form'>
             <TraitsForm 
                 setTraits={setTraits}
-                callback={onformSubmission}
+                callback={onFormSubmission}
                 isMetricSystem={isMetricSystem}
                 setMetricSystem={setMetricSystem}/>
           </div>
