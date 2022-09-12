@@ -3,7 +3,7 @@
     margin: 0;
 }
 
-.tdee-title {
+.proj-title {
     font-size: 72px;
     font-weight: 700;
     font-style: italic;
@@ -15,7 +15,7 @@
     -webkit-text-fill-color: transparent;
   }
 
-.tdee-header {
+.proj-header {
     height: 17.5vh;
     width: 100%;
     display: flex;
@@ -23,12 +23,12 @@
     align-items: center;
 }
 
-.tdee-spacer {
+.proj-spacer {
     height: 10vh;
 }
 
 
-.tdee-body {
+.proj-body {
     height: 50vh;
     width: 100%;
     display: flex;
@@ -36,7 +36,7 @@
     align-items: flex-start;
 }
 
-.tdee-img-container {
+.proj-img-container {
     max-width: 50%;
     height: 100%;
     display: flex;
@@ -44,11 +44,11 @@
     align-items: center;
 }
 
-.tdee-img {
+.proj-img {
     height: 100%;
 }
 
-.tdee-form-container {
+.proj-form-container {
     max-width: 25rem;
     min-width: 19rem;
     height: 100%;
@@ -58,12 +58,12 @@
     justify-content: flex-start;
 }
 
-.tdee-form {
+.proj-form {
     width: 100%;
     min-height: 55%;
 }
 
-.tdee-info-container {
+.proj-info-container {
     height: 10%;
     width: 100%;
     font-size: 1.25rem;
@@ -72,19 +72,19 @@
     align-items: center;
 }
 
-.tdee-info {
+.proj-info {
     display: inline-block;
     white-space: pre-wrap;
 }
 
-.tdee-left {
-    height: 100%;
-    min-width: 10%;
-}
-
-.tdee-right {
+.proj-left {
     height: 100%;
     min-width: 20%;
+}
+
+.proj-right {
+    height: 100%;
+    min-width: 10%;
 }
 
 .inline-bold {
@@ -98,7 +98,7 @@
     align-items: center;
 }
 
-.tdee-result-container {
+.proj-result-container {
     height: 25%;
     width: 100%;
     display: flex;
@@ -106,10 +106,11 @@
     justify-content: center;
     align-items: center;
     font-size: 1.25rem;
+    background-color: white;
     border-radius: 2rem;
 }
 
-.tdee-result {
+.proj-result {
     font-family: 'Lobster Two', cursive;
     font-weight: 700;
     font-size: 2.5rem;
@@ -118,18 +119,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 3px solid black;
-    background-color: white;
+    border-bottom: 3px solid black,
 }
 
-.tdee-definition {
-    font-size: 1rem;
-    padding: 0rem 0.5rem 0rem 0.5rem;
-    background-color: white;
-    border-radius: 1rem;
-}
-
-.tdee-footer {
+.proj-footer {
     height: 20vh;
     width: 100%;
     display: flex;

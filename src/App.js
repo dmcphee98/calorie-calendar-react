@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import BMICalculator from './Components/BMICalculator/BMICalculator';
 import './App.css';
 import TDEECalculator from './Components/TDEECalculator/TDEECalculator';
+import WeightProjector from './Components/WeightProjector/WeightProjector';
 
 function App() {
 
@@ -25,6 +26,12 @@ function App() {
         setTraits={setTraits}
         isMetricSystem={isMetricSystem}
         setMetricSystem={setMetricSystem}/>
+      <WeightProjector
+        traits={traits}
+        setTraits={setTraits}
+        isMetricSystem={isMetricSystem}
+        setMetricSystem={setMetricSystem}/>
+
     </div>
   );
 }

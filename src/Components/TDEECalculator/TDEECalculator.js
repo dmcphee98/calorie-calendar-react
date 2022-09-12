@@ -67,7 +67,7 @@ const TDEECalculator = ({ traits, setTraits }) => {
             <div className='tdee-result-container'>
             <div>TDEE</div>
             <div className='tdee-result'>{lockedTDEE}</div>
-            <div style={{fontSize: '1rem', padding: '0rem 0.5rem 0rem 0.5rem'}}>
+            <div className='tdee-definition'>
               Your Total Daily Energy Expenditure (TDEE) is the average number of calories your body burns each day.
             </div>
           </div>
