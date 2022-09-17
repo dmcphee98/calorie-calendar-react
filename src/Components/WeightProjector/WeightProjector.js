@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import PrevButton from '../Common/PrevButton/PrevButton';
 import NextButton from '../Common/NextButton/NextButton';
 import ProjectionForm from './ProjectionForm/ProjectionForm';
-import { VictoryChart, VictoryLine, VictoryArea, VictoryTheme, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
+import { VictoryChart, VictoryAxis, VictoryArea, VictoryTheme, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
 import './WeightProjector.css';
 
 import soccerImg from '../TDEECalculator/soccer.svg'
@@ -14,32 +14,26 @@ const WeightProjector = ({ traits, setTraits }) => {
 
   const [chartData, setChartData] = useState([]);
 
-  useEffect(() => {
-    // Update TDEE
-    const multipliers = [1.2, 1.375, 1.55, 1.725, 1.9];
-    const tdee = traits.bmr * multipliers[traits.activityLvl-1];
-    setTraits({...traits, 'tdee':tdee.toFixed(0)}); 
-  }, [traits.activityLvl])
-
   const onFormSubmission = () => {
   }
 
   useEffect(() => {
-    console.log('chartUpdate');
-    const {initialWeight, goalWeight, tdee, dailyCals} = traits;
-
-    let tempChartData = [];
-    let day = 1;
-
-    let currentWeight = initialWeight;
-
-    while (currentWeight > goalWeight) {
-      currentWeight -= (calculateTDEE(currentWeight) - dailyCals) / 7700;
-      tempChartData.push({x: day++, y: currentWeight});
+    const {initialWeight, goalWeight, startDate, endDate, dailyCals} = traits;
+    if (goalWeight !== '' && startDate !== '' && !(endDate === '' && dailyCals === '')) {
+      // Update chart data and re-render
+      console.log('Updating chart...');
+      
+      let day = 1;
+      let tempChartData = [];
+      let currentWeight = initialWeight;
+  
+      while (currentWeight > goalWeight) {
+        currentWeight -= (calculateTDEE(currentWeight) - dailyCals) / 7700;
+        tempChartData.push({x: day++, y: currentWeight});
+      }
+      setChartData(tempChartData);
     }
-    setChartData(tempChartData);
-
-  }, [traits.goalWeight, traits.startDate, traits.endDate, traits.dailyCals])
+  }, [traits])
   
   const calculateTDEE = (currentWeight) => {
     const { isMale, height, age, activityLvl } = traits;
@@ -79,7 +73,7 @@ const WeightProjector = ({ traits, setTraits }) => {
         <div className='proj-form-container'>
           <div className='proj-info-container'>
             <p className='proj-info'>
-              <span>Finally, we forecast your weight.</span>
+              <span>Now, we can forecast your weight.</span>
             </p>
           </div>
           <div className='proj-form'>
@@ -103,14 +97,35 @@ const WeightProjector = ({ traits, setTraits }) => {
               }
             /> 
           }
-          domain={{x: [0, 200], y: [traits.goalWeight, traits.initialWeight]}}
-        >
+          domain={{
+            x: [0, chartData.length > 0 ? chartData.length : 200], 
+            y: [traits.goalWeight === '' ? 0 : traits.goalWeight, traits.goalWeight === '' ? 100 : traits.initialWeight]
+          }}
+          >
           <VictoryArea
             style={{
               data: { stroke: '#88cb66', strokeWidth: 3, fill:'#bdea7a', fillOpacity: 0.7 },
               parent: { border: '1px solid #000000'}
             }}
             data={chartData}
+          />
+          <VictoryAxis crossAxis
+            width={400}
+            height={400}
+            theme={VictoryTheme.material}
+            standalone={false}
+            style={{
+              grid: { stroke: "#ffffff", strokeWidth: "2", strokeDasharray: "0 0" },
+            }}
+          />
+          <VictoryAxis dependentAxis crossAxis
+            width={400}
+            height={400}
+            theme={VictoryTheme.material}
+            standalone={false}
+            style={{
+              grid: { stroke: "#ffffff", strokeWidth: "2", strokeDasharray: "0 0" },
+              }}
           />
         </VictoryChart>
 

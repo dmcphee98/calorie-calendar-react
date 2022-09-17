@@ -8,7 +8,7 @@
     height: 5vh;
     cursor: pointer;
     display: flex;
-    background-image: linear-gradient(to right bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
+    background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
     background-attachment: fixed;
     border-radius: 1.5rem;
     /*border: solid rgb(218, 218, 218);*/
@@ -42,7 +42,7 @@
 }
 
 .button-spacer {
-    background-image: linear-gradient(to right bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
+    background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
     background-attachment: fixed;
     flex-grow: 1;
     height: 75%;

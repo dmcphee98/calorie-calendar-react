@@ -8,11 +8,20 @@ import WeightProjector from './Components/WeightProjector/WeightProjector';
 function App() {
 
   const [isMetricSystem, setMetricSystem] = useState(true);
-  const [traits, setTraits] = useState({});
-
-  useEffect(() => {
-    //document.body.style.overflow = "hidden"
-  }, [])
+  const [traits, setTraits] = useState({
+    'isMale': true,
+    'age': '',
+    'height': '',
+    'initialWeight': '',
+    'goalWeight': '',
+    'bmi': '',
+    'bmr': '',
+    'activityLvl': '',
+    'tdee': '',
+    'startDate': '',
+    'endDate': '',
+    'dailyCals': ''
+  });
 
   return (
     <div className="App">

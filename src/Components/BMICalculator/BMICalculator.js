@@ -81,12 +81,18 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
   }
     }, [lockedBMI])
 
+    // Changing gender requires recalculation of BMR but not BMI
+    useEffect(() => {
+      const {initialWeight, height, age } = traits;
+      if (initialWeight !== '' && height !== '' && age !== '') calculateBMR();
+    }, [traits.isMale])
+
   const calculateBMR = () => {
     const { isMale, initialWeight, height, age } = traits;
     if (isMale) {
-      setBMR(88.362 + (13.397 * initialWeight) + (479.9 * height) - (5.677 * age));
+      setBMR((88.362 + (13.397 * initialWeight) + (479.9 * height) - (5.677 * age)).toFixed(0));
     } else {
-      setBMR(447.593 + (9.247 * initialWeight) + (309.8 * height) - (4.330 * age));
+      setBMR((447.593 + (9.247 * initialWeight) + (309.8 * height) - (4.330 * age)).toFixed(0));
     }
   }
 
@@ -113,6 +119,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
           </div>
           <div className='bmi-form'>
             <TraitsForm 
+                traits={traits}
                 setTraits={setTraits}
                 callback={onFormSubmission}
                 isMetricSystem={isMetricSystem}

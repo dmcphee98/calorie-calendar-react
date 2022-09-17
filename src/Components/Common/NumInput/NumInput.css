@@ -9,7 +9,6 @@
     justify-content: left;
     margin: 0.5rem;
     height: 5vh;
-    background-image: linear-gradient(to right bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);;
     background-attachment: fixed;
     background-size: cover; 
     border-radius: 1.5rem;
@@ -68,4 +67,12 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.ni-active {
+    background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
+}
+
+.ni-inactive {
+    background-color: rgb(204, 204, 204);
 }

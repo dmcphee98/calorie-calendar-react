@@ -11,6 +11,7 @@ const ProjectionForm = ({ traits, setTraits, callback }) => {
     const [dailyCals, setDailyCals] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [isDeadlineMode, setIsDeadlineMode] = useState(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,14 +24,29 @@ const ProjectionForm = ({ traits, setTraits, callback }) => {
             'endDate':endDate,
             'dailyCals':dailyCals
         });   
+      };
+
+      const setDeadlineMode = () => {
+        console.log("Mode set to 'Deadline'.");
+        setIsDeadlineMode(true);
+      }
+
+      const setDailyMode = () => {
+        console.log("Mode set to 'Daily'.");
+        setIsDeadlineMode(false);
       }
 
     return (
-        <form className='TDEE-form' onSubmit={handleSubmit}>
+        <form className='proj-form' onSubmit={handleSubmit}>
             <NumInput number={goalWeight} setNumber={setGoalWeight} units='kg' description='Goal Weight'/>
             <DateInput number={startDate} setNumber={setStartDate} description='Start Date'/>
-            <DateInput number={endDate} setNumber={setEndDate} description='End Date'/>
-            <NumInput number={dailyCals} setNumber={setDailyCals} units='Cal' description='Daily Cals'/>
+            <div className="proj-container">
+                <div className="proj-desc-A">Enter a <em>finish date</em> to find<br></br>your daily calorie allowance</div>
+                <DateInput number={endDate} setNumber={setEndDate} description='Finish Date' isEnabled={isDeadlineMode} callback={setDeadlineMode} />
+                <div className="proj-or">OR</div>
+                Enter a daily <em>calorie allowance</em> <br></br>to estimate your finish date
+                <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={!isDeadlineMode} callback={setDailyMode} />
+            </div>
             <SubmitButton />
         </form>
     );

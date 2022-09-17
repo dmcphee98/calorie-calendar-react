@@ -6,7 +6,7 @@ import NumInput from '../../Common/NumInput/NumInput';
 import SubmitButton from '../../Common/SubmitButton/SubmitButton';
 
 
-const TraitsForm = ({ setTraits, callback, isMetricSystem, setMetricSystem }) => {
+const TraitsForm = ({ traits, setTraits, callback, isMetricSystem, setMetricSystem }) => {
 
     const [_isMale, setMale] = useState(true);
     const [_age, setAge] = useState('');
@@ -33,9 +33,10 @@ const TraitsForm = ({ setTraits, callback, isMetricSystem, setMetricSystem }) =>
         }
         
         let updatedTraits = {
+            ...traits,
             isMale: _isMale,
             age: _age,
-            height: _height / 100.0,
+            height: (_height === '' ? '' : _height / 100.0),
             initialWeight: _weight
         };
 

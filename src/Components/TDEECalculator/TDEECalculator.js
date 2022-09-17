@@ -16,10 +16,13 @@ const TDEECalculator = ({ traits, setTraits }) => {
 
   useEffect(() => {
     // Update TDEE
-    const multipliers = [1.2, 1.375, 1.55, 1.725, 1.9];
-    const tdee = traits.bmr * multipliers[traits.activityLvl-1];
-    setTraits({...traits, 'tdee':tdee.toFixed(0)}); 
-  }, [traits.activityLvl])
+    if (traits.bmr !== '' && traits.activityLvl !== '') {
+      console.log('Calculating TDEE...')
+      const multipliers = [1.2, 1.375, 1.55, 1.725, 1.9];
+      const tdee = traits.bmr * multipliers[traits.activityLvl-1];
+      setTraits({...traits, 'tdee':tdee.toFixed(0)}); 
+    }
+  }, [traits.activityLvl, traits.bmr])
 
   const onFormSubmission = () => {
     setLockedTDEE(traits.tdee);
