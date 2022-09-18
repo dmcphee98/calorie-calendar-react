@@ -5,13 +5,12 @@ import NumInput from '../../Common/NumInput/NumInput';
 import DateInput from '../../Common/DateInput/DateInput';
 import './ProjectionForm.css';
 
-const ProjectionForm = ({ traits, setTraits, callback }) => {
+const ProjectionForm = ({ traits, setTraits, isDeadlineMode, setIsDeadlineMode }) => {
 
     const [goalWeight, setGoalWeight] = useState('');
     const [dailyCals, setDailyCals] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [isDeadlineMode, setIsDeadlineMode] = useState(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();

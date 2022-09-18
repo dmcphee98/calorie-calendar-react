@@ -13,6 +13,8 @@ import soccerImg from '../TDEECalculator/soccer.svg'
 const WeightProjector = ({ traits, setTraits }) => {
 
   const [chartData, setChartData] = useState([]);
+  const [isDeadlineMode, setIsDeadlineMode] = useState(true);
+  const [finishDate, setFinishDate] = useState('');
 
   const onFormSubmission = () => {
   }
@@ -22,18 +24,40 @@ const WeightProjector = ({ traits, setTraits }) => {
     if (goalWeight !== '' && startDate !== '' && !(endDate === '' && dailyCals === '')) {
       // Update chart data and re-render
       console.log('Updating chart...');
+      forecastFinishDate();
       
-      let day = 1;
-      let tempChartData = [];
-      let currentWeight = initialWeight;
-  
-      while (currentWeight > goalWeight) {
-        currentWeight -= (calculateTDEE(currentWeight) - dailyCals) / 7700;
-        tempChartData.push({x: day++, y: currentWeight});
-      }
-      setChartData(tempChartData);
     }
   }, [traits])
+
+  const forecastDailyCals = () => {
+    
+  }
+
+  const forecastFinishDate = () => {
+    // Calculate chart data
+    const {initialWeight, goalWeight, dailyCals, startDate} = traits;
+    let days = 1;
+    let tempChartData = [];
+    let currentWeight = initialWeight;
+
+    while (currentWeight > goalWeight) {
+      currentWeight -= (calculateTDEE(currentWeight) - dailyCals) / 7700;
+      tempChartData.push({x: days++, y: currentWeight});
+    }
+    setChartData(tempChartData);
+
+    // Determine finish date
+    console.log('Forecasting finish date...');
+    addDaysToDate(startDate, days);
+    //setFinishDate(startDate)
+  }
+
+  const addDaysToDate = (startDate, days) => {
+    let startDateObject = new Date(startDate);
+    let finishDate = new Date(startDateObject.setTime( startDateObject.getTime() + days * 86400000 ));
+    console.log('Finish date is ' + finishDate);
+    return finishDate;
+  }
   
   const calculateTDEE = (currentWeight) => {
     const { isMale, height, age, activityLvl } = traits;
@@ -51,13 +75,6 @@ const WeightProjector = ({ traits, setTraits }) => {
   const goPrevPage = () => {
     window.scrollBy({
       top: -window.innerHeight,
-      behavior: 'smooth'
-    });
-  }
-
-  const goNextPage = () => {
-    window.scrollBy({
-      top: window.innerHeight,
       behavior: 'smooth'
     });
   }
@@ -80,7 +97,10 @@ const WeightProjector = ({ traits, setTraits }) => {
             <ProjectionForm 
               traits={traits}
               setTraits={setTraits}
-              callback={onFormSubmission}/>
+              callback={onFormSubmission}
+              isDeadlineMode={isDeadlineMode}
+              setIsDeadlineMode={setIsDeadlineMode}
+              />
           </div>
         </div>
 
@@ -114,18 +134,12 @@ const WeightProjector = ({ traits, setTraits }) => {
             height={400}
             theme={VictoryTheme.material}
             standalone={false}
-            style={{
-              grid: { stroke: "#ffffff", strokeWidth: "2", strokeDasharray: "0 0" },
-            }}
           />
           <VictoryAxis dependentAxis crossAxis
             width={400}
             height={400}
             theme={VictoryTheme.material}
             standalone={false}
-            style={{
-              grid: { stroke: "#ffffff", strokeWidth: "2", strokeDasharray: "0 0" },
-              }}
           />
         </VictoryChart>
 

@@ -23,6 +23,10 @@ function App() {
     'dailyCals': ''
   });
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  }, []);
+
   return (
     <div className="App">
       <BMICalculator 
@@ -46,14 +50,3 @@ function App() {
 }
 
 export default App;
-
-/*
-    const traits = {
-      gender: "male",
-      age: 28,
-      height: 186,               
-      initialWeight: 90,         
-      goalWeight: 70,            
-      activityLevel: 1
-    }
-*/

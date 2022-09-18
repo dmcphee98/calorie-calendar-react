@@ -16,7 +16,7 @@
   }
 
 .proj-header {
-    height: 17.5vh;
+    height: 20vh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -29,7 +29,7 @@
 
 
 .proj-body {
-    height: 50vh;
+    height: 60vh;
     width: 100%;
     display: flex;
     justify-content: center;
