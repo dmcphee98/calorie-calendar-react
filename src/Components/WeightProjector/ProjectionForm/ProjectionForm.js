@@ -5,7 +5,7 @@ import NumInput from '../../Common/NumInput/NumInput';
 import DateInput from '../../Common/DateInput/DateInput';
 import './ProjectionForm.css';
 
-const ProjectionForm = ({ traits, setTraits, isDeadlineMode, setIsDeadlineMode }) => {
+const ProjectionForm = ({ traits, setTraits, callback, isDeadlineMode, setIsDeadlineMode }) => {
 
     const [goalWeight, setGoalWeight] = useState('');
     const [dailyCals, setDailyCals] = useState('');
@@ -13,27 +13,26 @@ const ProjectionForm = ({ traits, setTraits, isDeadlineMode, setIsDeadlineMode }
     const [endDate, setEndDate] = useState('');
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+      e.preventDefault();
+      setTraits({
+        ...traits, 
+        'goalWeight': goalWeight, 
+        'startDate': startDate,
+        'endDate': endDate,
+        'dailyCals': dailyCals
+      });
+      callback();
+    };
 
-        // Update traits
-        setTraits({
-            ...traits, 
-            'goalWeight':goalWeight, 
-            'startDate':startDate,
-            'endDate':endDate,
-            'dailyCals':dailyCals
-        });   
-      };
+    const setDeadlineMode = () => {
+      console.log("Mode set to 'Deadline'.");
+      setIsDeadlineMode(true);
+    };
 
-      const setDeadlineMode = () => {
-        console.log("Mode set to 'Deadline'.");
-        setIsDeadlineMode(true);
-      }
-
-      const setDailyMode = () => {
-        console.log("Mode set to 'Daily'.");
-        setIsDeadlineMode(false);
-      }
+    const setDailyMode = () => {
+      console.log("Mode set to 'Daily'.");
+      setIsDeadlineMode(false);
+    };
 
     return (
         <form className='proj-form' onSubmit={handleSubmit}>
