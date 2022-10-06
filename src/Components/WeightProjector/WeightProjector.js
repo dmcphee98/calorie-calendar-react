@@ -5,13 +5,14 @@ import PrevButton from '../Common/PrevButton/PrevButton';
 import ProjectionForm from './ProjectionForm/ProjectionForm';
 import { VictoryChart, VictoryAxis, VictoryArea, VictoryScatter, VictoryTheme, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
 import './WeightProjector.css';
+import DailyCalsResults from './DailyCalsResults/DailyCalsResults';
 
 const WeightProjector = ({ traits, setTraits }) => {
 
   const [chartData, setChartData] = useState([]);
   const [isDeadlineMode, setIsDeadlineMode] = useState(true);
   const [finishDate, setFinishDate] = useState('');
-  const [displayDailyCals, setDisplayDailyCals] = useState('');
+  const [displayDailyCals, setDisplayDailyCals] = useState(0);
   const [deficitSeverity, setDeficitSeverity] = useState('');
   const [projectionComplete, setProjectionComplete] = useState(false);
 
@@ -56,7 +57,7 @@ const WeightProjector = ({ traits, setTraits }) => {
         setDeficitSeverity('healthy');
       }
     }   
-  }, [traits, isDeadlineMode])
+  }, [traits])
 
   /**
    * Calculate daily calorie allowance required to meet a given deadline
@@ -260,23 +261,11 @@ const WeightProjector = ({ traits, setTraits }) => {
       </div>
 
       <div className='proj-result-container'>
-        {projectionComplete && isDeadlineMode && 
-          <div>
-            Your daily allowance is <b>{displayDailyCals.toFixed(0)}</b> cal.<br></br>
-          </div>
+        {projectionComplete && isDeadlineMode &&  
+          <DailyCalsResults 
+            displayDailyCals={displayDailyCals}/>
         }
-        {projectionComplete && isDeadlineMode && (deficitSeverity !== 'healthy') &&
-          <div>
-            This is a {deficitSeverity === 'unhealthy' ? 'potentially ' : ''}<b>{deficitSeverity}</b> deficit of {(traits.tdee - displayDailyCals).toFixed(0)} cal. <br></br>
-            Please note that the recommended deficit for sustainable weight loss is 500 calories.<br></br>
-            {deficitSeverity === 'severe' ? 'For deficits greater than 1000cal, please consult a medical professional.' : ''}
-          </div>
-        }
-        {projectionComplete && isDeadlineMode && (deficitSeverity === 'healthy') &&
-          <div>
-            This is considered a <b>healthy</b> deficit of {(traits.tdee - displayDailyCals).toFixed(0)} cal. <br></br>
-          </div>
-        }
+
 
         {projectionComplete && !isDeadlineMode && 
           <div>
