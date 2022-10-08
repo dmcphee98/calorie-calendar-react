@@ -27,15 +27,6 @@
     height: 10vh;
 }
 
-
-.proj-body {
-    height: 60vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
 .proj-img-container {
     max-width: 50%;
     height: 100%;
@@ -75,16 +66,6 @@
 .proj-info {
     display: inline-block;
     white-space: pre-wrap;
-}
-
-.proj-left {
-    height: 100%;
-    min-width: 20%;
-}
-
-.proj-right {
-    height: 100%;
-    min-width: 10%;
 }
 
 .inline-bold {

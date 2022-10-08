@@ -49,12 +49,11 @@ const TDEECalculator = ({ traits, setTraits }) => {
         <PrevButton callback={goPrevPage} fade={true}/>
       </div>
 
-      <div className='tdee-body'>
-        <div className='tdee-left'/>
-        <div className='tdee-img-container'>
+      <div className='page-container'>
+        <div className='img-container'>
           <img className='tdee-img' src={soccerImg} alt="My Happy SVG"/>
         </div>
-        <div className='tdee-form-container'>
+        <div className='form-container tdee-form-container'>
           <div className='tdee-info-container'>
             <p className='tdee-info'>
               <span>Next, let's find your activity level.</span>
@@ -71,18 +70,17 @@ const TDEECalculator = ({ traits, setTraits }) => {
             <div>TDEE</div>
             <div className='tdee-result'>{lockedTDEE}</div>
             <div className='tdee-definition'>
-              Your Total Daily Energy Expenditure (TDEE) is the average number of calories your body burns each day. <br /><br />
-              Eat more than this to gain weight, or less than this to lose weight.
+              Your Total Daily Energy Expenditure (TDEE) is the average number of calories your body burns each day.
             </div>
           </div>
           }
           </div>
-        <div className='tdee-right'/>
       </div>
 
       <div className='tdee-footer'>
         {mayProceed && <NextButton callback={goNextPage}/>}
       </div>
+      <div className='page-spacer'/>
     </div>
   )
 }

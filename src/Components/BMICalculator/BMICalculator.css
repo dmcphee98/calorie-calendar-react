@@ -4,71 +4,23 @@
     color: #2f2e41;
 }
 
-.bmi-title {
-    font-size: 72px;
-    font-weight: 700;
-    font-style: italic;
-    font-family: 'Lobster Two', cursive;
-    background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
-    background-attachment: fixed;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-.bmi-header {
-    height: 17.5vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: sticky;
-}
-
 .bmi-spacer {
     height: 10vh;
 }
 
-
-.bmi-body {
-    height: 62.5vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.bmi-img-container {
-    max-width: 50%;
+.bmi-img {
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
     background-attachment: fixed;
 }
-
-.bmi-img {
-    height: 100%;
-}
-
-.bmi-form-container {
-    max-width: 50%;
-    min-width: 15rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
+  
 .bmi-form {
     width: 100%;
-    min-height: 65%;
+    height: 45vh;
 }
 
 .bmi-info-container {
-    height: 12.5%;
+    height: 10%;
     width: 100%;
     font-size: 1.25rem;
     display: flex;
@@ -83,7 +35,7 @@
 
 .bmi-output-valid,
 .bmi-output-invalid  {
-    height: 25%;
+    height: 20%;
     width: 100%;
     font-size: 1.25rem;
     display: flex;
@@ -106,21 +58,10 @@
     flex-direction: row;
 }
 
-
 .bmi-output-column {
     margin: 1rem;
     font-size: 1.25rem;
     width: 50%;
-}
-
-.bmi-left {
-    height: 100%;
-    min-width: 10%;
-}
-
-.bmi-right {
-    height: 100%;
-    min-width: 20%;
 }
 
 .inline-bold {
@@ -135,10 +76,12 @@
 }
 
 .bmi-footer {
-    height: 20vh;
+    height: 12.5vh;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-right: 2px solid #e5e5e5;
+    border-left: 2px solid #e5e5e5;
+    border-bottom: 2px solid #e5e5e5;
 }
-

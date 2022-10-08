@@ -4,6 +4,7 @@ import BMICalculator from './Components/BMICalculator/BMICalculator';
 import './App.css';
 import TDEECalculator from './Components/TDEECalculator/TDEECalculator';
 import WeightProjector from './Components/WeightProjector/WeightProjector';
+import Navbar from './Components/Common/Navbar/NavBar';
 
 function App() {
 
@@ -24,27 +25,35 @@ function App() {
   });
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    //document.body.style.overflow = "hidden";
   }, []);
 
   return (
     <div className="App">
-      <BMICalculator 
-        traits={traits}
-        setTraits={setTraits}
-        isMetricSystem={isMetricSystem}
-        setMetricSystem={setMetricSystem}/>
-      <TDEECalculator
-        traits={traits}
-        setTraits={setTraits}
-        isMetricSystem={isMetricSystem}
-        setMetricSystem={setMetricSystem}/>
-      <WeightProjector
-        traits={traits}
-        setTraits={setTraits}
-        isMetricSystem={isMetricSystem}
-        setMetricSystem={setMetricSystem}/>
-
+      <Navbar />
+      {/*<div className='page-title-container'>
+        <h1 className='page-title'>Calorie Calendar</h1>
+      </div>*/}
+      <div className='body'>
+        <div className="pages-container">
+          <div className="page-header"/>
+          <BMICalculator 
+            traits={traits}
+            setTraits={setTraits}
+            isMetricSystem={isMetricSystem}
+            setMetricSystem={setMetricSystem}/>
+          <TDEECalculator
+            traits={traits}
+            setTraits={setTraits}
+            isMetricSystem={isMetricSystem}
+            setMetricSystem={setMetricSystem}/>
+          <WeightProjector
+            traits={traits}
+            setTraits={setTraits}
+            isMetricSystem={isMetricSystem}
+            setMetricSystem={setMetricSystem}/>
+        </div>
+      </div>
     </div>
   );
 }

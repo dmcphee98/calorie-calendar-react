@@ -103,15 +103,11 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
 
   return (
     <div>
-      <div className='bmi-header'>
-        <h1 className='bmi-title'>Calorie Calendar</h1>
-      </div>
-      <div className='bmi-body'>
-        <div className='bmi-left'/>
-        <div className='bmi-img-container'>
+      <div className='page-container'>
+        <div className='img-container'>
           <img className='bmi-img' src={treeImg} alt="My Happy SVG"/>
         </div>
-        <div className='bmi-form-container'>
+        <div className='form-container'>
           <div className='bmi-info-container'>
             <p className='bmi-info'>
               <span>First, let's calculate your BMI.</span>
@@ -166,11 +162,11 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
             }
 
           </div>
-        <div className='bmi-right'/>
       </div>
       <div className='bmi-footer'>
         {mayProceed && <NextButton callback={goNextPage}/>}
       </div>
+      <div className='page-spacer'/>
     </div>
   )
 }

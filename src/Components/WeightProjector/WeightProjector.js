@@ -199,8 +199,7 @@ const WeightProjector = ({ traits, setTraits }) => {
         <PrevButton callback={goPrevPage} fade={true}/>
       </div>
 
-      <div className='proj-body'>
-        <div className='proj-left'/>
+      <div className='page-container'>
         <div className='proj-form-container'>
           <div className='proj-info-container'>
             <p className='proj-info'>
@@ -257,7 +256,6 @@ const WeightProjector = ({ traits, setTraits }) => {
           />
         </VictoryChart>
 
-        <div className='proj-right'/>
       </div>
 
       <div className='proj-result-container'>
