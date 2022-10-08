@@ -5,20 +5,22 @@ import { useState } from 'react';
 
 const Navbar = () => {
 
-    const [isClicked, setClicked] = useState(false);
+    const [trayIsOpen, traySetOpen] = useState(false);
 
     const handleClick = () => {
-        setClicked(!isClicked);
+        traySetOpen(!trayIsOpen);
     }
     
 
   return (
     <nav className='navbar'>
-        <h1 className="navbar-logo">Calorie Calendar</h1>
-        <div className="menu-icon" onClick={handleClick}>
-            <i className={isClicked ? 'fas fa-times' : 'fas fa-bars'}/>
+        <div className='navbar-logo-container'>
+            <h1 className="navbar-logo">Calorie Calendar</h1>
         </div>
-        <ul className={`navbar-items ${isClicked ? 'active' : ''}`}>
+        <div className="burger-icon-container" onClick={handleClick}>
+            <i className={`burger-icon ${trayIsOpen ? 'fas fa-times' : 'fas fa-bars'}`}/>
+        </div>
+        <ul className={`navbar-items ${trayIsOpen ? 'tray-open' : ''}`}>
             {navbarItems.map((item, index) => {
                 return (
                     <li key={index} className='navbar-item'>
