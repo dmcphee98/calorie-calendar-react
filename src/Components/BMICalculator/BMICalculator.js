@@ -46,13 +46,6 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
       setMayProceed(false);
     }
   }
-
-  const goNextPage = () => {
-    window.scrollBy({
-      top: window.innerHeight,
-      behavior: 'smooth'
-    });
-  }
   
   // Add new locked BMI to traits, assign health status and colour to locked-in BMI value
   useEffect(() => {
@@ -163,10 +156,9 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
 
           </div>
       </div>
-      <div className='bmi-footer'>
-        {mayProceed && <NextButton callback={goNextPage}/>}
+      <div className='page-spacer'>
+        <NextButton direction="down" enabled={mayProceed}/>
       </div>
-      <div className='page-spacer'/>
     </div>
   )
 }

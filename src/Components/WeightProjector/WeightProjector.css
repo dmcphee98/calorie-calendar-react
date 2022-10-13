@@ -15,18 +15,6 @@
     -webkit-text-fill-color: transparent;
   }
 
-.proj-header {
-    height: 15vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.proj-spacer {
-    height: 10vh;
-}
-
 .proj-img-container {
     max-width: 50%;
     height: 100%;

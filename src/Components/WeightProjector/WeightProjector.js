@@ -195,10 +195,6 @@ const WeightProjector = ({ traits, setTraits }) => {
   
   return (
     <div>
-      <div className='proj-header'>
-        <PrevButton callback={goPrevPage} fade={true}/>
-      </div>
-
       <div className='page-container'>
         <div className='proj-form-container'>
           <div className='proj-info-container'>

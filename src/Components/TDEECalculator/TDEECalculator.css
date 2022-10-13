@@ -15,22 +15,10 @@
     -webkit-text-fill-color: transparent;
   }
 
-.tdee-header {
-    height: 20vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 @media screen and (max-width: 769px) {
     .tdee-header {
         display: none;
     }
-}
-
-.tdee-spacer {
-    height: 10vh;
 }
 
 .tdee-img-container {
@@ -109,12 +97,4 @@
     padding: 0.5rem 0.5rem 0rem 0.5rem;
     border-radius: 1rem;
     width: 80%;
-}
-
-.tdee-footer {
-    height: 20vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

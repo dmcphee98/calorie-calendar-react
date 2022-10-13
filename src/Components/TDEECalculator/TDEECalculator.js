@@ -28,27 +28,9 @@ const TDEECalculator = ({ traits, setTraits }) => {
     setLockedTDEE(traits.tdee);
     setMayProceed(true);
   }
-  
-  const goPrevPage = () => {
-    window.scrollBy({
-      top: -window.innerHeight,
-      behavior: 'smooth'
-    });
-  }
-
-  const goNextPage = () => {
-    window.scrollBy({
-      top: window.innerHeight,
-      behavior: 'smooth'
-    });
-  }
-  
+    
   return (
     <div>
-      <div className='tdee-header'>
-        <PrevButton callback={goPrevPage} fade={true}/>
-      </div>
-
       <div className='page-container'>
         <div className='img-container'>
           <img className='tdee-img' src={soccerImg} alt="My Happy SVG"/>
@@ -76,11 +58,9 @@ const TDEECalculator = ({ traits, setTraits }) => {
           }
           </div>
       </div>
-
-      <div className='tdee-footer'>
-        {mayProceed && <NextButton callback={goNextPage}/>}
+      <div className='page-spacer'>
+        <NextButton direction="down" enabled={mayProceed}/>
       </div>
-      <div className='page-spacer'/>
     </div>
   )
 }

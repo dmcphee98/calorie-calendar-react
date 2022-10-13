@@ -5,6 +5,7 @@ import './App.css';
 import TDEECalculator from './Components/TDEECalculator/TDEECalculator';
 import WeightProjector from './Components/WeightProjector/WeightProjector';
 import Navbar from './Components/Common/Navbar/NavBar';
+import NextButton from './Components/Common/NextButton/NextButton';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
       </div>*/}
       <div className='body'>
         <div className="pages-container">
+          <div className='page-spacer'/>
           <div className="page-header"/>
           <BMICalculator 
             traits={traits}
@@ -47,11 +49,13 @@ function App() {
             setTraits={setTraits}
             isMetricSystem={isMetricSystem}
             setMetricSystem={setMetricSystem}/>
+          <div className='page-spacer'/>
           <WeightProjector
             traits={traits}
             setTraits={setTraits}
             isMetricSystem={isMetricSystem}
             setMetricSystem={setMetricSystem}/>
+          <div className='page-spacer'/>
         </div>
       </div>
     </div>
