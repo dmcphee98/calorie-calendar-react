@@ -1,49 +1,14 @@
-* {
-    padding: 0;
-    margin: 0;
-}
-
-.tdee-title {
-    font-size: 72px;
-    font-weight: 700;
-    font-style: italic;
-    font-family: 'Lobster Two', cursive;
-    background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
-    background-attachment: fixed;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-@media screen and (max-width: 769px) {
-    .tdee-header {
-        display: none;
-    }
-}
-
-.tdee-img-container {
-    max-width: 50%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .tdee-img {
     height: 100%;
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
     background-attachment: fixed;
 }
 
-.tdee-form-container {
-    max-width: 32%;
-}
-
 .tdee-form {
     width: 100%;
     min-height: 45%;
 }
-
+ 
 .tdee-info-container {
     height: 10%;
     width: 100%;

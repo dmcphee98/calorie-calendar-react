@@ -44,7 +44,7 @@ const NextButton = ({ direction, enabled, callback }) => {
         }
         setUpArrow(!isUpArrow);
         setPulseBorder(false);
-        callback();
+        if (callback) callback();
       }
     }
   
@@ -70,7 +70,7 @@ const NextButton = ({ direction, enabled, callback }) => {
         className={`next-btn ${doPulseBorder ? 'pulse-border' : ''} ${isUpArrow ? 'up' : 'down'}`}
         onClick={handleClick}
       >
-        <i class={`fa-solid fa-circle-chevron-up fa-3x ${enabled ? 'enabled' : 'disabled'}`}></i>  
+        <i className={`fa-solid fa-circle-chevron-up fa-3x ${enabled ? 'enabled' : 'disabled'}`}></i>  
       </button>
     </div>
   )

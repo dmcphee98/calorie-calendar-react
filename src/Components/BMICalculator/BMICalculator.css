@@ -1,13 +1,3 @@
-* {
-    padding: 0;
-    margin: 0;
-    color: #2f2e41;
-}
-
-.bmi-spacer {
-    height: 10vh;
-}
-
 .bmi-img {
     height: 100%;
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);

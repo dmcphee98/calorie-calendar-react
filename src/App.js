@@ -49,7 +49,6 @@ function App() {
             setTraits={setTraits}
             isMetricSystem={isMetricSystem}
             setMetricSystem={setMetricSystem}/>
-          <div className='page-spacer'/>
           <WeightProjector
             traits={traits}
             setTraits={setTraits}
