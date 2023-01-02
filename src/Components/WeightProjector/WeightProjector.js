@@ -13,7 +13,7 @@ import dataImg from './data.svg'
 const WeightProjector = ({ traits, setTraits }) => {
 
   const [chartData, setChartData] = useState([]);
-  const [stats, setStats] = useState([{},{},{},{}]);
+  const [stats, setStats] = useState([{},{},{}]);
   const [isDeadlineMode, setIsDeadlineMode] = useState(true);
   const [finishDate, setFinishDate] = useState('');
   const [displayDailyCals, setDisplayDailyCals] = useState(0);
@@ -218,13 +218,13 @@ const WeightProjector = ({ traits, setTraits }) => {
   return (
     <div>
       <div className='page-container proj-page-container'>
-        <div className='proj-img-container'>
+        <div className='img-container proj-img-container'>
           <img className='proj-img' src={dataImg} alt="My Happy SVG"/>
         </div>
         <div className='form-container'>
           <div className='proj-info-container'>
             <p className='proj-info'>
-              <span>Now, we can forecast your weight goals.</span>
+              <span>Now, we can forecast your goal.</span>
             </p>
           </div>
           <div className='proj-form'>
