@@ -5,7 +5,7 @@ import './NumInput.css';
 const NumInput = ({ number, setNumber, description, units, isEnabled, callback }) => {
 
     const handleChange = (e) => {
-        setNumber(e.target.value);
+        setNumber(Number(e.target.value));
     }
 
   return (

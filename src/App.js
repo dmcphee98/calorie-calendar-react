@@ -4,6 +4,7 @@ import BMICalculator from './Components/BMICalculator/BMICalculator';
 import './App.css';
 import TDEECalculator from './Components/TDEECalculator/TDEECalculator';
 import WeightProjector from './Components/WeightProjector/WeightProjector';
+import ProjectionStats from './Components/ProjectionStats/ProjectionStats';
 import Navbar from './Components/Common/Navbar/NavBar';
 import NextButton from './Components/Common/NextButton/NextButton';
 
@@ -20,10 +21,11 @@ function App() {
     'bmr': '',
     'activityLvl': '',
     'tdee': '',
-    'startDate': '',
-    'endDate': '',
+    'startDate': undefined,
+    'endDate': undefined,
     'dailyCals': ''
   });
+  const [stats, setStats] = useState([{},{},{},{},{},{}]);
 
   useEffect(() => {
     //document.body.style.overflow = "hidden";
@@ -53,8 +55,12 @@ function App() {
             traits={traits}
             setTraits={setTraits}
             isMetricSystem={isMetricSystem}
-            setMetricSystem={setMetricSystem}/>
+            setMetricSystem={setMetricSystem}
+            setStats={setStats}/>
           <div className='page-spacer'/>
+          <ProjectionStats
+            stats={stats}
+          />
         </div>
       </div>
     </div>

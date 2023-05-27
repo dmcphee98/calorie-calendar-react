@@ -9,8 +9,8 @@ const ProjectionForm = ({ traits, setTraits, callback, isDeadlineMode, setIsDead
 
     const [goalWeight, setGoalWeight] = useState('');
     const [dailyCals, setDailyCals] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(undefined);
+    const [endDate, setEndDate] = useState(undefined);
 
     const handleSubmit = (e) => {
       e.preventDefault();

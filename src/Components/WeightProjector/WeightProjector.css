@@ -17,14 +17,14 @@
 }*/
 
 .proj-img {
-    height: 100%;
+    height: 65%;
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
     background-attachment: fixed;
 }  
 
 @media screen and (max-width: 768px) {
     .proj-img {
-        height: 163%;
+        height: 85%;
     }
   }
   
