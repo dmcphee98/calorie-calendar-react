@@ -7,7 +7,6 @@ import './TDEECalculator.css';
 
 import soccerImg from './soccer.svg'
 
-
 const TDEECalculator = ({ healthData, setHealthData }) => {
 
   useEffect(() => {

@@ -3,11 +3,11 @@ import './StatsCalculator.css';
 import { useState, useEffect } from 'react';
 import NextButton from '../Common/NextButton/NextButton';
 
-const StatsCalculator = ({ healthData, goalData, projectionSuccess, stats, setStats }) => {
+const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats }) => {
 
     useEffect(() => {
-        if (projectionSuccess) calculateStats();
-    }, [projectionSuccess])
+        if (projectionData) calculateStats();
+    }, [projectionData])
     
 
     //dailyCals, caloricDeficit, goalWeightChange, finishDate, totalDays

@@ -3,16 +3,13 @@ import { useState, useEffect } from 'react';
 
 import NextButton from '../Common/NextButton/NextButton';
 import ProjectionForm from './ProjectionForm/ProjectionForm';
-import { VictoryChart, VictoryAxis, VictoryArea, VictoryScatter, VictoryTheme, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
-import ProjectionStats from '../StatsCalculator/StatsCalculator';
 
 import './WeightProjector.css';
 
 import dataImg from './data.svg'
 
-const WeightProjector = ({ healthData, goalData, setGoalData, projectionSuccess, setProjectionSuccess }) => {
+const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, setProjectionData }) => {
 
-  const [chartData, setChartData] = useState([]);
   const [isDailyCalsMode, setDailyCalsMode] = useState(false);
   const [deficitSeverity, setDeficitSeverity] = useState('');
 
@@ -25,19 +22,18 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionSuccess,
       let {goalWeight, startDate, dailyCals} = goalData;
 
       if (!!!goalWeight || startDate === '' || dailyCals === '') {
-        setProjectionSuccess(false);
+        setProjectionData('');
         return;
       }
 
       console.log('Projecting weight in DailyCals Mode...');
-      const totalDays = projectWeight(initialWeight, goalWeight, dailyCals, true);
+      const totalDays = projectWeight(initialWeight, goalWeight, startDate, dailyCals, true);
 
       console.log('Determining end date...');
       const finishDate = addDaysToDate(startDate, totalDays);
 
       setGoalData({...goalData, finishDate, totalDays});
       getDeficitSeverity(tdee, dailyCals);
-      setProjectionSuccess(true);
     }
   }, [healthData, goalData.goalWeight, goalData.startDate, goalData.dailyCals])
 
@@ -50,40 +46,40 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionSuccess,
       let {goalWeight, startDate, finishDate} = goalData;
 
       if (!!!goalWeight || startDate === '' || finishDate === '') {
-        setProjectionSuccess(false);
+        setProjectionData('');
         return;
       }
 
       console.log('Determining daily calorie allowance...');
       const totalDays = getDaysBetweenDates(startDate, finishDate);
-      const dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, totalDays);
+      const dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, startDate, totalDays);
 
       console.log('Projecting weight in Deadline Mode...');
-      projectWeight(initialWeight, goalWeight, dailyCals, true);
+      projectWeight(initialWeight, goalWeight, startDate, dailyCals, true);
 
       setGoalData({...goalData, dailyCals, totalDays});
       getDeficitSeverity(tdee, dailyCals);
-      setProjectionSuccess(true);
     }
   }, [healthData, goalData.goalWeight, goalData.startDate, goalData.finishDate])
 
   /**
    * Calculate daily calorie allowance required to meet a given deadline
    * @param {Number} tdee - Total Daily Energy Expenditure (TDEE) of user
-   * @param {Number} startWeight - Weight of user, in kg, on start date
-   * @param {Number} endWeight - Weight of user, in kg, on end date
+   * @param {Number} initialWeight - Weight of user, in kg, on start date
+   * @param {Number} goalWeight - Weight of user, in kg, on end date
+   * @param {Number} startDate - Start date
    * @param {Number} totalDays - Days between (and including) start and end dates
    * @returns {Number} Daily calorie allowance
    */ 
-  const getDailyCalsFromDeadline = (tdee, startWeight, endWeight, totalDays) => {
+  const getDailyCalsFromDeadline = (tdee, initialWeight, goalWeight, startDate, totalDays) => {
     const startTdee = tdee;
-    const finishTdee = recalculateTDEE(endWeight);
+    const finishTdee = recalculateTDEE(goalWeight);
     // Get TDEE at 40% and 60%
     const upperTdee = startTdee - 0.4 * (startTdee - finishTdee);
     const lowerTdee = startTdee - 0.6 * (startTdee - finishTdee);
 
     // Get required average daily caloric deficit 
-    const deficit = 7700 * (startWeight - endWeight) / totalDays;
+    const deficit = 7700 * (initialWeight - goalWeight) / totalDays;
     
     // Get upper and lower bound for daily calorie allowance
     let upper = upperTdee - deficit;
@@ -94,7 +90,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionSuccess,
     for (depth = 0; depth < 20; depth++) {
       dailyCalsEstimate = (upper + lower) / 2.0;
       // Get number of days to reach goal weight
-      days = projectWeight(startWeight, endWeight, dailyCalsEstimate, false);
+      days = projectWeight(initialWeight, goalWeight, startDate, dailyCalsEstimate, false);
 
       // Tweak daily calorie allowance so resulting number of days exactly meets deadline
       if (days === totalDays) break;
@@ -110,28 +106,37 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionSuccess,
 
   /**
    * Project weight over time given start weight, end weight, and daily calories 
-   * @param {Number} startWeight - Weight of user, in kg, on start date
-   * @param {Number} endWeight - Weight of user, in kg, on end date
+   * @param {Number} initialWeight - Weight of user, in kg, on start date
+   * @param {Number} goalWeight - Weight of user, in kg, on end date
+   * @param {Number} startDate - Start date
    * @param {Number} dailyCals - Daily calorie allowance
    * @param {Boolean} enableDataCapture - Enable capture of time series data
    * @returns {Number} Daily calorie allowance
    */ 
-   const projectWeight = (startWeight, endWeight, dailyCals, enableDataCapture) => {
+   const projectWeight = (initialWeight, goalWeight, startDate, dailyCals, enableDataCapture) => {
     let numDays = 1;
-    let currentWeight = startWeight;
+    let currentWeight = initialWeight;
 
     // Initialise chart data
-    let tempChartData = [];
-    if (enableDataCapture) tempChartData.push({x: 0, y: Number(startWeight)});
+    let xyData = [];
+    if (enableDataCapture) xyData.push({x: 0, y: Number(initialWeight)});
 
     // Perform day-by-day weight projection
-    while (currentWeight > endWeight) {
+    while (currentWeight > goalWeight) {
       currentWeight -= (recalculateTDEE(currentWeight) - dailyCals) / 7700;
-      if (enableDataCapture) tempChartData.push({x: numDays, y: currentWeight});
+      if (enableDataCapture) xyData.push({x: numDays, y: currentWeight});
       numDays++;
     }
-    // Optionally update chart with new data
-    if (enableDataCapture) setChartData(tempChartData);
+    // Optionally save projection data 
+    if (enableDataCapture) {
+      setProjectionData({
+        xy: xyData,
+        xMax: xyData.length,
+        yMin: Math.min(initialWeight, goalWeight),
+        yMax: Math.max(initialWeight, goalWeight),
+        startDate
+      });
+    }
     return numDays;
   }
 
@@ -142,8 +147,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionSuccess,
    * @returns Date object representing finish date
    */
   const addDaysToDate = (startDate, daysToAdd) => {
-    const startDateObject = new Date(startDate);
-    const finishDate = new Date(startDateObject.setTime( startDateObject.getTime() + daysToAdd * 86400000 ));
+    const finishDate = new Date(startDate.getTime() + daysToAdd * 86400000);
     console.log('Finish date is ' + finishDate);
     return finishDate;
   }
@@ -232,56 +236,13 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionSuccess,
               setGoalData={setGoalData}
               isDailyCalsMode={isDailyCalsMode}
               setDailyCalsMode={setDailyCalsMode}
-              setProjectionSuccess={setProjectionSuccess}
+              setProjectionData={setProjectionData}
             />
           </div>
         </div>
-        
-
-        {/*
-        <VictoryChart 
-          theme={VictoryTheme.material}
-          containerComponent={ 
-            <VictoryVoronoiContainer 
-              labels={({datum}) => `Day ${datum.x}, ${datum.y.toFixed(1)}kg`}
-              labelComponent={
-                <VictoryTooltip
-                  flyoutStyle={{stroke:''}}
-                  cornerRadius={12}
-                />
-              }
-            /> 
-          }
-          domain={{
-            x: [0, chartData.length > 0 ? chartData.length : 200], 
-            y: [traits.goalWeight === '' ? 0 : traits.goalWeight, traits.goalWeight === '' ? 100 : traits.initialWeight]
-          }}
-          >
-          <VictoryArea
-            style={{
-              data: { stroke: '#88cb66', strokeWidth: 3, fill:'#bdea7a', fillOpacity: 0.7 },
-              parent: { border: '1px solid #000000'}
-            }}
-            data={chartData}
-          />
-          <VictoryAxis crossAxis
-            width={400}
-            height={400}
-            theme={VictoryTheme.material}
-            standalone={false}
-          />
-          <VictoryAxis dependentAxis crossAxis
-            width={400}
-            height={400}
-            theme={VictoryTheme.material}
-            standalone={false}
-          />
-        </VictoryChart>
-          */}
-
       </div>
       <div className='page-spacer'>
-        <NextButton direction="down" enabled={projectionSuccess}/>
+        <NextButton direction="down" enabled={!!projectionData}/>
       </div>
     </div>
   )

@@ -14,7 +14,6 @@ const BMICalculator = ({ healthData, setHealthData, isMetricSystem, setMetricSys
   const [healthColor, setHealthColor] = useState('#ffffff');
   const [isValidBMI, setValidBMI] = useState(false);
   const [isFormComplete, setFormComplete] = useState(false);
-  const [mayProceed, setMayProceed] = useState(false);
 
   // Recalculate BMI as information is entered into form
   useEffect(() => {
@@ -30,10 +29,8 @@ const BMICalculator = ({ healthData, setHealthData, isMetricSystem, setMetricSys
     if (typeof(bmi) === 'number' && bmi > 0 && bmi < 100) {
       setValidBMI(true);
       setHealthData({...healthData, 'bmi':bmi});
-      setMayProceed(true);
     } else {
       setValidBMI(false);
-      setMayProceed(false);
     }
 
   }, [healthData.initialWeight, healthData.height])
@@ -70,7 +67,7 @@ const BMICalculator = ({ healthData, setHealthData, isMetricSystem, setMetricSys
     useEffect(() => {
       const {initialWeight, height, age } = healthData;
       if (initialWeight !== '' && height !== '' && age !== '') calculateBMR();
-    }, [healthData.isMale])
+    }, [healthData.isMale, healthData.age])
 
   const calculateBMR = () => {
     const { isMale, initialWeight, height, age } = healthData;
@@ -176,7 +173,7 @@ const BMICalculator = ({ healthData, setHealthData, isMetricSystem, setMetricSys
           </div>
       </div>
       <div className='page-spacer'>
-        <NextButton direction="down" enabled={mayProceed}/>
+        <NextButton direction="down" enabled={isFormComplete && isValidBMI}/>
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ import './App.css';
 import TDEECalculator from './Components/TDEECalculator/TDEECalculator';
 import WeightProjector from './Components/WeightProjector/WeightProjector';
 import StatsCalculator from './Components/StatsCalculator/StatsCalculator';
+import GraphPage from './Components/GraphPage/GraphPage';
 import Navbar from './Components/Common/Navbar/NavBar';
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
     'dailyCals': '',
     'totalDays': ''
   });
-  const [projectionSuccess, setProjectionSuccess] = useState(false);
+  const [projectionData, setProjectionData] = useState('');
   const [stats, setStats] = useState([{},{},{},{},{},{}]);
 
   useEffect(() => {
@@ -56,14 +57,16 @@ function App() {
             healthData={healthData}
             goalData={goalData}
             setGoalData={setGoalData}
-            projectionSuccess={projectionSuccess}
-            setProjectionSuccess={setProjectionSuccess}/>
+            projectionData={projectionData}
+            setProjectionData={setProjectionData}/>
           <StatsCalculator
             healthData={healthData}
             goalData={goalData}
-            projectionSuccess={projectionSuccess}
+            projectionData={projectionData}
             stats={stats}
             setStats={setStats}/>
+          <GraphPage 
+            projectionData={projectionData}/>
         </div>
       </div>
     </div>

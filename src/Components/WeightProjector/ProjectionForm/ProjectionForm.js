@@ -5,7 +5,7 @@ import NumInput from '../../Common/NumInput/NumInput';
 import DateInput from '../../Common/DateInput/DateInput';
 import './ProjectionForm.css';
 
-const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMode, setProjectionSuccess}) => {
+const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMode, setProjectionData}) => {
 
     const [goalWeight, setGoalWeight] = useState('');
     const [dailyCals, setDailyCals] = useState('');
@@ -14,7 +14,7 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
     const [typingTimeout, setTypingTimeout] = useState(0);
 
     useEffect(() => {
-      setProjectionSuccess(false);
+      setProjectionData('');
       if (typingTimeout) clearTimeout(typingTimeout);
       setTypingTimeout(setTimeout(() => {
         setGoalData({
