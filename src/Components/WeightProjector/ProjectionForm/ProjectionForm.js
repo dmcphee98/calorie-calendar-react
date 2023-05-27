@@ -5,25 +5,30 @@ import NumInput from '../../Common/NumInput/NumInput';
 import DateInput from '../../Common/DateInput/DateInput';
 import './ProjectionForm.css';
 
-const ProjectionForm = ({ traits, setTraits, callback, isDeadlineMode, setIsDeadlineMode }) => {
+const ProjectionForm = ({ traits, setTraits, isDeadlineMode, setIsDeadlineMode, setProjectionIsvalid}) => {
 
     const [goalWeight, setGoalWeight] = useState('');
     const [dailyCals, setDailyCals] = useState('');
-    const [startDate, setStartDate] = useState(undefined);
-    const [endDate, setEndDate] = useState(undefined);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [typingTimeout, setTypingTimeout] = useState(0);
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      setTraits({
-        ...traits, 
-        'goalWeight': goalWeight, 
-        'startDate': startDate,
-        'endDate': endDate,
-        'dailyCals': dailyCals
-      });
-      callback();
-    };
+    useEffect(() => {
 
+      setProjectionIsvalid(false);
+      if (typingTimeout) clearTimeout(typingTimeout);
+      setTypingTimeout(setTimeout(() => {
+        setTraits({
+          ...traits, 
+          'goalWeight': goalWeight, 
+          'startDate': startDate,
+          'endDate': endDate,
+          'dailyCals': dailyCals
+        });
+      }, 750));
+
+    }, [goalWeight, startDate, endDate, dailyCals])
+  
     const setDeadlineMode = () => {
       console.log("Mode set to 'Deadline'.");
       setIsDeadlineMode(true);
@@ -35,7 +40,7 @@ const ProjectionForm = ({ traits, setTraits, callback, isDeadlineMode, setIsDead
     };
 
     return (
-        <form className='proj-form' onSubmit={handleSubmit}>
+        <form className='proj-form'>
             <NumInput number={goalWeight} setNumber={setGoalWeight} units='kg' description='Goal Weight'/>
             <DateInput number={startDate} setNumber={setStartDate} description='Start Date'/>
             <div className="proj-container">
@@ -45,7 +50,6 @@ const ProjectionForm = ({ traits, setTraits, callback, isDeadlineMode, setIsDead
                 Enter a daily <em>calorie allowance</em> <br></br>to estimate your finish date
                 <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={!isDeadlineMode} callback={setDailyMode} />
             </div>
-            <SubmitButton />
         </form>
     );
 }

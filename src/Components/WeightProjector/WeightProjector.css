@@ -48,6 +48,7 @@
 }
 
 .proj-info-container {
+    margin-top: 3vh;
     height: 10%;
     width: 100%;
     font-size: 1.25rem;
@@ -59,17 +60,6 @@
 .proj-info {
     display: inline-block;
     white-space: pre-wrap;
-}
-
-.inline-bold {
-    font-family: 'Lobster Two', cursive;
-    font-weight: 700;
-    font-size: 2.5rem;
-    padding-bottom: 0.5rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .proj-result-container {

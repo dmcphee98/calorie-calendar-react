@@ -5,7 +5,8 @@ import './NumInput.css';
 const NumInput = ({ number, setNumber, description, units, isEnabled, callback }) => {
 
     const handleChange = (e) => {
-        setNumber(Number(e.target.value));
+      const number = (e.target.value === '') ? '' : Math.abs(Number(e.target.value));
+      setNumber(number);
     }
 
   return (
@@ -15,7 +16,7 @@ const NumInput = ({ number, setNumber, description, units, isEnabled, callback }
     >
       <div className='ni-desc'>{description}</div>
         <div className='ni-input-div'>
-          <input className="ni-input" type='number' value={number} onChange={(e) => handleChange(e)}></input>
+          <input className="ni-input" type='number' min='0' value={number} onChange={(e) => handleChange(e)}></input>
         </div>
         <div className='ni-units'>{`( ${units} )`}</div>
     </div>

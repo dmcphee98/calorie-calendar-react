@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import NextButton from '../Common/NextButton/NextButton';
 import TraitsForm from './TraitsForm/TraitsForm'
+import BouncingDotsLoader from '../Common/BouncingDotsLoader/BouncingDotsLoader';
 import './BMICalculator.css';
 
 import treeImg from './tree.svg'
@@ -10,69 +11,62 @@ import treeImg from './tree.svg'
 
 const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) => {
 
-  const [BMI, setBMI] = useState('');
   const [BMR, setBMR] = useState('');
-  const [lockedBMI, setLockedBMI] = useState('');
   const [healthStatus, setHealthStatus] = useState('');
   const [healthColor, setHealthColor] = useState('#ffffff');
   const [isValidBMI, setValidBMI] = useState(false);
-  const [isFormSubmitted, setFormSubmitted] = useState(false);
+  const [isFormComplete, setFormComplete] = useState(false);
   const [mayProceed, setMayProceed] = useState(false);
 
   // Recalculate BMI as information is entered into form
   useEffect(() => {
     let weight = traits.initialWeight;
     let height = traits.height;
-    if (height !== ''  && height !== undefined & weight !== '' && weight !== undefined) {
-      if (height > 0 && weight > 0) {
-        setBMI((weight / Math.pow(height, 2)).toFixed(1));
-      } else {
-        setBMI('');
-      }
+    let BMI;
+    if (!!height && height > 0 && !!weight && weight > 0) {
+        BMI = Number((weight / Math.pow(height, 2)).toFixed(1));
     } else {
-      setBMI('');
+        BMI = 0;
     }
-  }, [traits])
 
-  // Update BMI display on press of 'submit' button
-  const onFormSubmission = () => {
-    setFormSubmitted(true);
-    if (BMI > 0 && BMI < 100) {
+    if (typeof(BMI) === 'number' && BMI > 0 && BMI < 100) {
       setValidBMI(true);
-      setLockedBMI(BMI);
+      setTraits({...traits, 'bmi':BMI});
       setMayProceed(true);
     } else {
       setValidBMI(false);
       setMayProceed(false);
     }
-  }
+
+  }, [traits.initialWeight, traits.height])
   
   // Add new locked BMI to traits, assign health status and colour to locked-in BMI value
   useEffect(() => {
-    if (lockedBMI === '' || lockedBMI === undefined) return;
+    const BMI = traits.bmi;
+    if (!!!BMI) return;
 
     calculateBMR();
 
     // Assign health status and colour to locked-in BMI value
     switch (true) {
-      case (lockedBMI < 18.5):
+      case (BMI < 18.5):
         setHealthStatus('underweight');          
         setHealthColor('#87b1d9');
         break;
-      case (lockedBMI >= 18.5 && lockedBMI < 25):
+      case (BMI >= 18.5 && BMI < 25):
         setHealthStatus('healthy');         
         setHealthColor('#3dd365'); 
         break;
-      case (lockedBMI >= 25 && lockedBMI < 30):
+      case (BMI >= 25 && BMI < 30):
         setHealthStatus('overweight');       
         setHealthColor('#eee133');    
         break;
-      case (lockedBMI >= 30):
+      case (BMI >= 30):
         setHealthStatus('obese');      
         setHealthColor('#fd802e');     
         break;
   }
-    }, [lockedBMI])
+    }, [traits.bmi])
 
     // Changing gender requires recalculation of BMR but not BMI
     useEffect(() => {
@@ -91,7 +85,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
 
   useEffect(() => {
     // Add updated BMI and BMR to traits
-    setTraits({...traits, 'bmi':lockedBMI, 'bmr':BMR});
+    setTraits({...traits, 'bmr':BMR});
   }, [BMR])
 
   return (
@@ -106,15 +100,15 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
               <span>First, let's calculate your BMI.</span>
             </p>
           </div>
-          <div className='bmi-form'>
+          <div className={`bmi-form-${isMetricSystem ? 'metric' : 'imperial'}`}>
             <TraitsForm 
                 traits={traits}
                 setTraits={setTraits}
-                callback={onFormSubmission}
                 isMetricSystem={isMetricSystem}
-                setMetricSystem={setMetricSystem}/>
+                setMetricSystem={setMetricSystem}
+                setFormComplete={setFormComplete}/>
           </div>
-            {isFormSubmitted && isValidBMI &&
+            {isFormComplete && isValidBMI &&
               <div className='bmi-output-valid'>
                 <div className='bmi-output-column'>
                   <div style={{margin: '0.5rem 0rem'}}>BMI</div>
@@ -125,7 +119,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
                       borderBottom: `3px solid ${healthColor}`,
                       marginRight: '0.2rem'
                       }}
-                  >{lockedBMI}</div>
+                  >{traits.bmi}</div>
                 </div>
                 <div className='bmi-output-column'>
                 <div style={{margin: '0.5rem 0rem'}}>Category</div>
@@ -134,13 +128,13 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
                     style={{
                       color: healthColor,
                       borderBottom: `3px solid ${healthColor}`,
-                      marginLeft: '0.2rem'
+                      marginLeft: '0.2rem',
                     }}>
                       {healthStatus} </div>
                 </div>
               </div>
             }
-            {isFormSubmitted && !isValidBMI &&
+            {isFormComplete && !isValidBMI &&
               <div className='bmi-output-invalid'>
                   <div>Your BMI is </div>
                   <div 
@@ -153,6 +147,33 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
                     >Invalid</div>
               </div>
             }
+            {!isFormComplete &&
+              <div className='bmi-output-incomplete'>
+                <div className='bmi-output-column' style={{height: '100%'}}>
+                  <div style={{margin: '0.5rem 0rem'}}>BMI</div>
+                  <div 
+                    className='inline-bold' 
+                    style={{
+                      borderBottom: `3px solid gray`,
+                      marginLeft: '0.2rem',
+                    }}>
+                      <BouncingDotsLoader />
+                  </div>
+                </div>
+                <div className='bmi-output-column' style={{height: '100%'}}>
+                  <div style={{margin: '0.5rem 0rem'}}>Category</div>
+                  <div 
+                    className='inline-bold' 
+                    style={{
+                      borderBottom: `3px solid gray`,
+                      marginLeft: '0.2rem',
+                    }}>
+                      <BouncingDotsLoader />
+                  </div>
+                </div>
+              </div>
+            }
+
 
           </div>
       </div>

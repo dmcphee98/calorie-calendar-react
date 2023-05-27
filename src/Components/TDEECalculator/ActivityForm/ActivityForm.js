@@ -104,8 +104,6 @@ const ActivityForm = ({ traits, setTraits, callback }) => {
                 <div className='activity-lvl-title'>{activityLvl[activityLvlNum-1]}</div>
                 <div className='activity-lvl-desc'>{activityLvlDesc[activityLvlNum-1]}</div>
                 </div>
-
-                <SubmitButton />
         </form>
     );
 }

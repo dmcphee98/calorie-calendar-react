@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-import PrevButton from '../Common/PrevButton/PrevButton';
 import NextButton from '../Common/NextButton/NextButton';
 import ActivityForm from './ActivityForm/ActivityForm';
 import './TDEECalculator.css';
@@ -10,9 +9,6 @@ import soccerImg from './soccer.svg'
 
 
 const TDEECalculator = ({ traits, setTraits }) => {
-
-  const [lockedTDEE, setLockedTDEE] = useState('');
-  const [mayProceed, setMayProceed] = useState(false);
 
   useEffect(() => {
     // Update TDEE
@@ -23,11 +19,6 @@ const TDEECalculator = ({ traits, setTraits }) => {
       setTraits({...traits, 'tdee':tdee.toFixed(0)}); 
     }
   }, [traits.activityLvl, traits.bmr])
-
-  const onFormSubmission = () => {
-    setLockedTDEE(traits.tdee);
-    setMayProceed(true);
-  }
     
   return (
     <div>
@@ -35,7 +26,7 @@ const TDEECalculator = ({ traits, setTraits }) => {
         <div className='img-container'>
           <img className='tdee-img' src={soccerImg} alt="My Happy SVG"/>
         </div>
-        <div className='form-container tdee-form-container'>
+        <div className='form-container'>
           <div className='tdee-info-container'>
             <p className='tdee-info'>
               <span>Next, let's find your activity level.</span>
@@ -45,21 +36,19 @@ const TDEECalculator = ({ traits, setTraits }) => {
             <ActivityForm 
               traits={traits}
               setTraits={setTraits}
-              callback={onFormSubmission}/>
+            />
           </div>
-          {mayProceed && 
-            <div className='tdee-result-container'>
+          <div className='tdee-result-container'>
             <div>TDEE</div>
-            <div className='tdee-result'>{lockedTDEE}</div>
+            <div className='tdee-result'>{traits.tdee}</div>
             <div className='tdee-definition'>
               Your Total Daily Energy Expenditure (TDEE) is the average number of calories your body burns each day.
             </div>
           </div>
-          }
-          </div>
+        </div>
       </div>
       <div className='page-spacer'>
-        <NextButton direction="down" enabled={mayProceed}/>
+        <NextButton direction="down" enabled={true}/>
       </div>
     </div>
   )

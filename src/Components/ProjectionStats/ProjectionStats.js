@@ -1,5 +1,6 @@
 import React from 'react';
 import './ProjectionStats.css';
+import NextButton from '../Common/NextButton/NextButton';
 
 export const StatBox = ( { name, icon, value, units }) => {
   return (
@@ -39,6 +40,9 @@ const ProjectionStats = ({ stats }) => {
                         )
                     })}
                 </div>
+            </div>
+            <div className='page-spacer'>
+                <NextButton direction="down" enabled={true}/>
             </div>
         </div>
     )

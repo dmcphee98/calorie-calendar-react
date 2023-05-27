@@ -11,7 +11,7 @@ const FeetInchesInput = ({ setOutput, description }) => {
     const [inValue, setInValue] = useState('');
 
     useEffect(() => {
-        if (ftValue === '' || inValue === '' || ftValue === undefined || inValue === undefined) {
+        if (!!!ftValue || !!!inValue) {
             setOutput('');
             return;
         }

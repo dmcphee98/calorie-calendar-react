@@ -6,32 +6,29 @@ import NumInput from '../../Common/NumInput/NumInput';
 import SubmitButton from '../../Common/SubmitButton/SubmitButton';
 
 
-const TraitsForm = ({ traits, setTraits, callback, isMetricSystem, setMetricSystem }) => {
+const TraitsForm = ({ traits, setTraits, isMetricSystem, setMetricSystem, setFormComplete }) => {
 
     const [_isMale, setMale] = useState(true);
     const [_age, setAge] = useState('');
     const [_height, setHeight] = useState('');
     const [_weightMetric, setWeightMetric] = useState('');
     const [_weightImperial, setWeightImperial] = useState('');
+    const [typingTimeout, setTypingTimeout] = useState(0);
 
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        callback();
-    }
-
-    useEffect(() => {
+    const updateFormInfo = () => {
+        // Obtain weight in correct unit system.
         let _weight;
         if (isMetricSystem) {
             _weight = _weightMetric;
         } else {
-            if (_weightImperial !== '' && _weightImperial !== undefined) {
+            if (!!_weightImperial) {
                 _weight = _weightImperial * 0.4536;
             } else {
                 _weight = '';
             }
         }
         
+        // Update traits
         let updatedTraits = {
             ...traits,
             isMale: _isMale,
@@ -39,12 +36,22 @@ const TraitsForm = ({ traits, setTraits, callback, isMetricSystem, setMetricSyst
             height: (_height === '' ? '' : _height / 100.0),
             initialWeight: _weight
         };
-
         setTraits(updatedTraits);
+
+        // Update whether or not the form is completely filled out
+        setFormComplete(_age !== '' && _height !== '' && _weight !== '');
+        console.log("BMI form updated.");
+    }
+
+    useEffect(() => {
+        setFormComplete(false);
+        if (typingTimeout) clearTimeout(typingTimeout);
+        setTypingTimeout(setTimeout(updateFormInfo, 750));
+
     }, [_isMale, _age, _height, _weightMetric, _weightImperial, isMetricSystem])
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form>
         <BoolToggle 
             className="unitSystemToggle"
             boolValue={isMetricSystem} 
@@ -76,8 +83,6 @@ const TraitsForm = ({ traits, setTraits, callback, isMetricSystem, setMetricSyst
                 <NumInput number={_weightImperial} setNumber={setWeightImperial} units='lb' description='Weight'/>
             </div>
         }
-        <SubmitButton />
-
     </form>
   )
 }

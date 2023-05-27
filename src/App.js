@@ -19,10 +19,10 @@ function App() {
     'goalWeight': '',
     'bmi': '',
     'bmr': '',
-    'activityLvl': '',
+    'activityLvl': 3,
     'tdee': '',
-    'startDate': undefined,
-    'endDate': undefined,
+    'startDate': '',
+    'endDate': '',
     'dailyCals': ''
   });
   const [stats, setStats] = useState([{},{},{},{},{},{}]);
@@ -57,7 +57,6 @@ function App() {
             isMetricSystem={isMetricSystem}
             setMetricSystem={setMetricSystem}
             setStats={setStats}/>
-          <div className='page-spacer'/>
           <ProjectionStats
             stats={stats}
           />

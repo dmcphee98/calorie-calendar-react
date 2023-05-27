@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-import PrevButton from '../Common/PrevButton/PrevButton';
+import NextButton from '../Common/NextButton/NextButton';
 import ProjectionForm from './ProjectionForm/ProjectionForm';
 import { VictoryChart, VictoryAxis, VictoryArea, VictoryScatter, VictoryTheme, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
 import ProjectionStats from '../ProjectionStats/ProjectionStats';
@@ -16,51 +16,46 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
   const [isDeadlineMode, setIsDeadlineMode] = useState(true);
   const [displayDailyCals, setDisplayDailyCals] = useState(0);
   const [deficitSeverity, setDeficitSeverity] = useState('');
-  const [projectionComplete, setProjectionComplete] = useState(false);
-
-  const onFormSubmission = () => {
-  }
+  const [projectionIsValid, setProjectionIsValid] = useState(false);
 
   useEffect(() => {
     let {initialWeight, goalWeight, startDate, endDate, tdee, dailyCals} = traits;
     let totalDays;
-    if (goalWeight !== '' && startDate !== undefined) {
-      if ((isDeadlineMode && endDate !== undefined) || (!isDeadlineMode && dailyCals !== '')) {
-        // Update chart data and re-render
-        if (isDeadlineMode) {
-          // Must first determine daily calorie allowance
-          console.log('Determining daily calorie allowance...');
-          totalDays = getDaysBetweenDates(startDate, endDate);
-          dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, totalDays);
-          // Auxiliary variable needed so setTraits() not called in useEffect
-          setDisplayDailyCals(dailyCals);
-          // Project weight and update chart
-          console.log('Projecting weight in Deadline Mode...');
-          projectWeight(initialWeight, goalWeight, dailyCals, true);
-        } else {
-          // Project weight and update chart
-          console.log('Projecting weight in DailyCals Mode...');
-          totalDays = projectWeight(initialWeight, goalWeight, dailyCals, true);
+    if (!!goalWeight && startDate !== '' && (isDeadlineMode && endDate !== '') || (!isDeadlineMode && dailyCals !== '')) {
+      // Update chart data and re-render
+      if (isDeadlineMode) {
+        console.log('Determining daily calorie allowance...');
+        totalDays = getDaysBetweenDates(startDate, endDate);
+        dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, totalDays);
 
-          // Determine finish date
-          console.log('Determining end date...');
-          endDate = addDaysToDate(startDate, totalDays);
-        }
-        setProjectionComplete(true);
-        // Assign a health severity to the daily calorie allowance
-        const caloricDeficit = tdee - dailyCals;
-        if (caloricDeficit > 1000) {
-          setDeficitSeverity('severe');
-        } else if (caloricDeficit > 500) {
-          setDeficitSeverity('unhealthy');
-        } else {
-          setDeficitSeverity('healthy');
-        }
-        // Update and show stats
-        const goalWeightChange = goalWeight - initialWeight;
-        calculateStats(dailyCals, caloricDeficit, goalWeightChange, endDate, totalDays);  
+        // Auxiliary variable needed so setTraits() not called in useEffect
+        setDisplayDailyCals(dailyCals);
+
+        console.log('Projecting weight in Deadline Mode...');
+        projectWeight(initialWeight, goalWeight, dailyCals, true);
+      } else {
+        console.log('Projecting weight in DailyCals Mode...');
+        totalDays = projectWeight(initialWeight, goalWeight, dailyCals, true);
+
+        console.log('Determining end date...');
+        endDate = addDaysToDate(startDate, totalDays);
       }
-    }   
+      setProjectionIsValid(true);
+      // Assign a health severity to the daily calorie allowance
+      const caloricDeficit = tdee - dailyCals;
+      if (caloricDeficit > 1000) {
+        setDeficitSeverity('severe');
+      } else if (caloricDeficit > 500) {
+        setDeficitSeverity('unhealthy');
+      } else {
+        setDeficitSeverity('healthy');
+      }
+      // Update and show stats
+      const goalWeightChange = goalWeight - initialWeight;
+      calculateStats(dailyCals, caloricDeficit, goalWeightChange, endDate, totalDays);  
+    } else {
+      setProjectionIsValid(false);
+    }
   }, [traits])
 
   /**
@@ -245,7 +240,7 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
   
   return (
     <div>
-      <div className='page-container proj-page-container'>
+      <div className='page-container'>
         <div className='img-container proj-img-container'>
           <img className='proj-img' src={dataImg} alt="My Happy SVG"/>
         </div>
@@ -259,9 +254,9 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
             <ProjectionForm 
               traits={traits}
               setTraits={setTraits}
-              callback={onFormSubmission}
               isDeadlineMode={isDeadlineMode}
               setIsDeadlineMode={setIsDeadlineMode}
+              setProjectionIsvalid={setProjectionIsValid}
             />
           </div>
         </div>
@@ -309,7 +304,9 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
           */}
 
       </div>
-
+      <div className='page-spacer'>
+        <NextButton direction="down" enabled={projectionIsValid}/>
+      </div>
     </div>
   )
 }
