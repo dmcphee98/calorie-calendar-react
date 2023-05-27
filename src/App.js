@@ -4,27 +4,30 @@ import BMICalculator from './Components/BMICalculator/BMICalculator';
 import './App.css';
 import TDEECalculator from './Components/TDEECalculator/TDEECalculator';
 import WeightProjector from './Components/WeightProjector/WeightProjector';
-import ProjectionStats from './Components/ProjectionStats/ProjectionStats';
+import StatsCalculator from './Components/StatsCalculator/StatsCalculator';
 import Navbar from './Components/Common/Navbar/NavBar';
-import NextButton from './Components/Common/NextButton/NextButton';
 
 function App() {
 
   const [isMetricSystem, setMetricSystem] = useState(true);
-  const [traits, setTraits] = useState({
+  const [healthData, setHealthData] = useState({
     'isMale': true,
     'age': '',
     'height': '',
     'initialWeight': '',
-    'goalWeight': '',
     'bmi': '',
     'bmr': '',
     'activityLvl': 3,
     'tdee': '',
-    'startDate': '',
-    'endDate': '',
-    'dailyCals': ''
   });
+  const [goalData, setGoalData] = useState({
+    'goalWeight': '',
+    'startDate': '',
+    'finishDate': '',
+    'dailyCals': '',
+    'totalDays': ''
+  });
+  const [projectionSuccess, setProjectionSuccess] = useState(false);
   const [stats, setStats] = useState([{},{},{},{},{},{}]);
 
   useEffect(() => {
@@ -42,24 +45,25 @@ function App() {
           <div className='page-spacer'/>
           <div className="page-header"/>
           <BMICalculator 
-            traits={traits}
-            setTraits={setTraits}
+            healthData={healthData}
+            setHealthData={setHealthData}
             isMetricSystem={isMetricSystem}
             setMetricSystem={setMetricSystem}/>
           <TDEECalculator
-            traits={traits}
-            setTraits={setTraits}
-            isMetricSystem={isMetricSystem}
-            setMetricSystem={setMetricSystem}/>
+            healthData={healthData}
+            setHealthData={setHealthData}/>
           <WeightProjector
-            traits={traits}
-            setTraits={setTraits}
-            isMetricSystem={isMetricSystem}
-            setMetricSystem={setMetricSystem}
-            setStats={setStats}/>
-          <ProjectionStats
+            healthData={healthData}
+            goalData={goalData}
+            setGoalData={setGoalData}
+            projectionSuccess={projectionSuccess}
+            setProjectionSuccess={setProjectionSuccess}/>
+          <StatsCalculator
+            healthData={healthData}
+            goalData={goalData}
+            projectionSuccess={projectionSuccess}
             stats={stats}
-          />
+            setStats={setStats}/>
         </div>
       </div>
     </div>

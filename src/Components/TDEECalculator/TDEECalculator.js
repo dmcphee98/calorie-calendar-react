@@ -8,17 +8,18 @@ import './TDEECalculator.css';
 import soccerImg from './soccer.svg'
 
 
-const TDEECalculator = ({ traits, setTraits }) => {
+const TDEECalculator = ({ healthData, setHealthData }) => {
 
   useEffect(() => {
+    const {bmr, activityLvl} = healthData;
     // Update TDEE
-    if (traits.bmr !== '' && traits.activityLvl !== '') {
+    if (bmr !== '' && activityLvl !== '') {
       console.log('Calculating TDEE...')
       const multipliers = [1.2, 1.375, 1.55, 1.725, 1.9];
-      const tdee = traits.bmr * multipliers[traits.activityLvl-1];
-      setTraits({...traits, 'tdee':tdee.toFixed(0)}); 
+      const tdee = bmr * multipliers[activityLvl-1];
+      setHealthData({...healthData, 'tdee':tdee.toFixed(0)}); 
     }
-  }, [traits.activityLvl, traits.bmr])
+  }, [healthData.activityLvl, healthData.bmr])
     
   return (
     <div>
@@ -34,13 +35,13 @@ const TDEECalculator = ({ traits, setTraits }) => {
           </div>
           <div className='tdee-form'>
             <ActivityForm 
-              traits={traits}
-              setTraits={setTraits}
+              healthData={healthData}
+              setHealthData={setHealthData}
             />
           </div>
           <div className='tdee-result-container'>
             <div>TDEE</div>
-            <div className='tdee-result'>{traits.tdee}</div>
+            <div className='tdee-result'>{healthData.tdee}</div>
             <div className='tdee-definition'>
               Your Total Daily Energy Expenditure (TDEE) is the average number of calories your body burns each day.
             </div>

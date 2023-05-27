@@ -4,59 +4,68 @@ import { useState, useEffect } from 'react';
 import NextButton from '../Common/NextButton/NextButton';
 import ProjectionForm from './ProjectionForm/ProjectionForm';
 import { VictoryChart, VictoryAxis, VictoryArea, VictoryScatter, VictoryTheme, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
-import ProjectionStats from '../ProjectionStats/ProjectionStats';
+import ProjectionStats from '../StatsCalculator/StatsCalculator';
 
 import './WeightProjector.css';
 
 import dataImg from './data.svg'
 
-const WeightProjector = ({ traits, setTraits, setStats }) => {
+const WeightProjector = ({ healthData, goalData, setGoalData, projectionSuccess, setProjectionSuccess }) => {
 
   const [chartData, setChartData] = useState([]);
-  const [isDeadlineMode, setIsDeadlineMode] = useState(true);
-  const [displayDailyCals, setDisplayDailyCals] = useState(0);
+  const [isDailyCalsMode, setDailyCalsMode] = useState(false);
   const [deficitSeverity, setDeficitSeverity] = useState('');
-  const [projectionIsValid, setProjectionIsValid] = useState(false);
 
+  /*
+   *  'Daily cals' mode calculation
+   */
   useEffect(() => {
-    let {initialWeight, goalWeight, startDate, endDate, tdee, dailyCals} = traits;
-    let totalDays;
-    if (!!goalWeight && startDate !== '' && (isDeadlineMode && endDate !== '') || (!isDeadlineMode && dailyCals !== '')) {
-      // Update chart data and re-render
-      if (isDeadlineMode) {
-        console.log('Determining daily calorie allowance...');
-        totalDays = getDaysBetweenDates(startDate, endDate);
-        dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, totalDays);
+    if (isDailyCalsMode) {
+      let {initialWeight, tdee} = healthData;
+      let {goalWeight, startDate, dailyCals} = goalData;
 
-        // Auxiliary variable needed so setTraits() not called in useEffect
-        setDisplayDailyCals(dailyCals);
-
-        console.log('Projecting weight in Deadline Mode...');
-        projectWeight(initialWeight, goalWeight, dailyCals, true);
-      } else {
-        console.log('Projecting weight in DailyCals Mode...');
-        totalDays = projectWeight(initialWeight, goalWeight, dailyCals, true);
-
-        console.log('Determining end date...');
-        endDate = addDaysToDate(startDate, totalDays);
+      if (!!!goalWeight || startDate === '' || dailyCals === '') {
+        setProjectionSuccess(false);
+        return;
       }
-      setProjectionIsValid(true);
-      // Assign a health severity to the daily calorie allowance
-      const caloricDeficit = tdee - dailyCals;
-      if (caloricDeficit > 1000) {
-        setDeficitSeverity('severe');
-      } else if (caloricDeficit > 500) {
-        setDeficitSeverity('unhealthy');
-      } else {
-        setDeficitSeverity('healthy');
-      }
-      // Update and show stats
-      const goalWeightChange = goalWeight - initialWeight;
-      calculateStats(dailyCals, caloricDeficit, goalWeightChange, endDate, totalDays);  
-    } else {
-      setProjectionIsValid(false);
+
+      console.log('Projecting weight in DailyCals Mode...');
+      const totalDays = projectWeight(initialWeight, goalWeight, dailyCals, true);
+
+      console.log('Determining end date...');
+      const finishDate = addDaysToDate(startDate, totalDays);
+
+      setGoalData({...goalData, finishDate, totalDays});
+      getDeficitSeverity(tdee, dailyCals);
+      setProjectionSuccess(true);
     }
-  }, [traits])
+  }, [healthData, goalData.goalWeight, goalData.startDate, goalData.dailyCals])
+
+  /*
+   *  'Finish date' mode calculation
+   */
+  useEffect(() => {
+    if (!isDailyCalsMode) {
+      let {initialWeight, tdee} = healthData;
+      let {goalWeight, startDate, finishDate} = goalData;
+
+      if (!!!goalWeight || startDate === '' || finishDate === '') {
+        setProjectionSuccess(false);
+        return;
+      }
+
+      console.log('Determining daily calorie allowance...');
+      const totalDays = getDaysBetweenDates(startDate, finishDate);
+      const dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, totalDays);
+
+      console.log('Projecting weight in Deadline Mode...');
+      projectWeight(initialWeight, goalWeight, dailyCals, true);
+
+      setGoalData({...goalData, dailyCals, totalDays});
+      getDeficitSeverity(tdee, dailyCals);
+      setProjectionSuccess(true);
+    }
+  }, [healthData, goalData.goalWeight, goalData.startDate, goalData.finishDate])
 
   /**
    * Calculate daily calorie allowance required to meet a given deadline
@@ -68,7 +77,7 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
    */ 
   const getDailyCalsFromDeadline = (tdee, startWeight, endWeight, totalDays) => {
     const startTdee = tdee;
-    const finishTdee = calculateTDEE(endWeight);
+    const finishTdee = recalculateTDEE(endWeight);
     // Get TDEE at 40% and 60%
     const upperTdee = startTdee - 0.4 * (startTdee - finishTdee);
     const lowerTdee = startTdee - 0.6 * (startTdee - finishTdee);
@@ -117,7 +126,7 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
 
     // Perform day-by-day weight projection
     while (currentWeight > endWeight) {
-      currentWeight -= (calculateTDEE(currentWeight) - dailyCals) / 7700;
+      currentWeight -= (recalculateTDEE(currentWeight) - dailyCals) / 7700;
       if (enableDataCapture) tempChartData.push({x: numDays, y: currentWeight});
       numDays++;
     }
@@ -168,67 +177,34 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
     return dayOfMonth + ['th', 'st', 'nd', 'rd', ''][selector];
   };  
 
-  const calculateTDEE = (currentWeight) => {
-    const { isMale, height, age, activityLvl } = traits;
-    let BMR;
+  const recalculateTDEE = (currentWeight) => {
+    const { isMale, height, age, activityLvl } = healthData;
+    let bmr;
     if (isMale) {
-      BMR = (88.362 + (13.397 * currentWeight) + (479.9 * height) - (5.677 * age));
+      bmr = (88.362 + (13.397 * currentWeight) + (479.9 * height) - (5.677 * age));
     } else {
-      BMR = (447.593 + (9.247 * currentWeight) + (309.8 * height) - (4.330 * age));
+      bmr = (447.593 + (9.247 * currentWeight) + (309.8 * height) - (4.330 * age));
     }
     const multipliers = [1.2, 1.375, 1.55, 1.725, 1.9];
-    return BMR * multipliers[activityLvl-1];
+    return bmr * multipliers[activityLvl-1];
   }
 
-  const calculateStats = (dailyCals, caloricDeficit, goalWeightChange, finishDate, totalDays) => {
-
-    const isGain = caloricDeficit < 0;
-    const weeklyWeightChange = (goalWeightChange/(totalDays/7)).toFixed(1);
-
-    // Format finishDate to string
-    const options = { day: 'numeric', month: 'numeric', year: '2-digit'};
-    const dateTimeFormat = new Intl.DateTimeFormat('en-US', options);
-    const parts = dateTimeFormat.formatToParts(finishDate);
-    const finishDateString = `${parts[2].value}\/${parts[0].value}\/${parts[4].value}`;
-
-    setStats([
-      { 
-        name: 'Daily calories', 
-        icon: 'fa-solid fa-utensils', 
-        value: dailyCals.toFixed(0), 
-        units: 'cal' 
-      },
-      { 
-        name: `Weekly ${isGain ? 'gain' : 'loss'}`, 
-        icon: 'fa-solid fa-weight-scale', 
-        value: Math.abs(weeklyWeightChange), 
-        units: 'kg' 
-      },
-      { 
-        name: `Daily ${isGain ? 'surplus' : 'deficit'}`, 
-        icon: `fa-solid fa-angles-${isGain ? 'up' : 'down'}`, 
-        value: Math.abs(caloricDeficit).toFixed(0), 
-        units: 'cal' 
-      },
-      { 
-        name: `Total ${isGain ? 'surplus' : 'deficit'}`, 
-        icon: `fa-solid fa-arrow-trend-${isGain ? 'up' : 'down'}`, 
-        value: Math.abs(caloricDeficit*totalDays).toFixed(0), 
-        units: 'cal' 
-      },
-      { 
-        name: 'Finish date', 
-        icon: 'fa-solid fa-flag-checkered', 
-        value: finishDateString, 
-        units: '' 
-      },
-      { 
-        name: 'Total days', 
-        icon: 'fa-regular fa-calendar', 
-        value: totalDays, 
-        units: '' 
-      },
-    ]);
+    /**
+   * Calculates caloric deficit and determines how healthy it is
+   * @param {Number} tdee
+   * @param {Number} dailyCals
+   * @returns String indicating how healthy the calorie deficit is
+   */
+  const getDeficitSeverity = (tdee, dailyCals) => {
+    // Assign a health severity to the daily calorie allowance
+    const caloricDeficit = tdee - dailyCals;
+    if (caloricDeficit > 1000) {
+      setDeficitSeverity('severe');
+    } else if (caloricDeficit > 500) {
+      setDeficitSeverity('unhealthy');
+    } else {
+      setDeficitSeverity('healthy');
+    }
   }
 
   const goPrevPage = () => {
@@ -252,11 +228,11 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
           </div>
           <div className='proj-form'>
             <ProjectionForm 
-              traits={traits}
-              setTraits={setTraits}
-              isDeadlineMode={isDeadlineMode}
-              setIsDeadlineMode={setIsDeadlineMode}
-              setProjectionIsvalid={setProjectionIsValid}
+              goalData={goalData}
+              setGoalData={setGoalData}
+              isDailyCalsMode={isDailyCalsMode}
+              setDailyCalsMode={setDailyCalsMode}
+              setProjectionSuccess={setProjectionSuccess}
             />
           </div>
         </div>
@@ -305,7 +281,7 @@ const WeightProjector = ({ traits, setTraits, setStats }) => {
 
       </div>
       <div className='page-spacer'>
-        <NextButton direction="down" enabled={projectionIsValid}/>
+        <NextButton direction="down" enabled={projectionSuccess}/>
       </div>
     </div>
   )

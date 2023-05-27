@@ -2,14 +2,12 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 
 import NextButton from '../Common/NextButton/NextButton';
-import TraitsForm from './TraitsForm/TraitsForm'
+import HealthDataForm from './HealthDataForm/HealthDataForm'
 import BouncingDotsLoader from '../Common/BouncingDotsLoader/BouncingDotsLoader';
 import './BMICalculator.css';
-
 import treeImg from './tree.svg'
 
-
-const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) => {
+const BMICalculator = ({ healthData, setHealthData, isMetricSystem, setMetricSystem}) => {
 
   const [BMR, setBMR] = useState('');
   const [healthStatus, setHealthStatus] = useState('');
@@ -20,62 +18,62 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
 
   // Recalculate BMI as information is entered into form
   useEffect(() => {
-    let weight = traits.initialWeight;
-    let height = traits.height;
-    let BMI;
+    let weight = healthData.initialWeight;
+    let height = healthData.height;
+    let bmi;
     if (!!height && height > 0 && !!weight && weight > 0) {
-        BMI = Number((weight / Math.pow(height, 2)).toFixed(1));
+      bmi = Number((weight / Math.pow(height, 2)).toFixed(1));
     } else {
-        BMI = 0;
+      bmi = 0;
     }
 
-    if (typeof(BMI) === 'number' && BMI > 0 && BMI < 100) {
+    if (typeof(bmi) === 'number' && bmi > 0 && bmi < 100) {
       setValidBMI(true);
-      setTraits({...traits, 'bmi':BMI});
+      setHealthData({...healthData, 'bmi':bmi});
       setMayProceed(true);
     } else {
       setValidBMI(false);
       setMayProceed(false);
     }
 
-  }, [traits.initialWeight, traits.height])
+  }, [healthData.initialWeight, healthData.height])
   
   // Add new locked BMI to traits, assign health status and colour to locked-in BMI value
   useEffect(() => {
-    const BMI = traits.bmi;
-    if (!!!BMI) return;
+    const bmi = healthData.bmi;
+    if (!!!bmi) return;
 
     calculateBMR();
 
     // Assign health status and colour to locked-in BMI value
     switch (true) {
-      case (BMI < 18.5):
+      case (bmi < 18.5):
         setHealthStatus('underweight');          
         setHealthColor('#87b1d9');
         break;
-      case (BMI >= 18.5 && BMI < 25):
+      case (bmi >= 18.5 && bmi < 25):
         setHealthStatus('healthy');         
         setHealthColor('#3dd365'); 
         break;
-      case (BMI >= 25 && BMI < 30):
+      case (bmi >= 25 && bmi < 30):
         setHealthStatus('overweight');       
         setHealthColor('#eee133');    
         break;
-      case (BMI >= 30):
+      case (bmi >= 30):
         setHealthStatus('obese');      
         setHealthColor('#fd802e');     
         break;
   }
-    }, [traits.bmi])
+    }, [healthData.bmi])
 
     // Changing gender requires recalculation of BMR but not BMI
     useEffect(() => {
-      const {initialWeight, height, age } = traits;
+      const {initialWeight, height, age } = healthData;
       if (initialWeight !== '' && height !== '' && age !== '') calculateBMR();
-    }, [traits.isMale])
+    }, [healthData.isMale])
 
   const calculateBMR = () => {
-    const { isMale, initialWeight, height, age } = traits;
+    const { isMale, initialWeight, height, age } = healthData;
     if (isMale) {
       setBMR((88.362 + (13.397 * initialWeight) + (479.9 * height) - (5.677 * age)).toFixed(0));
     } else {
@@ -85,7 +83,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
 
   useEffect(() => {
     // Add updated BMI and BMR to traits
-    setTraits({...traits, 'bmr':BMR});
+    setHealthData({...healthData, 'bmr':BMR});
   }, [BMR])
 
   return (
@@ -101,9 +99,9 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
             </p>
           </div>
           <div className={`bmi-form-${isMetricSystem ? 'metric' : 'imperial'}`}>
-            <TraitsForm 
-                traits={traits}
-                setTraits={setTraits}
+            <HealthDataForm 
+                healthData={healthData}
+                setHealthData={setHealthData}
                 isMetricSystem={isMetricSystem}
                 setMetricSystem={setMetricSystem}
                 setFormComplete={setFormComplete}/>
@@ -119,7 +117,7 @@ const BMICalculator = ({ traits, setTraits, isMetricSystem, setMetricSystem}) =>
                       borderBottom: `3px solid ${healthColor}`,
                       marginRight: '0.2rem'
                       }}
-                  >{traits.bmi}</div>
+                  >{healthData.bmi}</div>
                 </div>
                 <div className='bmi-output-column'>
                 <div style={{margin: '0.5rem 0rem'}}>Category</div>

@@ -5,38 +5,37 @@ import NumInput from '../../Common/NumInput/NumInput';
 import DateInput from '../../Common/DateInput/DateInput';
 import './ProjectionForm.css';
 
-const ProjectionForm = ({ traits, setTraits, isDeadlineMode, setIsDeadlineMode, setProjectionIsvalid}) => {
+const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMode, setProjectionSuccess}) => {
 
     const [goalWeight, setGoalWeight] = useState('');
     const [dailyCals, setDailyCals] = useState('');
     const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [finishDate, setFinishDate] = useState('');
     const [typingTimeout, setTypingTimeout] = useState(0);
 
     useEffect(() => {
-
-      setProjectionIsvalid(false);
+      setProjectionSuccess(false);
       if (typingTimeout) clearTimeout(typingTimeout);
       setTypingTimeout(setTimeout(() => {
-        setTraits({
-          ...traits, 
+        setGoalData({
+          ...goalData, 
           'goalWeight': goalWeight, 
           'startDate': startDate,
-          'endDate': endDate,
+          'finishDate': finishDate,
           'dailyCals': dailyCals
         });
       }, 750));
 
-    }, [goalWeight, startDate, endDate, dailyCals])
+    }, [goalWeight, startDate, finishDate, dailyCals])
   
     const setDeadlineMode = () => {
       console.log("Mode set to 'Deadline'.");
-      setIsDeadlineMode(true);
+      setDailyCalsMode(false);
     };
 
     const setDailyMode = () => {
       console.log("Mode set to 'Daily'.");
-      setIsDeadlineMode(false);
+      setDailyCalsMode(true);
     };
 
     return (
@@ -45,10 +44,10 @@ const ProjectionForm = ({ traits, setTraits, isDeadlineMode, setIsDeadlineMode, 
             <DateInput number={startDate} setNumber={setStartDate} description='Start Date'/>
             <div className="proj-container">
                 <div className="proj-desc-A">Enter a <em>finish date</em> to find<br></br>your daily calorie allowance</div>
-                <DateInput number={endDate} setNumber={setEndDate} description='Finish Date' isEnabled={isDeadlineMode} callback={setDeadlineMode} />
+                <DateInput number={finishDate} setNumber={setFinishDate} description='Finish Date' isEnabled={!isDailyCalsMode} callback={setDeadlineMode} />
                 <div className="proj-or">OR</div>
                 Enter a daily <em>calorie allowance</em> <br></br>to estimate your finish date
-                <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={!isDeadlineMode} callback={setDailyMode} />
+                <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={isDailyCalsMode} callback={setDailyMode} />
             </div>
         </form>
     );

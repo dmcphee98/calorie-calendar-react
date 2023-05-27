@@ -6,40 +6,40 @@ import NumInput from '../../Common/NumInput/NumInput';
 import SubmitButton from '../../Common/SubmitButton/SubmitButton';
 
 
-const TraitsForm = ({ traits, setTraits, isMetricSystem, setMetricSystem, setFormComplete }) => {
+const HealthDataForm = ({ healthData, setHealthData, isMetricSystem, setMetricSystem, setFormComplete }) => {
 
-    const [_isMale, setMale] = useState(true);
-    const [_age, setAge] = useState('');
-    const [_height, setHeight] = useState('');
-    const [_weightMetric, setWeightMetric] = useState('');
-    const [_weightImperial, setWeightImperial] = useState('');
+    const [isMale, setMale] = useState(true);
+    const [age, setAge] = useState('');
+    const [height, setHeight] = useState('');
+    const [weightMetric, setWeightMetric] = useState('');
+    const [weightImperial, setWeightImperial] = useState('');
     const [typingTimeout, setTypingTimeout] = useState(0);
 
     const updateFormInfo = () => {
         // Obtain weight in correct unit system.
-        let _weight;
+        let weight;
         if (isMetricSystem) {
-            _weight = _weightMetric;
+            weight = weightMetric;
         } else {
-            if (!!_weightImperial) {
-                _weight = _weightImperial * 0.4536;
+            if (!!weightImperial) {
+                weight = weightImperial * 0.4536;
             } else {
-                _weight = '';
+                weight = '';
             }
         }
         
-        // Update traits
-        let updatedTraits = {
-            ...traits,
-            isMale: _isMale,
-            age: _age,
-            height: (_height === '' ? '' : _height / 100.0),
-            initialWeight: _weight
+        // Update health data
+        let updatedHealthData = {
+            ...healthData,
+            isMale: isMale,
+            age: age,
+            height: (height === '' ? '' : height / 100.0),
+            initialWeight: weight
         };
-        setTraits(updatedTraits);
+        setHealthData(updatedHealthData);
 
         // Update whether or not the form is completely filled out
-        setFormComplete(_age !== '' && _height !== '' && _weight !== '');
+        setFormComplete(age !== '' && height !== '' && weight !== '');
         console.log("BMI form updated.");
     }
 
@@ -48,7 +48,7 @@ const TraitsForm = ({ traits, setTraits, isMetricSystem, setMetricSystem, setFor
         if (typingTimeout) clearTimeout(typingTimeout);
         setTypingTimeout(setTimeout(updateFormInfo, 750));
 
-    }, [_isMale, _age, _height, _weightMetric, _weightImperial, isMetricSystem])
+    }, [isMale, age, height, weightMetric, weightImperial, isMetricSystem])
 
   return (
     <form>
@@ -62,29 +62,29 @@ const TraitsForm = ({ traits, setTraits, isMetricSystem, setMetricSystem, setFor
             activeTextColor="#000000"/>
         <BoolToggle 
             className='genderToggle'
-            boolValue={_isMale} 
+            boolValue={isMale} 
             setBoolValue={setMale} 
             defaultText='Male' 
             alternateText='Female'
             activeColor='#ffffff'
             activeTextColor='#000000'/>
-        <NumInput number={_age} setNumber={setAge} units='yr' description='Age'/>
+        <NumInput number={age} setNumber={setAge} units='yr' description='Age'/>
 
         {/* This is how you have to do conditional rendering within the return() function */}
         {isMetricSystem && 
             <div>
-                <NumInput number={_height} setNumber={setHeight} units='cm' description='Height'/>
-                <NumInput number={_weightMetric} setNumber={setWeightMetric} units='kg' description='Weight'/>
+                <NumInput number={height} setNumber={setHeight} units='cm' description='Height'/>
+                <NumInput number={weightMetric} setNumber={setWeightMetric} units='kg' description='Weight'/>
             </div>
         }
         {!isMetricSystem && 
             <div>
-                <FeetInchesInput number={_height} setOutput={setHeight} description='Height'/>
-                <NumInput number={_weightImperial} setNumber={setWeightImperial} units='lb' description='Weight'/>
+                <FeetInchesInput number={height} setOutput={setHeight} description='Height'/>
+                <NumInput number={weightImperial} setNumber={setWeightImperial} units='lb' description='Weight'/>
             </div>
         }
     </form>
   )
 }
 
-export default TraitsForm
+export default HealthDataForm
