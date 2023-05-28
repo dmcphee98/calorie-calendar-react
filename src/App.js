@@ -10,7 +10,7 @@ import Navbar from './Components/Common/Navbar/NavBar';
 
 function App() {
 
-  const [isMetricSystem, setMetricSystem] = useState(true);
+  const [useMetricSystem, setMetricSystem] = useState(true);
   const [healthData, setHealthData] = useState({
     'isMale': true,
     'age': '',
@@ -48,7 +48,7 @@ function App() {
           <BMICalculator 
             healthData={healthData}
             setHealthData={setHealthData}
-            isMetricSystem={isMetricSystem}
+            useMetricSystem={useMetricSystem}
             setMetricSystem={setMetricSystem}/>
           <TDEECalculator
             healthData={healthData}
@@ -66,7 +66,8 @@ function App() {
             stats={stats}
             setStats={setStats}/>
           <GraphPage 
-            projectionData={projectionData}/>
+            projectionData={projectionData}
+            useMetricSystem={useMetricSystem}/>
         </div>
       </div>
     </div>

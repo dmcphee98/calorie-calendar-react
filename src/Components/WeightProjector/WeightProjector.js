@@ -249,10 +249,3 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
 }
 
 export default WeightProjector
-
-/* ADD FOR START AND END POINTS. CURRENTLY THERE IS AN ERROR - WHEN CHARTDATA ISN'T YET POPULATED
-  <VictoryScatter data={[chartData[0], chartData[chartData.length-1]]}
-    size={5}
-    style={{ data: { fill: "#88cb66" } }}
-  />
-*/

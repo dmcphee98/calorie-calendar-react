@@ -7,7 +7,7 @@ import BouncingDotsLoader from '../Common/BouncingDotsLoader/BouncingDotsLoader'
 import './BMICalculator.css';
 import treeImg from './tree.svg'
 
-const BMICalculator = ({ healthData, setHealthData, isMetricSystem, setMetricSystem}) => {
+const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSystem}) => {
 
   const [BMR, setBMR] = useState('');
   const [healthStatus, setHealthStatus] = useState('');
@@ -95,11 +95,11 @@ const BMICalculator = ({ healthData, setHealthData, isMetricSystem, setMetricSys
               <span>First, let's calculate your BMI.</span>
             </p>
           </div>
-          <div className={`bmi-form-${isMetricSystem ? 'metric' : 'imperial'}`}>
+          <div className={`bmi-form-${useMetricSystem ? 'metric' : 'imperial'}`}>
             <HealthDataForm 
                 healthData={healthData}
                 setHealthData={setHealthData}
-                isMetricSystem={isMetricSystem}
+                useMetricSystem={useMetricSystem}
                 setMetricSystem={setMetricSystem}
                 setFormComplete={setFormComplete}/>
           </div>

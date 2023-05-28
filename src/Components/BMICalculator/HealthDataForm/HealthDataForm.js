@@ -6,7 +6,7 @@ import NumInput from '../../Common/NumInput/NumInput';
 import SubmitButton from '../../Common/SubmitButton/SubmitButton';
 
 
-const HealthDataForm = ({ healthData, setHealthData, isMetricSystem, setMetricSystem, setFormComplete }) => {
+const HealthDataForm = ({ healthData, setHealthData, useMetricSystem, setMetricSystem, setFormComplete }) => {
 
     const [isMale, setMale] = useState(true);
     const [age, setAge] = useState('');
@@ -18,7 +18,7 @@ const HealthDataForm = ({ healthData, setHealthData, isMetricSystem, setMetricSy
     const updateFormInfo = () => {
         // Obtain weight in correct unit system.
         let weight;
-        if (isMetricSystem) {
+        if (useMetricSystem) {
             weight = weightMetric;
         } else {
             if (!!weightImperial) {
@@ -48,13 +48,13 @@ const HealthDataForm = ({ healthData, setHealthData, isMetricSystem, setMetricSy
         if (typingTimeout) clearTimeout(typingTimeout);
         setTypingTimeout(setTimeout(updateFormInfo, 750));
 
-    }, [isMale, age, height, weightMetric, weightImperial, isMetricSystem])
+    }, [isMale, age, height, weightMetric, weightImperial, useMetricSystem])
 
   return (
     <form>
         <BoolToggle 
             className="unitSystemToggle"
-            boolValue={isMetricSystem} 
+            boolValue={useMetricSystem} 
             setBoolValue={setMetricSystem} 
             defaultText="Metric" 
             alternateText="Imperial"
@@ -71,13 +71,13 @@ const HealthDataForm = ({ healthData, setHealthData, isMetricSystem, setMetricSy
         <NumInput number={age} setNumber={setAge} units='yr' description='Age'/>
 
         {/* This is how you have to do conditional rendering within the return() function */}
-        {isMetricSystem && 
+        {useMetricSystem && 
             <div>
                 <NumInput number={height} setNumber={setHeight} units='cm' description='Height'/>
                 <NumInput number={weightMetric} setNumber={setWeightMetric} units='kg' description='Weight'/>
             </div>
         }
-        {!isMetricSystem && 
+        {!useMetricSystem && 
             <div>
                 <FeetInchesInput number={height} setOutput={setHeight} description='Height'/>
                 <NumInput number={weightImperial} setNumber={setWeightImperial} units='lb' description='Weight'/>
