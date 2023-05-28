@@ -68,19 +68,19 @@ const HealthDataForm = ({ healthData, setHealthData, useMetricSystem, setMetricS
             alternateText='Female'
             activeColor='#ffffff'
             activeTextColor='#000000'/>
-        <NumInput number={age} setNumber={setAge} units='yr' description='Age'/>
+        <NumInput number={age} setNumber={setAge} units='yr' description='Age' color='green'/>
 
         {/* This is how you have to do conditional rendering within the return() function */}
         {useMetricSystem && 
             <div>
-                <NumInput number={height} setNumber={setHeight} units='cm' description='Height'/>
-                <NumInput number={weightMetric} setNumber={setWeightMetric} units='kg' description='Weight'/>
+                <NumInput number={height} setNumber={setHeight} units='cm' description='Height' color='green'/>
+                <NumInput number={weightMetric} setNumber={setWeightMetric} units='kg' description='Weight' color='green'/>
             </div>
         }
         {!useMetricSystem && 
             <div>
-                <FeetInchesInput number={height} setOutput={setHeight} description='Height'/>
-                <NumInput number={weightImperial} setNumber={setWeightImperial} units='lb' description='Weight'/>
+                <FeetInchesInput number={height} setOutput={setHeight} description='Height' color='green'/>
+                <NumInput number={weightImperial} setNumber={setWeightImperial} units='lb' description='Weight' color='green'/>
             </div>
         }
     </form>

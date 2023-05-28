@@ -9,7 +9,7 @@ import GraphPage from './Components/GraphPage/GraphPage';
 import Navbar from './Components/Common/Navbar/NavBar';
 
 function App() {
-
+  const [activePageIndex, setActivePageIndex] = useState(1);
   const [useMetricSystem, setMetricSystem] = useState(true);
   const [healthData, setHealthData] = useState({
     'isMale': true,
@@ -33,11 +33,13 @@ function App() {
 
   useEffect(() => {
     //document.body.style.overflow = "hidden";
+    window.scrollTo(0, 0)
   }, []);
 
   return (
     <div className="App">
-      <Navbar />
+      <Navbar 
+        activePageIndex={activePageIndex}/>
       {/*<div className='page-title-container'>
         <h1 className='page-title'>Calorie Calendar</h1>
       </div>*/}
@@ -49,22 +51,30 @@ function App() {
             healthData={healthData}
             setHealthData={setHealthData}
             useMetricSystem={useMetricSystem}
-            setMetricSystem={setMetricSystem}/>
+            setMetricSystem={setMetricSystem}
+            activePageIndex={activePageIndex}
+            setActivePageIndex={setActivePageIndex}/>
           <TDEECalculator
             healthData={healthData}
-            setHealthData={setHealthData}/>
+            setHealthData={setHealthData}
+            activePageIndex={activePageIndex}
+            setActivePageIndex={setActivePageIndex}/>
           <WeightProjector
             healthData={healthData}
             goalData={goalData}
             setGoalData={setGoalData}
             projectionData={projectionData}
-            setProjectionData={setProjectionData}/>
+            setProjectionData={setProjectionData}
+            activePageIndex={activePageIndex}
+            setActivePageIndex={setActivePageIndex}/>
           <StatsCalculator
             healthData={healthData}
             goalData={goalData}
             projectionData={projectionData}
             stats={stats}
-            setStats={setStats}/>
+            setStats={setStats}
+            activePageIndex={activePageIndex}
+            setActivePageIndex={setActivePageIndex}/>
           <GraphPage 
             projectionData={projectionData}
             useMetricSystem={useMetricSystem}/>

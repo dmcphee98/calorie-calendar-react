@@ -16,12 +16,13 @@
   }  
 
 .enabled {
-    color: rgb(154, 236, 100);
     cursor: pointer;
+    transition: color 0.75s ease;
 }
 
 .disabled {
-    color: #e5e5e5;
+    color: #e5e5e5;    
+    transition: color 0.1s ease;
 }
 
 .next-btn {
@@ -45,10 +46,6 @@
 
 @keyframes pulseBorder {
     from {
-        border-color: rgb(154, 236, 100);
-    }
-  
-    to {
         border-color: #f1f1f1
     }
 }

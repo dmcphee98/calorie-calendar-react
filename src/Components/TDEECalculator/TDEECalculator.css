@@ -1,16 +1,15 @@
 .tdee-img {
     height: 100%;
-    background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
+    background-image: linear-gradient(to top, #1f75e3, #2383ea, #2d90f0, #3c9ef5, #4cabfa, #4cb7fd, #52c2fe, #5ecdff, #63d9ff, #6fe5ff, #7ff0ff, #92fbff);
     background-attachment: fixed;
 }
 
 .tdee-form {
     width: 100%;
-    min-height: 40%;
+    min-height: 36%;
 }
  
 .tdee-info-container {
-    padding-top: 3vh;
     height: 10%;
     width: 100%;
     font-size: 1.25rem;
@@ -25,7 +24,7 @@
 }
 
 .tdee-result-container {
-    height: 30%;
+    height: 35%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -49,7 +48,7 @@
 
     -webkit-background-clip: text;
 	background-clip: text;
-    background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
+    background-image: linear-gradient(to top, #1f75e3, #2383ea, #2d90f0, #3c9ef5, #4cabfa, #4cb7fd, #52c2fe, #5ecdff, #63d9ff, #6fe5ff, #7ff0ff, #92fbff);
     background-attachment: fixed;
 	color: transparent;
 
@@ -60,4 +59,5 @@
     padding: 0.5rem 0.5rem 0rem 0.5rem;
     border-radius: 1rem;
     width: 80%;
+    background-color: white;
 }

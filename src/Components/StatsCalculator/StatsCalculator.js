@@ -3,7 +3,7 @@ import './StatsCalculator.css';
 import { useState, useEffect } from 'react';
 import NextButton from '../Common/NextButton/NextButton';
 
-const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats }) => {
+const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats, activePageIndex, setActivePageIndex }) => {
 
     useEffect(() => {
         if (projectionData) calculateStats();
@@ -79,13 +79,18 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
                                 value={stat.value}
                                 icon={stat.icon}
                                 units={stat.units}
+                                activePageIndex={activePageIndex}
                             />
                         )
                     })}
                 </div>
             </div>
             <div className='page-spacer'>
-                <NextButton direction="down" enabled={true}/>
+                <NextButton 
+                  pageIndex={4} 
+                  enabled={true}
+                  activePageIndex={activePageIndex}
+                  setActivePageIndex={setActivePageIndex}/>
             </div>
         </div>
     )
@@ -93,10 +98,11 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
 
 export default StatsCalculator
 
-export const StatBox = ( { name, icon, value, units }) => {
+export const StatBox = ( { name, icon, value, units, activePageIndex }) => {
     return (
       <div className='stat-box-container'>
-          <div className='stat-box'>
+          <div className={`stat-box stat-color-${activePageIndex === 4 ? 'active' : 'inactive'}`}>
+            <div className='stat-box-background'>
               <div className='stat-icon-container'>
                   <i className={`stat-icon ${icon}`}/>
               </div>
@@ -109,7 +115,8 @@ export const StatBox = ( { name, icon, value, units }) => {
                       <div className='stat-unit'>{units}</div>
                   </div>
               </div>
-          </div>
+            </div>
+        </div>
       </div>
     )
   }

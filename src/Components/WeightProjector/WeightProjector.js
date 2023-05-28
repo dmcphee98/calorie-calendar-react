@@ -8,7 +8,7 @@ import './WeightProjector.css';
 
 import dataImg from './data.svg'
 
-const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, setProjectionData }) => {
+const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, setProjectionData, activePageIndex, setActivePageIndex }) => {
 
   const [isDailyCalsMode, setDailyCalsMode] = useState(false);
   const [deficitSeverity, setDeficitSeverity] = useState('');
@@ -242,7 +242,11 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
         </div>
       </div>
       <div className='page-spacer'>
-        <NextButton direction="down" enabled={!!projectionData}/>
+        <NextButton 
+          pageIndex={3} 
+          enabled={!!projectionData}
+          activePageIndex={activePageIndex}
+          setActivePageIndex={setActivePageIndex}/>
       </div>
     </div>
   )

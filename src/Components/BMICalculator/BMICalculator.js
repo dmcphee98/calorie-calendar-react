@@ -6,8 +6,9 @@ import HealthDataForm from './HealthDataForm/HealthDataForm'
 import BouncingDotsLoader from '../Common/BouncingDotsLoader/BouncingDotsLoader';
 import './BMICalculator.css';
 import treeImg from './tree.svg'
+import { act } from 'react-dom/test-utils';
 
-const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSystem}) => {
+const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSystem, activePageIndex, setActivePageIndex}) => {
 
   const [BMR, setBMR] = useState('');
   const [healthStatus, setHealthStatus] = useState('');
@@ -173,7 +174,11 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
           </div>
       </div>
       <div className='page-spacer'>
-        <NextButton direction="down" enabled={isFormComplete && isValidBMI}/>
+        <NextButton 
+          pageIndex={1} 
+          enabled={isFormComplete && isValidBMI}
+          activePageIndex={activePageIndex}
+          setActivePageIndex={setActivePageIndex}/>
       </div>
     </div>
   )

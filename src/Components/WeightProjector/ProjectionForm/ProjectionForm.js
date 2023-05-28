@@ -40,14 +40,14 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
 
     return (
         <form className='proj-form'>
-            <NumInput number={goalWeight} setNumber={setGoalWeight} units='kg' description='Goal Weight'/>
+            <NumInput number={goalWeight} setNumber={setGoalWeight} units='kg' description='Goal Weight' color='purple'/>
             <DateInput number={startDate} setNumber={setStartDate} description='Start Date'/>
             <div className="proj-container">
                 <div className="proj-desc-A">Enter a <em>finish date</em> to find<br></br>your daily calorie allowance</div>
                 <DateInput number={finishDate} setNumber={setFinishDate} description='Finish Date' isEnabled={!isDailyCalsMode} callback={setDeadlineMode} />
                 <div className="proj-or">OR</div>
                 Enter a daily <em>calorie allowance</em> <br></br>to estimate your finish date
-                <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={isDailyCalsMode} callback={setDailyMode} />
+                <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={isDailyCalsMode} callback={setDailyMode} color='purple'/>
             </div>
         </form>
     );

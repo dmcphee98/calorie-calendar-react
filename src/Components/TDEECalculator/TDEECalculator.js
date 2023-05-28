@@ -7,7 +7,7 @@ import './TDEECalculator.css';
 
 import soccerImg from './soccer.svg'
 
-const TDEECalculator = ({ healthData, setHealthData }) => {
+const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActivePageIndex }) => {
 
   useEffect(() => {
     const {bmr, activityLvl} = healthData;
@@ -48,7 +48,11 @@ const TDEECalculator = ({ healthData, setHealthData }) => {
         </div>
       </div>
       <div className='page-spacer'>
-        <NextButton direction="down" enabled={true}/>
+        <NextButton 
+          pageIndex={2} 
+          enabled={true}
+          activePageIndex={activePageIndex}
+          setActivePageIndex={setActivePageIndex}/>
       </div>
     </div>
   )

@@ -21,7 +21,7 @@
 
 .ni-desc {
     flex: 1.5;
-    color: rgba(0, 0, 0, 0.6);
+    color: black;
     padding-left: 0.5rem;
 }
 
@@ -69,9 +69,16 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.ni-active {
+.ni-active-green {
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
 }
+
+.ni-active-purple {
+    background: #12c2e9;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #f64f95, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #f64f95, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 
 .ni-inactive {
     background-color: rgb(204, 204, 204);
