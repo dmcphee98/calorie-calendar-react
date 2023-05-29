@@ -17,7 +17,7 @@ const Navbar = ({ activePageIndex }) => {
     <nav className='navbar'>
         <div className='navbar-logo-container'>
             <h1 className="navbar-logo" style={{color: logoColors[activePageIndex]}}>
-                Calorie Calendar
+                CalorieCast
             </h1>
         </div>
         <div className="burger-icon-container" onClick={handleClick}>

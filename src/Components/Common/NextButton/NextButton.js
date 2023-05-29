@@ -9,6 +9,13 @@ const NextButton = ({ pageIndex, enabled, activePageIndex, setActivePageIndex, c
     const [isUpArrow, setUpArrow] = useState(false);
     const [isEnabled, setEnabled] = useState(enabled);
 
+    const buttonColors = [
+      { top: '#a4e1ff', bottom: '#5af9c7' },
+      { top: '#9487ec', bottom: '#0084ff' },
+      { top: '#fc7e7a', bottom: '#dc60c1' },
+      { top: '#c4e874', bottom: '#fec22f' },
+    ]
+
     useEffect(() => {
       // Update arrow direction
       setUpArrow(activePageIndex > pageIndex); 
@@ -52,15 +59,8 @@ const NextButton = ({ pageIndex, enabled, activePageIndex, setActivePageIndex, c
   }
 
   const getButtonColor = () => {
-    if (pageIndex === 1 && activePageIndex === 1) return '#5af9c7';
-    if (pageIndex === 1 && activePageIndex === 2) return '#a4e1ff';
-    if (pageIndex === 2 && activePageIndex === 2) return '#0084ff';
-    if (pageIndex === 2 && activePageIndex === 3) return '#9487ec';
-    if (pageIndex === 3 && activePageIndex === 3) return '#dc60c1';
-    if (pageIndex === 3 && activePageIndex === 4) return '#fc7e7a';
-    if (pageIndex === 4 && activePageIndex === 4) return '#fec22f';
-    if (pageIndex === 4 && activePageIndex === 5) return '#c4e874';
-    return '#000000'
+    if (activePageIndex <= pageIndex) return buttonColors[pageIndex-1].bottom;
+    return buttonColors[pageIndex-1].top;
   }
 
   return (

@@ -30,7 +30,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       const totalDays = projectWeight(initialWeight, goalWeight, startDate, dailyCals, true);
 
       console.log('Determining end date...');
-      const finishDate = addDaysToDate(startDate, totalDays);
+      const finishDate = addDaysToDate(startDate, totalDays-1);
 
       setGoalData({...goalData, finishDate, totalDays});
       getDeficitSeverity(tdee, dailyCals);
@@ -51,7 +51,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       }
 
       console.log('Determining daily calorie allowance...');
-      const totalDays = getDaysBetweenDates(startDate, finishDate);
+      const totalDays = getDaysBetweenDates(startDate, finishDate)+1;
       const dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, startDate, totalDays);
 
       console.log('Projecting weight in Deadline Mode...');
