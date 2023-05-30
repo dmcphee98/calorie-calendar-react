@@ -12,6 +12,8 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
 
   const [isDailyCalsMode, setDailyCalsMode] = useState(false);
   const [deficitSeverity, setDeficitSeverity] = useState('');
+  const [isWeightLoss, setIsWeightLoss] = useState(true);
+  const [projectionWillDiverge, setProjectionWillDiverge] = useState(false);
 
   /*
    *  'Daily cals' mode calculation
@@ -21,10 +23,22 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       let {initialWeight, tdee} = healthData;
       let {goalWeight, startDate, dailyCals} = goalData;
 
+      // Do not calculate if form is not fully complete
       if (!!!goalWeight || startDate === '' || dailyCals === '') {
         setProjectionData('');
         return;
       }
+
+      // Do not calculate if specified daily cals result in projection divergence
+      const isLoss = goalWeight <= initialWeight;
+      setIsWeightLoss(isLoss);
+      if ((isLoss && dailyCals >= tdee) || (!isLoss && dailyCals <= tdee)) {
+        setProjectionData('');
+        setProjectionWillDiverge(true);
+        return;
+      }
+
+      setProjectionWillDiverge(false);
 
       console.log('Projecting weight in DailyCals Mode...');
       const totalDays = projectWeight(initialWeight, goalWeight, startDate, dailyCals, true);
@@ -45,10 +59,13 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       let {initialWeight, tdee} = healthData;
       let {goalWeight, startDate, finishDate} = goalData;
 
+      // Do not calculate if form is not fully complete
       if (!!!goalWeight || startDate === '' || finishDate === '') {
         setProjectionData('');
         return;
       }
+
+      setIsWeightLoss(goalWeight <= initialWeight);
 
       console.log('Determining daily calorie allowance...');
       const totalDays = getDaysBetweenDates(startDate, finishDate)+1;
@@ -122,7 +139,8 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
     if (enableDataCapture) xyData.push({x: 0, y: Number(initialWeight)});
 
     // Perform day-by-day weight projection
-    while (currentWeight > goalWeight) {
+    const isLoss = goalWeight <= initialWeight;
+    while ((isLoss && currentWeight > goalWeight) || (!isLoss && currentWeight < goalWeight)) {
       currentWeight -= (recalculateTDEE(currentWeight) - dailyCals) / 7700;
       if (enableDataCapture) xyData.push({x: numDays, y: currentWeight});
       numDays++;
@@ -210,36 +228,50 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       setDeficitSeverity('healthy');
     }
   }
-
-  const goPrevPage = () => {
-    window.scrollBy({
-      top: -window.innerHeight,
-      behavior: 'smooth'
-    });
-  }
   
   return (
     <div>
-      <div className='page-container'>
-        <div className='img-container proj-img-container'>
-          <img className='proj-img' src={dataImg} alt="My Happy SVG"/>
-        </div>
-        <div className='form-container'>
-          <div className='proj-info-container'>
-            <p className='proj-info'>
-              <span>Now, let's work out your goals.</span>
-            </p>
+      <div className='page-container proj-page-container'>
+        <div className='proj-content'>
+          <div className='img-container proj-img-container'>
+            <img className='proj-img' src={dataImg} alt="My Happy SVG"/>
           </div>
-          <div className='proj-form'>
-            <ProjectionForm 
-              goalData={goalData}
-              setGoalData={setGoalData}
-              isDailyCalsMode={isDailyCalsMode}
-              setDailyCalsMode={setDailyCalsMode}
-              setProjectionData={setProjectionData}
-            />
+          <div className='form-container'>
+            <div className='proj-info-container'>
+              <p className='proj-info'>
+                <span>Now, let's work out your goals.</span>
+              </p>
+            </div>
+            <div className='proj-form'>
+              <ProjectionForm 
+                goalData={goalData}
+                setGoalData={setGoalData}
+                isDailyCalsMode={isDailyCalsMode}
+                setDailyCalsMode={setDailyCalsMode}
+                setProjectionData={setProjectionData}
+              />
+            </div>
           </div>
         </div>
+        { !projectionWillDiverge && 
+          <div className='proj-warning'>
+            <i className='fa-solid fa-circle-info proj-warning-icon'/>
+            <span className='proj-warning-bold'>Tip: </span>
+            { isWeightLoss && 
+              <span><i>A deficit of 500-750 calories is the general recommendation for healthy weight loss.</i></span>
+            }
+            { !isWeightLoss && 
+              <span><i>A surplus of 250-500 calories is the general recommendation for healthy weight gain.</i></span>
+            }
+          </div>
+        }
+        { projectionWillDiverge && 
+          <div className='proj-warning'>
+            <i className='fa-solid fa-circle-exclamation proj-warning-icon'/>
+            <span className='proj-warning-bold'> Error: </span>
+            <span><i>To reach your goal weight, your daily calories must be {isWeightLoss ? 'less' : 'greater'} than your TDEE.</i></span>
+          </div>
+        }
       </div>
       <div className='page-spacer'>
         <NextButton 
