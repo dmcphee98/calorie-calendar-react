@@ -74,7 +74,8 @@ function App() {
             stats={stats}
             setStats={setStats}
             activePageIndex={activePageIndex}
-            setActivePageIndex={setActivePageIndex}/>
+            setActivePageIndex={setActivePageIndex}
+            useMetricSystem={useMetricSystem}/>
           <GraphPage 
             projectionData={projectionData}
             useMetricSystem={useMetricSystem}/>

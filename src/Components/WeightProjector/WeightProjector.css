@@ -111,6 +111,7 @@
     height: 8%;
     width: 100%;
     color: rgb(44, 44, 44);
+    max-width: 90%;
 }
 
 .proj-warning-bold {

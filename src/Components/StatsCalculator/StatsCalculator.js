@@ -3,7 +3,7 @@ import './StatsCalculator.css';
 import { useState, useEffect } from 'react';
 import NextButton from '../Common/NextButton/NextButton';
 
-const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats, activePageIndex, setActivePageIndex }) => {
+const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats, activePageIndex, setActivePageIndex, useMetricSystem }) => {
 
     useEffect(() => {
         if (projectionData) calculateStats();
@@ -69,29 +69,35 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
     
     return (
         <div>
-            <div className='page-container'>
-                <div className='stats-container'>
-                    {stats.map((stat, index) => {
-                        return (
-                            <StatBox 
-                                key={index} 
-                                name={stat.name}
-                                value={stat.value}
-                                icon={stat.icon}
-                                units={stat.units}
-                                activePageIndex={activePageIndex}
-                            />
-                        )
-                    })}
-                </div>
+          <div className='page-container stat-page-container'>
+            <div className='stats-container'>
+                {stats.map((stat, index) => {
+                    return (
+                        <StatBox 
+                            key={index} 
+                            name={stat.name}
+                            value={stat.value}
+                            icon={stat.icon}
+                            units={stat.units}
+                            activePageIndex={activePageIndex}
+                        />
+                    )
+                })}
             </div>
-            <div className='page-spacer'>
-                <NextButton 
-                  pageIndex={4} 
-                  enabled={true}
-                  activePageIndex={activePageIndex}
-                  setActivePageIndex={setActivePageIndex}/>
-            </div>
+            <div className='stat-warning'>
+              <i className='fa-solid fa-circle-exclamation stat-warning-icon'/>
+              <span className='stat-warning-bold'> Tip: </span>
+              { useMetricSystem && <span><i>There are approximately 7700 calories in 1kg of body fat.</i></span> }
+              { !useMetricSystem && <span><i>There are approximately 3500 calories in 1lb of body fat.</i></span> }
+           </div>
+          </div>
+          <div className='page-spacer'>
+              <NextButton 
+                pageIndex={4} 
+                enabled={true}
+                activePageIndex={activePageIndex}
+                setActivePageIndex={setActivePageIndex}/>
+          </div>
         </div>
     )
 }

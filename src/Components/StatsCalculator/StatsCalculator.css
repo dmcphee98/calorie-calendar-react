@@ -39,6 +39,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    padding: 5% 0%;
 }
 
 
@@ -83,6 +84,10 @@
     align-items: center;
 }
 
+.stat-page-container {
+    flex-direction: column;    
+}
+
 @media screen and (min-width: 768px) {
     .stat-box-container {
         width: 33%;
@@ -105,4 +110,24 @@
         margin-top: 2vh;
         margin-bottom: 2vh;
     }
+}
+
+.stat-warning {
+    height: 10%;
+    width: 100%;
+    color: rgb(44, 44, 44);
+    max-width: 90%;
+}
+
+.stat-warning-bold {
+    font-weight: 700;
+    font-style: italic;
+    font-family: 'Lobster Two', cursive;
+    font-size: 1.5rem;
+	color: #febe63;
+  }
+
+.stat-warning-icon {
+    font-size: 1.2rem;
+    color: #febe63;
 }
