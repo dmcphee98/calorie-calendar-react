@@ -6,7 +6,9 @@
 
 .tdee-form {
     width: 100%;
-    min-height: 36%;
+    min-height: 46%;
+    display: flex;
+    flex-direction: column;
 }
  
 .tdee-info-container {
@@ -24,7 +26,7 @@
 }
 
 .tdee-result-container {
-    height: 35%;
+    height: 25%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -34,7 +36,7 @@
     border-radius: 2rem;
 }
 
-.tdee-result {
+.tdee-result-container .result {
     font-family: 'Lobster Two', cursive;
     font-weight: 700;
     font-size: 4rem;
@@ -51,7 +53,15 @@
     background-image: linear-gradient(to top, #1f75e3, #2383ea, #2d90f0, #3c9ef5, #4cabfa, #4cb7fd, #52c2fe, #5ecdff, #63d9ff, #6fe5ff, #7ff0ff, #92fbff);
     background-attachment: fixed;
 	color: transparent;
+}
 
+.tdee-result-container .tooltip-anchor {
+    color: rgb(168, 168, 168);
+}
+
+
+.tdee-result-container .tooltip {
+    font-size: 1rem; 
 }
 
 .tdee-definition {
@@ -61,3 +71,4 @@
     width: 80%;
     background-color: white;
 }
+

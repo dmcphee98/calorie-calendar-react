@@ -7,15 +7,90 @@
 
 .proj-container {
     margin: 1rem 0.5rem;
-    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-    border-radius: 2rem;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.proj-or {
-    margin-top: 0.75rem;
-    margin-bottom: 0.75rem;
-    font-family: 'Lobster Two', cursive;
-    font-size: 2rem;
+.proj-container .option-1-background,
+.proj-container .option-2-background {
+    width: 50%;
+
+    background: #12c2e9;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-attachment: fixed;
+}
+
+.proj-container .option-1-background {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 3px 3px 0px 3px;
+    box-sizing: border-box;
+}
+
+
+.proj-container .option-1,
+.proj-container .option-2 {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.proj-container .option-1 {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 0.3rem 0.3rem 0rem 0.3rem;
+}
+
+.proj-container .option-2 {
+    padding: 0.3rem 0.3rem 0rem 0.3rem;
+}
+
+.proj-container .option-1-text {
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.2rem;
+
+    background: #6d5a75;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-attachment: fixed;
+}
+
+.proj-container .option-2-text {
+    width: 100%;
+    border-radius: 5px 5px 0px 0px;
+    padding: 0.2rem;
+    background-color: rgb(207, 207, 207);
+}
+
+.proj-container .option-container-background {
+    width: 100%;
+
+    background: #12c2e9;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-attachment: fixed;
+
+    border-radius: 0px 0px 10px 10px;
+    padding: 0px 3px 3px 3px;
+}
+
+.proj-container .option-container {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 0px 0px 8px 8px;
+    padding: 1.75rem 0.5rem 1.25rem 0.5rem;
+}
+
+
+.proj-container DateInput {
+    transition: transform;
+}
+
+.proj-container .hidden {
+    transform: translateX(150%);
 }

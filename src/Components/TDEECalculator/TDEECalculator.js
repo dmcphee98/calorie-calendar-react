@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import NextButton from '../Common/NextButton/NextButton';
 import ActivityForm from './ActivityForm/ActivityForm';
 import './TDEECalculator.css';
-
+import { Tooltip } from 'react-tooltip'
 import soccerImg from './soccer.svg'
 
 const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActivePageIndex }) => {
@@ -39,11 +39,15 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
             />
           </div>
           <div className='tdee-result-container'>
-            <div>TDEE</div>
-            <div className='tdee-result'>{healthData.tdee}</div>
-            <div className='tdee-definition'>
-              Your Total Daily Energy Expenditure (TDEE) is the average number of calories your body burns each day.
+            <div className='title' style={{position: 'relative'}}>
+              TDEE 
+              <i className='tooltip-anchor fa-solid fa-circle-question' style={{position: 'absolute', top: '55%', left: '110%', transform: 'translate(0%, -50%)'}}/>
             </div>
+            <Tooltip className='tooltip' anchorSelect='.tooltip-anchor' place='right'>
+              Total Daily Energy Expenditure<br/>
+              <span style={{color: 'rgb(150, 150, 150)'}}><i>The total number of calories your <br/> body burns each day, on average.</i></span>
+            </Tooltip>
+            <div className='result'>{healthData.tdee}</div>
           </div>
         </div>
       </div>
