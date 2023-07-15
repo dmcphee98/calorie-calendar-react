@@ -14,6 +14,7 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
     const [typingTimeout, setTypingTimeout] = useState(0);
 
     useEffect(() => {
+      console.log('hoo');
       setProjectionData('');
       if (typingTimeout) clearTimeout(typingTimeout);
       setTypingTimeout(setTimeout(() => {
@@ -26,7 +27,7 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
         });
       }, 750));
 
-    }, [goalWeight, startDate, finishDate, dailyCals])
+    }, [goalWeight, startDate, finishDate, dailyCals, isDailyCalsMode])
   
     const setDeadlineMode = () => {
       console.log("Mode set to 'Deadline'.");
@@ -43,26 +44,30 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
             <NumInput number={goalWeight} setNumber={setGoalWeight} units='kg' description='Goal Weight' color='purple'/>
             <DateInput number={startDate} setNumber={setStartDate} description='Start Date'/>
             <div className="proj-container">
-                <div className='option-1-background'>
+                <div className={`option-1-background ${isDailyCalsMode? '' : 'active'}`}>
                   <div className='option-1'>
-                    <div className='option-1-text'>Option 1</div>
+                    <div className='option-1-text' onClick={setDeadlineMode}>Option 1</div>
                   </div>
                 </div>
-                <div className='option-2-background'>
+                <div className={`option-2-background ${isDailyCalsMode? 'active' : ''}`}>
                   <div className='option-2'>
-                    <div className='option-2-text'>Option 2</div>
+                    <div className='option-2-text' onClick={setDailyMode}>Option 2</div>
                   </div>
                 </div>
                 <div className='option-container-background'>
-                  <div className='option-container'>
-                    <div className="proj-desc-A">Enter a <em>finish date</em> to find<br></br>your daily calorie allowance</div>
-                    <DateInput number={finishDate} setNumber={setFinishDate} description='Finish Date' isEnabled={!isDailyCalsMode} callback={setDeadlineMode} />
-                  </div>
+                  {!isDailyCalsMode &&
+                    <div className='option-container'>
+                      <div className="proj-desc-A">Provide a <em>finish date</em> and we'll recommend a daily calorie goal</div>
+                      <DateInput number={finishDate} setNumber={setFinishDate} description='Finish Date' />
+                    </div>
+                  }
+                  {isDailyCalsMode &&
+                    <div className='option-container'>
+                      Provide a <em>daily calorie goal </em>  and <br/>we'll estimate your finish date
+                      <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={isDailyCalsMode} callback={setDailyMode} color='purple'/>
+                    </div>
+                  }
                 </div>
-                {/*
-                Enter a daily <em>calorie allowance</em> <br></br>to estimate your finish date
-                <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={isDailyCalsMode} callback={setDailyMode} color='purple'/>
-                */}
             </div>
         </form>
     );

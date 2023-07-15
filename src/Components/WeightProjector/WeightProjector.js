@@ -49,7 +49,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       setGoalData({...goalData, finishDate, totalDays});
       getDeficitSeverity(tdee, dailyCals);
     }
-  }, [healthData, goalData.goalWeight, goalData.startDate, goalData.dailyCals])
+  }, [healthData, goalData.goalWeight, goalData.startDate, goalData.dailyCals, isDailyCalsMode])
 
   /*
    *  'Finish date' mode calculation
@@ -77,7 +77,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       setGoalData({...goalData, dailyCals, totalDays});
       getDeficitSeverity(tdee, dailyCals);
     }
-  }, [healthData, goalData.goalWeight, goalData.startDate, goalData.finishDate])
+  }, [healthData, goalData.goalWeight, goalData.startDate, goalData.finishDate, isDailyCalsMode])
 
   /**
    * Calculate daily calorie allowance required to meet a given deadline
