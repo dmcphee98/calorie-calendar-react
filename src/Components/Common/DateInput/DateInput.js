@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './DateInput.css';
 
-const DateInput = ({ number, setNumber, description, isEnabled, callback }) => {
+const DateInput = ({ number, setNumber, description, min, max, isEnabled, callback }) => {
 
     const handleChange = (e) => {
         setNumber(new Date(e.target.value));
@@ -23,7 +23,7 @@ const DateInput = ({ number, setNumber, description, isEnabled, callback }) => {
     >
       <div className='di-desc'>{description}</div>
       <div className='di-input-div'>
-        <input className="di-input" type='date' value={formatToString(number)} onChange={(e) => handleChange(e)}></input>
+        <input className="di-input" type='date' min={min} max={max} onChange={(e) => handleChange(e)}></input>
       </div>
     </div>
   )

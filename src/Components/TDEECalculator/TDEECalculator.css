@@ -6,9 +6,10 @@
 
 .tdee-form {
     width: 100%;
-    min-height: 46%;
+    min-height: 34%;
     display: flex;
     flex-direction: column;
+    padding-bottom: 1.5vh;
 }
  
 .tdee-info-container {
@@ -30,7 +31,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     font-size: 1.25rem;
     border-radius: 2rem;
@@ -56,7 +57,7 @@
 }
 
 .tdee-result-container .tooltip-anchor {
-    color: rgb(168, 168, 168);
+    color: #adadad;
 }
 
 

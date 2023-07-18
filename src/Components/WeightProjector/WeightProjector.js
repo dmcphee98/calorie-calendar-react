@@ -8,7 +8,7 @@ import './WeightProjector.css';
 
 import dataImg from './data.svg'
 
-const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, setProjectionData, activePageIndex, setActivePageIndex }) => {
+const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, setProjectionData, activePageIndex, setActivePageIndex, useMetricSystem }) => {
 
   const [isDailyCalsMode, setDailyCalsMode] = useState(false);
   const [deficitSeverity, setDeficitSeverity] = useState('');
@@ -136,13 +136,13 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
 
     // Initialise chart data
     let xyData = [];
-    if (enableDataCapture) xyData.push({x: 0, y: Number(initialWeight)});
+    if (enableDataCapture) xyData.push({x: 0, y: Number(useMetricSystem ? initialWeight : 2.2046 * initialWeight)});
 
     // Perform day-by-day weight projection
     const isLoss = goalWeight <= initialWeight;
     while ((isLoss && currentWeight > goalWeight) || (!isLoss && currentWeight < goalWeight)) {
       currentWeight -= (recalculateTDEE(currentWeight) - dailyCals) / 7700;
-      if (enableDataCapture) xyData.push({x: numDays, y: currentWeight});
+      if (enableDataCapture) xyData.push({x: numDays, y: useMetricSystem ? currentWeight : 2.2046 * currentWeight});
       numDays++;
     }
     // Optionally save projection data 
@@ -150,8 +150,8 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       setProjectionData({
         xy: xyData,
         xMax: xyData.length,
-        yMin: Math.min(initialWeight, goalWeight),
-        yMax: Math.max(initialWeight, goalWeight),
+        yMin: useMetricSystem ? Math.min(initialWeight, goalWeight) : 2.2046 * Math.min(initialWeight, goalWeight),
+        yMax: useMetricSystem ? Math.max(initialWeight, goalWeight) : 2.2046 * Math.max(initialWeight, goalWeight),
         startDate
       });
     }
@@ -249,6 +249,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
                 isDailyCalsMode={isDailyCalsMode}
                 setDailyCalsMode={setDailyCalsMode}
                 setProjectionData={setProjectionData}
+                useMetricSystem={useMetricSystem}
               />
             </div>
           </div>
@@ -256,7 +257,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
         { !projectionWillDiverge && 
           <div className='proj-warning'>
             <i className='fa-solid fa-circle-info proj-warning-icon'/>
-            <span className='proj-warning-bold'>Tip: </span>
+            <span className='proj-warning-bold'> Tip: </span>
             { isWeightLoss && 
               <span><i>A deficit of 500-750 calories is the general recommendation for healthy weight loss.</i></span>
             }

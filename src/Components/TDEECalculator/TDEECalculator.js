@@ -29,7 +29,7 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
         <div className='form-container'>
           <div className='tdee-info-container'>
             <p className='tdee-info'>
-              <span>Next, let's find your activity level.</span>
+              <span>Next, let's determine your activity level.</span>
             </p>
           </div>
           <div className='tdee-form'>

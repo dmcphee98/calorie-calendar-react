@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    justify-content: space-between;
 }
 
 .radio-row {
@@ -74,9 +75,9 @@
 }
 
 .activity-lvl-container {
-    margin-top: 2vh;
+    margin-top: 1vh;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     flex-direction: column;
     min-height: 60%;

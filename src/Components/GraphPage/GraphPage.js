@@ -10,13 +10,14 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
     const [xTicks, setXTicks] = useState('');
     const [horizLineData, setHorizLineData] = useState([{x:0,y:0},{x:0,y:0}]);
     const [vertLineData, setVertLineData] = useState([{x:0,y:0},{x:0,y:0}]);
+    const [currentPointData, setCurrentPointData] = useState([{x:0,y:0}]);
 
     const csvOptions = { 
         filename: 'WeightForecast',
         title: 'Weight forecast',
         showLabels: true, 
         showTitle: true,
-        headers: ['Day', 'Date', `Weight (${useMetricSystem ? 'kg' : 'lb'})`]
+        headers: ['Day', 'Date', `Weight (${useMetricSystem ? 'kg' : 'lbs'})`]
       };
     const csvExporter = new ExportToCsv(csvOptions);
 
@@ -39,6 +40,7 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
 
         setHorizLineData([{x:0, y}, {x, y}]);
         setVertLineData([{x, y:0}, {x, y}]);
+        setCurrentPointData([{x, y}])
     }
 
     const exportToCsv = () => {
@@ -59,6 +61,11 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
         csvExporter.generateCsv(csvData)
     }
 
+    const isWeightGain = () => {
+        return projectionData.xy[projectionData.xMax-1].y > projectionData.xy[0].y;
+    }
+
+
     useEffect(() => {
         if (!!projectionData) {
             const tickInterval = Math.floor(projectionData.xMax / 10);
@@ -73,60 +80,59 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
 
   return (
     <div>
-        <div className='page-container'>
+        <div className='graph-page-container'>
             { !!projectionData && !!xTicks &&
                 <div className='graph-page'>
+                    <div className='graph-header'>Finally, let's forecast your health journey.</div>
                     <div className='victory-container'>
+                        <svg style={{ height: 0, width: 0}}>
+                            <defs>
+                            <linearGradient 
+                                id="myGradient" 
+                                x1={isWeightGain() ? '1%' : '100%'} 
+                                y1="1%" 
+                                x2={isWeightGain() ? '100%' : '1%'} 
+                                y2="100%">
+                                <stop offset="0%" stopColor="#88cb66"/>
+                                <stop offset="50%" stopColor="#88cb66"/>
+                                <stop offset="60%" stopColor="#bdea7a"/>
+                                <stop offset="100%" stopColor="white"/>
+                            </linearGradient>
+                            </defs>
+                        </svg>
                         <VictoryChart 
                             theme={VictoryTheme.material}
-                            padding={{ top: 20, bottom: 40, left: 45, right: 0 }}
+                            padding={{ top: 5, bottom: 50, left: 45, right: 20 }}
                             containerComponent={ 
                                 <VictoryVoronoiContainer 
                                     onActivated={points => updateTooltipAxes(points[0])}
+                                    labels={({datum}) => `${getDateFromTickValue(datum.x)} (Day ${datum.x})\n- ${datum.y.toFixed(1)}${useMetricSystem ? 'kg' : 'lbs'} -`}
+                                    labelComponent={
+                                        <VictoryTooltip
+                                            flyoutStyle={{stroke:'', fill:'rgba(0, 0, 0, 0.7)'}}
+                                            flyoutPadding={{top:5, bottom:5, left:10, right:10}}
+                                            cornerRadius={12}
+                                            style={{fill: 'rgb(220, 220, 220)'}}
+                                            constrainToVisibleArea={true}
+                                        />
+                                    }    
+                                    voronoiBlacklist={["vertLine", "horizLine", "mouseMarker", "endMarkers"]}
                                 /> 
                             }
                             domain={{
                                 x: [0, projectionData.xMax], 
                                 y: [projectionData.yMin, projectionData.yMax]
                             }}
+                            domainPadding={{x: 8, y:3}}
                             width={580}
                             height={360}
                         >
                             <VictoryArea
-                                labels={({datum}) => `${getDateFromTickValue(datum.x)} (Day ${datum.x})\n- ${datum.y.toFixed(1)}kg -`}
-                                labelComponent={
-                                    <VictoryTooltip
-                                        flyoutStyle={{stroke:''}}
-                                        cornerRadius={12}
-                                    />
-                                }
                                 style={{
-                                    data: { stroke: '#88cb66', strokeWidth: 2, fill:'#bdea7a', fillOpacity: 0.5 },
+                                    data: { stroke: '#88cb66', strokeWidth: 2, fill:'url(#myGradient)', fillOpacity: 0.75 },
                                     parent: { border: '1px solid #000000'}
                                 }}
                                 data={projectionData.xy}
-                            />
-                            <VictoryScatter 
-                                labelComponent={
-                                    <VictoryTooltip
-                                    active={false}
-                                    />
-                                }
-                                data={projectionData.xy}
-                                size={({ active }) => active ? 5 : 1}
-                                style={{ data: { fill: "#88cb66" } }}
-                            />
-                            <VictoryLine
-                                data={horizLineData}  
-                                style={{
-                                    data: { stroke: "#6e6e6e", strokeWidth: 0.5}
-                                }}
-                            />
-                            <VictoryLine
-                                data={vertLineData}    
-                                style={{
-                                    data: { stroke: "#6e6e6e", strokeWidth: 0.5}
-                                }}
                             />
                             <VictoryAxis crossAxis
                                 width={580}
@@ -138,7 +144,7 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
                                 style={{
                                     axis: {stroke: 'black'},
                                     axisLabel: {fontSize: 12, padding: 40},
-                                    grid: {stroke: "#6e6e6e", strokeWidth: 0.5},
+                                    grid: {stroke: "#6e6e6e", strokeWidth: 0.3},
                                     ticks: {stroke: "black", size: 5},
                                     tickLabels: {fontSize: 10, angle: 45, transform: 'translate(15, 4)'}
                                 }}
@@ -150,25 +156,51 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
                                 tickCount={7}
                                 theme={VictoryTheme.material}
                                 standalone={false}
-                                label={`Weight (${useMetricSystem ? 'kg' : 'lb'})`}
+                                label={`Weight (${useMetricSystem ? 'kg' : 'lbs'})`}
                                 style={{
                                     axis: {stroke: 'black'},
                                     axisLabel: {fontSize: 12, padding: 30},
-                                    grid: {stroke: ({ tick }) => tick > projectionData.yMin ? "#6e6e6e" : "black", strokeWidth: 0.5},
+                                    grid: {stroke: ({ tick }) => tick > projectionData.yMin ? "#6e6e6e" : "black", strokeWidth: 0.3},
                                     ticks: {stroke: "black", size: 5},
                                     tickLabels: {fontSize: 10, padding: 5}
                                 }}
                             />
+                            <VictoryLine
+                                name="horizLine"
+                                data={horizLineData}  
+                                style={{
+                                    data: { stroke: "rgba(0, 0, 0, 0.7)", strokeWidth: 0.5}
+                                }}
+                            />
+                            <VictoryLine
+                                name="vertLine"
+                                data={vertLineData}    
+                                style={{
+                                    data: { stroke: "rgba(0, 0, 0, 0.7)", strokeWidth: 0.5}
+                                }}
+                            />
+                            <VictoryScatter 
+                                name="mouseMarker"
+                                data={currentPointData}
+                                size={5}
+                                style={{ data: { fill: "#88cb66" } }}
+                            />
+                            <VictoryScatter 
+                                name="endMarkers"
+                                data={[{x:0, y:projectionData.xy[0].y}, {x:projectionData.xMax, y:projectionData.xy[projectionData.xMax-1].y}]}
+                                size={5}
+                                style={{ data: { fill: "#88cb66" } }}
+                            />
                         </VictoryChart> 
                     </div>
                     <div className='export-container'>
-                        <TextButton text='Export JPEG' icon='fa-solid fa-file-image' color='#ceed88'/>
-                        <TextButton text='Export CSV' icon='fa-solid fa-file-csv' color='#ceed88' callback={exportToCsv}/>
+                        <TextButton text='Export to JPEG' icon='fa-solid fa-file-image' color='#bdea7a'/>
+                        <TextButton text='Export to CSV' icon='fa-solid fa-file-csv' color='#bdea7a' callback={exportToCsv}/>
                     </div>
                 </div>
             }
         </div>
-        <div className='page-spacer'/>
+        <div className='graph-page-spacer'/>
     </div>
   )
 }

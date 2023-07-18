@@ -39,7 +39,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 5% 0%;
+    padding: 0% 0% 5% 0%;
 }
 
 
@@ -130,4 +130,11 @@
 .stat-warning-icon {
     font-size: 1.2rem;
     color: #febe63;
+}
+
+.stats-header {
+    font-size: 1.25rem;
+    height: 15%;
+    display: flex;
+    align-items: center;
 }

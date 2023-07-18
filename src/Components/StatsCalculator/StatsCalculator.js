@@ -19,7 +19,7 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
         const isGain = caloricDeficit < 0;
 
         const totalWeightChange = goalWeight - initialWeight;
-        const weeklyWeightChange = (totalWeightChange/(totalDays/7)).toFixed(1);
+        const weeklyWeightChange = totalWeightChange/(totalDays/7);
     
         // Format finishDate to string
         const options = { day: 'numeric', month: 'numeric', year: '2-digit'};
@@ -37,8 +37,8 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
           { 
             name: `Weekly ${isGain ? 'gain' : 'loss'}`, 
             icon: 'fa-solid fa-weight-scale', 
-            value: Math.abs(weeklyWeightChange), 
-            units: 'kg' 
+            value: Math.abs(useMetricSystem ? weeklyWeightChange : 2.2046 * weeklyWeightChange).toFixed(1), 
+            units: useMetricSystem ? 'kg' : 'lbs' 
           },
           { 
             name: `Daily ${isGain ? 'surplus' : 'deficit'}`, 
@@ -70,6 +70,7 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
     return (
         <div>
           <div className='page-container stat-page-container'>
+            <div className='stats-header'>Let's view some stats we prepared.</div>
             <div className='stats-container'>
                 {stats.map((stat, index) => {
                     return (
@@ -85,7 +86,7 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
                 })}
             </div>
             <div className='stat-warning'>
-              <i className='fa-solid fa-circle-exclamation stat-warning-icon'/>
+              <i className='fa-solid fa-circle-info stat-warning-icon'/>
               <span className='stat-warning-bold'> Tip: </span>
               { useMetricSystem && <span><i>There are approximately 7700 calories in 1kg of body fat.</i></span> }
               { !useMetricSystem && <span><i>There are approximately 3500 calories in 1lb of body fat.</i></span> }

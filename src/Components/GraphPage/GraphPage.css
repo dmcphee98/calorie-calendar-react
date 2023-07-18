@@ -1,12 +1,24 @@
+.graph-header {
+    font-size: 1.25rem;
+    height: 7.5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .graph-page {
     display: flex;
     flex-direction: column;
     width: 80%;
-    height: 110%;
+    height: 100%;
 }
 
 .victory-container {
-    height: 85%;
+    height: 77.5%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .export-container {
@@ -14,4 +26,45 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+
+.graph-page-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border: 2px solid #e5e5e5;
+  }
+
+.graph-page-spacer {
+    width: 100%;
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (min-width: 768px) {
+    .graph-page-container {
+        flex-direction: row;
+        height: 73vh;
+        padding-top: 6vh;
+    }
+    .graph-page-spacer {
+        height: 3vh;
+      }    
+}
+  
+@media screen and (max-width: 768px) {
+    .graph-page-container {
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 77.5vh;
+        padding-top: 3vh;
+        padding-bottom: 3vh;  
+    }
+    .graph-page-spacer {
+        height: 3vh;
+      }    
 }

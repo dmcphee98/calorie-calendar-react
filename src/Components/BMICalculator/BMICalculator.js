@@ -153,18 +153,18 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
                       borderBottom: `3px solid gray`,
                       marginLeft: '0.2rem',
                     }}>
-                      <BouncingDotsLoader />
+                      ?
                   </div>
                 </div>
                 <div className='bmi-output-column' style={{height: '100%'}}>
                   <div style={{margin: '0.5rem 0rem'}}>Category</div>
                   <div 
-                    className='inline-bold' 
+                    className='inline-bold ' 
                     style={{
                       borderBottom: `3px solid gray`,
                       marginLeft: '0.2rem',
                     }}>
-                      <BouncingDotsLoader />
+                      ?
                   </div>
                 </div>
               </div>

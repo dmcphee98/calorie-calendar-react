@@ -32,7 +32,7 @@ function App() {
   const [stats, setStats] = useState([{},{},{},{},{},{}]);
 
   useEffect(() => {
-    //document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
     window.scrollTo(0, 0)
   }, []);
 
@@ -63,6 +63,7 @@ function App() {
             healthData={healthData}
             goalData={goalData}
             setGoalData={setGoalData}
+            useMetricSystem={useMetricSystem}
             projectionData={projectionData}
             setProjectionData={setProjectionData}
             activePageIndex={activePageIndex}
