@@ -62,7 +62,7 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
     }
 
     const isWeightGain = () => {
-        return projectionData.xy[projectionData.xMax-1].y > projectionData.xy[0].y;
+        return !!projectionData && projectionData.xy[projectionData.xMax-1].y > projectionData.xy[0].y;
     }
 
 

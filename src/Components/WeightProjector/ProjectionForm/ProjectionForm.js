@@ -13,19 +13,16 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
     const [typingTimeout, setTypingTimeout] = useState(0);
 
     useEffect(() => {
-      console.log('hoo');
       setProjectionData('');
       if (typingTimeout) clearTimeout(typingTimeout);
       setTypingTimeout(setTimeout(() => {
-        if (!(!isDailyCalsMode && startDate > finishDate)) {
-          setGoalData({
-            ...goalData, 
-            'goalWeight': useMetricSystem? goalWeight : 0.4536 * goalWeight, 
-            'startDate': startDate,
-            'finishDate': finishDate,
-            'dailyCals': dailyCals
-          });  
-        }
+        setGoalData({
+          ...goalData, 
+          'goalWeight': useMetricSystem? goalWeight : 0.4536 * goalWeight, 
+          'startDate': startDate,
+          'finishDate': finishDate,
+          'dailyCals': dailyCals
+        });  
       }, 750));
 
     }, [goalWeight, startDate, finishDate, dailyCals, isDailyCalsMode])
@@ -41,7 +38,7 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
     };
 
     const getEarliestValidFinishDate = (startDate) => {
-      if (startDate instanceof Date) {
+      if (startDate instanceof Date && !isNaN(startDate)) {
         let nextDay = new Date();
         nextDay.setDate(startDate.getDate() + 1);
         return nextDay.toISOString().split('T')[0];

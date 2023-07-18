@@ -8,76 +8,50 @@ import './WeightProjector.css';
 
 import dataImg from './data.svg'
 
-const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, setProjectionData, activePageIndex, setActivePageIndex, useMetricSystem }) => {
+const WeightProjector = ({ healthData, goalData, setGoalData, setProjectionData, activePageIndex, setActivePageIndex, useMetricSystem }) => {
 
   const [isDailyCalsMode, setDailyCalsMode] = useState(false);
   const [deficitSeverity, setDeficitSeverity] = useState('');
   const [isWeightLoss, setIsWeightLoss] = useState(true);
-  const [projectionWillDiverge, setProjectionWillDiverge] = useState(false);
+  const [errorCode, setErrorCode] = useState('none');
+
+  const [localProjectionData, setLocalProjectionData] = useState('');
+  const [projectionFormDataIsValid, setProjectionFormDataIsValid] = useState(false);
 
   /*
    *  'Daily cals' mode calculation
    */
-  useEffect(() => {
-    if (isDailyCalsMode) {
-      let {initialWeight, tdee} = healthData;
-      let {goalWeight, startDate, dailyCals} = goalData;
+  const projectWeightFromDailyCals = () => {
+    let {initialWeight, tdee} = healthData;
+    let {goalWeight, startDate, dailyCals} = goalData;
 
-      // Do not calculate if form is not fully complete
-      if (!!!goalWeight || startDate === '' || dailyCals === '') {
-        setProjectionData('');
-        return;
-      }
+    console.log('Projecting weight in DailyCals Mode...');
+    const totalDays = projectWeight(initialWeight, goalWeight, startDate, dailyCals, true);
 
-      // Do not calculate if specified daily cals result in projection divergence
-      const isLoss = goalWeight <= initialWeight;
-      setIsWeightLoss(isLoss);
-      if ((isLoss && dailyCals >= tdee) || (!isLoss && dailyCals <= tdee)) {
-        setProjectionData('');
-        setProjectionWillDiverge(true);
-        return;
-      }
+    console.log('Determining end date...');
+    const finishDate = addDaysToDate(startDate, totalDays-1);
 
-      setProjectionWillDiverge(false);
-
-      console.log('Projecting weight in DailyCals Mode...');
-      const totalDays = projectWeight(initialWeight, goalWeight, startDate, dailyCals, true);
-
-      console.log('Determining end date...');
-      const finishDate = addDaysToDate(startDate, totalDays-1);
-
-      setGoalData({...goalData, finishDate, totalDays});
-      getDeficitSeverity(tdee, dailyCals);
-    }
-  }, [healthData, goalData.goalWeight, goalData.startDate, goalData.dailyCals, isDailyCalsMode])
+    setGoalData({...goalData, finishDate, totalDays});
+    getDeficitSeverity(tdee, dailyCals);
+  }
 
   /*
    *  'Finish date' mode calculation
    */
-  useEffect(() => {
-    if (!isDailyCalsMode) {
-      let {initialWeight, tdee} = healthData;
-      let {goalWeight, startDate, finishDate} = goalData;
+  const projectWeightFromFinishDate = () => {
+    let {initialWeight, tdee} = healthData;
+    let {goalWeight, startDate, finishDate} = goalData;
 
-      // Do not calculate if form is not fully complete
-      if (!!!goalWeight || startDate === '' || finishDate === '') {
-        setProjectionData('');
-        return;
-      }
+    console.log('Determining daily calorie allowance...');
+    const totalDays = getDaysBetweenDates(startDate, finishDate)+1;
+    const dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, startDate, totalDays);
 
-      setIsWeightLoss(goalWeight <= initialWeight);
+    console.log('Projecting weight in Deadline Mode...');
+    projectWeight(initialWeight, goalWeight, startDate, dailyCals, true);
 
-      console.log('Determining daily calorie allowance...');
-      const totalDays = getDaysBetweenDates(startDate, finishDate)+1;
-      const dailyCals = getDailyCalsFromDeadline(tdee, initialWeight, goalWeight, startDate, totalDays);
-
-      console.log('Projecting weight in Deadline Mode...');
-      projectWeight(initialWeight, goalWeight, startDate, dailyCals, true);
-
-      setGoalData({...goalData, dailyCals, totalDays});
-      getDeficitSeverity(tdee, dailyCals);
-    }
-  }, [healthData, goalData.goalWeight, goalData.startDate, goalData.finishDate, isDailyCalsMode])
+    setGoalData({...goalData, dailyCals, totalDays});
+    getDeficitSeverity(tdee, dailyCals);
+  }
 
   /**
    * Calculate daily calorie allowance required to meet a given deadline
@@ -147,7 +121,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
     }
     // Optionally save projection data 
     if (enableDataCapture) {
-      setProjectionData({
+      setLocalProjectionData({
         xy: xyData,
         xMax: xyData.length,
         yMin: useMetricSystem ? Math.min(initialWeight, goalWeight) : 2.2046 * Math.min(initialWeight, goalWeight),
@@ -228,6 +202,75 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
       setDeficitSeverity('healthy');
     }
   }
+
+  const getProjectionFormDataValidity = () => {
+    let {initialWeight, tdee} = healthData;
+    let {goalWeight, startDate, finishDate, dailyCals} = goalData;
+
+    // Ensure prerequisite data is present
+    if (!!!initialWeight || !!!tdee) {
+      setErrorCode('none');
+      return false;
+    }
+    // Ensure form is fully filled out
+    if (!!!goalWeight || !!!startDate || isNaN(startDate) || (isDailyCalsMode && !!!dailyCals ) || (!isDailyCalsMode && (!!!finishDate || isNaN(finishDate)))) {
+      setErrorCode('none');
+      return false;
+    }
+
+    const isWtLoss = goalWeight <= initialWeight;
+    setIsWeightLoss(isWtLoss);
+
+    if (isDailyCalsMode) {
+      // Ensure daily cals value does not result in projection divergence
+      if (isWtLoss && dailyCals >= tdee) {
+        setErrorCode('dailyCalsTooHighForWeightLoss')
+        return false;
+      }
+      if (!isWtLoss && dailyCals <= tdee) {
+        setErrorCode('dailyCalsTooLowForWeightGain')
+        return false;
+      }
+    } else {
+      // Ensure finish date is after start date
+      if (startDate >= finishDate) {
+        setErrorCode('finishDateBeforeStartDate')
+        return false;
+      }
+      // Ensure finish date is not impossible (i.e resulting in negative daily calories)
+      if (isWtLoss) {
+        const totalWtLoss = Math.abs(initialWeight-goalWeight);
+        const totalDays = getDaysBetweenDates(startDate, finishDate);
+        const dailyWtLoss = totalWtLoss/totalDays;
+        const dailyCalorieDeficit = 7700*dailyWtLoss;
+        if (dailyCalorieDeficit > tdee) {
+          setErrorCode('finishDateNotAchievable')
+          return false;
+        }
+      }
+    }
+    setErrorCode('none');
+    return true;
+  }
+
+  useEffect(() => {
+    const isValid = getProjectionFormDataValidity();
+    setProjectionFormDataIsValid(isValid);
+    console.log("Updated projection form validity to: " + isValid);
+  }, [healthData.tdee, goalData, isDailyCalsMode])
+
+  const submitProjectionData = () => {
+    if (isDailyCalsMode) {
+      projectWeightFromDailyCals();
+    } else {
+      projectWeightFromFinishDate();
+    }
+  }
+
+  useEffect(() => {
+    if (!!localProjectionData) setProjectionData(localProjectionData);
+  }, [localProjectionData])
+
   
   return (
     <div>
@@ -248,13 +291,13 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
                 setGoalData={setGoalData}
                 isDailyCalsMode={isDailyCalsMode}
                 setDailyCalsMode={setDailyCalsMode}
-                setProjectionData={setProjectionData}
+                setProjectionData={setLocalProjectionData}
                 useMetricSystem={useMetricSystem}
               />
             </div>
           </div>
         </div>
-        { !projectionWillDiverge && 
+        { errorCode==='none' && 
           <div className='proj-warning'>
             <i className='fa-solid fa-circle-info proj-warning-icon'/>
             <span className='proj-warning-bold'> Tip: </span>
@@ -266,20 +309,36 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
             }
           </div>
         }
-        { projectionWillDiverge && 
+        { (errorCode==='dailyCalsTooLowForWeightGain' || errorCode==='dailyCalsTooHighForWeightLoss') && 
           <div className='proj-warning'>
             <i className='fa-solid fa-circle-exclamation proj-warning-icon'/>
             <span className='proj-warning-bold'> Error: </span>
             <span><i>To reach your goal weight, your daily calories must be {isWeightLoss ? 'less' : 'greater'} than your TDEE.</i></span>
           </div>
         }
+        { errorCode==='finishDateBeforeStartDate' && 
+          <div className='proj-warning'>
+            <i className='fa-solid fa-circle-exclamation proj-warning-icon'/>
+            <span className='proj-warning-bold'> Error: </span>
+            <span><i>The specified finish date cannot fall on or before the start date.</i></span>
+          </div>
+        }
+        { errorCode==='finishDateNotAchievable' && 
+          <div className='proj-warning'>
+            <i className='fa-solid fa-circle-exclamation proj-warning-icon'/>
+            <span className='proj-warning-bold'> Error: </span>
+            <span><i>It is not possible to achieve the specified finish date. Consider pushing it back.</i></span>
+          </div>
+        }
+
       </div>
       <div className='page-spacer'>
         <NavButton 
           pageIndex={3} 
-          enabled={!!projectionData}
+          enabled={projectionFormDataIsValid}
           activePageIndex={activePageIndex}
-          setActivePageIndex={setActivePageIndex}/>
+          setActivePageIndex={setActivePageIndex}
+          callbackNext={submitProjectionData}/>
       </div>
     </div>
   )

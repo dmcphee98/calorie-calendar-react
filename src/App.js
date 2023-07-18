@@ -61,7 +61,6 @@ function App() {
             goalData={goalData}
             setGoalData={setGoalData}
             useMetricSystem={useMetricSystem}
-            projectionData={projectionData}
             setProjectionData={setProjectionData}
             activePageIndex={activePageIndex}
             setActivePageIndex={setActivePageIndex}/>

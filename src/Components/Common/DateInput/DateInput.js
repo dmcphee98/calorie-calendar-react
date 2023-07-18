@@ -8,6 +8,10 @@ const DateInput = ({ number, setNumber, description, min, max, isEnabled, callba
         setNumber(new Date(e.target.value));
     }
 
+    const isValidDate = (date) => {
+      return date instanceof Date && !isNaN(date);
+    }
+
     const formatToString = (date) => {
       if (!!!date) return date;
       const options = { day: '2-digit', month: '2-digit', year: 'numeric'};
@@ -23,7 +27,7 @@ const DateInput = ({ number, setNumber, description, min, max, isEnabled, callba
     >
       <div className='di-desc'>{description}</div>
       <div className='di-input-div'>
-        <input className="di-input" type='date' min={min} max={max} onChange={(e) => handleChange(e)}></input>
+        <input className="di-input" type='date' value={isValidDate(number)? formatToString(number) : null} min={min} max={max} onChange={(e) => handleChange(e)}></input>
       </div>
     </div>
   )
