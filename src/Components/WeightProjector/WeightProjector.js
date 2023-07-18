@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-import NextButton from '../Common/NextButton/NextButton';
+import NavButton from '../Common/NavButton/NavButton';
 import ProjectionForm from './ProjectionForm/ProjectionForm';
 
 import './WeightProjector.css';
@@ -275,7 +275,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, projectionData, se
         }
       </div>
       <div className='page-spacer'>
-        <NextButton 
+        <NavButton 
           pageIndex={3} 
           enabled={!!projectionData}
           activePageIndex={activePageIndex}

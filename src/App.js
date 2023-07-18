@@ -32,7 +32,7 @@ function App() {
   const [stats, setStats] = useState([{},{},{},{},{},{}]);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    //document.body.style.overflow = "hidden";
     window.scrollTo(0, 0)
   }, []);
 
@@ -40,9 +40,6 @@ function App() {
     <div className="App">
       <Navbar 
         activePageIndex={activePageIndex}/>
-      {/*<div className='page-title-container'>
-        <h1 className='page-title'>Calorie Calendar</h1>
-      </div>*/}
       <div className='body'>
         <div className="pages-container">
           <div className='page-spacer'/>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-import NextButton from '../Common/NextButton/NextButton';
+import NavButton from '../Common/NavButton/NavButton';
 import ActivityForm from './ActivityForm/ActivityForm';
 import './TDEECalculator.css';
 import { Tooltip } from 'react-tooltip'
@@ -9,16 +9,27 @@ import soccerImg from './soccer.svg'
 
 const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActivePageIndex }) => {
 
+  const [TDEEData, setTDEEData] = useState({
+    'activityLvl': 3,
+    'tdee': '',
+  });
+
   useEffect(() => {
-    const {bmr, activityLvl} = healthData;
+    const bmr = healthData.bmr;
+    const activityLvl = TDEEData.activityLvl;
     // Update TDEE
     if (bmr !== '' && activityLvl !== '') {
-      console.log('Calculating TDEE...')
       const multipliers = [1.2, 1.375, 1.55, 1.725, 1.9];
       const tdee = bmr * multipliers[activityLvl-1];
-      setHealthData({...healthData, 'tdee':tdee.toFixed(0)}); 
+      setTDEEData({...TDEEData, 'tdee':tdee.toFixed(0)}); 
+      console.log('Updated TDEE data.')
     }
-  }, [healthData.activityLvl, healthData.bmr])
+  }, [TDEEData.activityLvl, healthData.bmr])
+
+  const submitTDEEData = () => {
+    console.log("SUCCESS: Submitted TDEE data.")
+    setHealthData({...healthData, ...TDEEData}); 
+  }
     
   return (
     <div>
@@ -34,8 +45,8 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
           </div>
           <div className='tdee-form'>
             <ActivityForm 
-              healthData={healthData}
-              setHealthData={setHealthData}
+              TDEEData={TDEEData}
+              setTDEEData={setTDEEData}
             />
           </div>
           <div className='tdee-result-container'>
@@ -47,16 +58,17 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
               Total Daily Energy Expenditure<br/>
               <span style={{color: 'rgb(150, 150, 150)'}}><i>The total number of calories your <br/> body burns each day, on average.</i></span>
             </Tooltip>
-            <div className='result'>{healthData.tdee}</div>
+            <div className='result'>{TDEEData.tdee}</div>
           </div>
         </div>
       </div>
       <div className='page-spacer'>
-        <NextButton 
+        <NavButton 
           pageIndex={2} 
           enabled={true}
           activePageIndex={activePageIndex}
-          setActivePageIndex={setActivePageIndex}/>
+          setActivePageIndex={setActivePageIndex}
+          callbackNext={submitTDEEData}/>
       </div>
     </div>
   )

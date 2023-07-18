@@ -1,9 +1,9 @@
 import React from 'react'
-import './NextButton.css'
-import nextArrow from './next-arrow.svg'
+import './NavButton.css'
+import navArrow from './NavArrow.svg'
 import { useState, useEffect } from 'react';
 
-const NextButton = ({ pageIndex, enabled, activePageIndex, setActivePageIndex, callback }) => {
+const NavButton = ({ pageIndex, enabled, activePageIndex, setActivePageIndex, callbackNext, callbackPrev }) => {
 
     const [doPulseBorder, setPulseBorder] = useState(false);
     const [isUpArrow, setUpArrow] = useState(false);
@@ -31,12 +31,13 @@ const NextButton = ({ pageIndex, enabled, activePageIndex, setActivePageIndex, c
       if (isEnabled) {
         if (isUpArrow) {
           goPrevPage();
+          if (callbackPrev) callbackPrev();
         } else {
           goNextPage();
+          if (callbackNext) callbackNext();
         }
         setUpArrow(!isUpArrow);
         setPulseBorder(false);
-        if (callback) callback();
       }
     }
   
@@ -81,4 +82,4 @@ const NextButton = ({ pageIndex, enabled, activePageIndex, setActivePageIndex, c
   )
 }
 
-export default NextButton
+export default NavButton

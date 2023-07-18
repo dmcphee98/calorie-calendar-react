@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import SubmitButton from '../../Common/SubmitButton/SubmitButton';
 import './ActivityForm.css';
 
-const ActivityForm = ({ healthData, setHealthData, callback }) => {
+const ActivityForm = ({ TDEEData, setTDEEData, callback }) => {
 
     const [activityLvlNum, setActivityLvlNum] = useState('3');
 
@@ -27,7 +27,7 @@ const ActivityForm = ({ healthData, setHealthData, callback }) => {
         setActivityLvlNum(e.target.value);
         
         // Add to health data
-        setHealthData({...healthData, 'activityLvl':e.target.value});
+        setTDEEData({...TDEEData, 'activityLvl':e.target.value});
     }
     
     const handleSubmit = (e) => {

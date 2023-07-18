@@ -1,7 +1,7 @@
 import React from 'react';
 import './StatsCalculator.css';
 import { useState, useEffect } from 'react';
-import NextButton from '../Common/NextButton/NextButton';
+import NavButton from '../Common/NavButton/NavButton';
 
 const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats, activePageIndex, setActivePageIndex, useMetricSystem }) => {
 
@@ -93,7 +93,7 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
            </div>
           </div>
           <div className='page-spacer'>
-              <NextButton 
+              <NavButton 
                 pageIndex={4} 
                 enabled={true}
                 activePageIndex={activePageIndex}

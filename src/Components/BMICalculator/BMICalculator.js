@@ -1,12 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-import NextButton from '../Common/NextButton/NextButton';
-import HealthDataForm from './HealthDataForm/HealthDataForm'
-import BouncingDotsLoader from '../Common/BouncingDotsLoader/BouncingDotsLoader';
-import './BMICalculator.css';
+import NavButton from '../Common/NavButton/NavButton';
+import BMRForm from './BMRForm/BMRForm'
 import treeImg from './tree.svg'
-import { act } from 'react-dom/test-utils';
+import './BMICalculator.css';
 
 const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSystem, activePageIndex, setActivePageIndex}) => {
 
@@ -16,10 +14,19 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
   const [isValidBMI, setValidBMI] = useState(false);
   const [isFormComplete, setFormComplete] = useState(false);
 
+  const [BMRData, setBMRData] = useState({
+    'isMale': true,
+    'age': '',
+    'height': '',
+    'initialWeight': '',
+    'bmi': '',
+    'bmr': '',
+  });
+
   // Recalculate BMI as information is entered into form
   useEffect(() => {
-    let weight = healthData.initialWeight;
-    let height = healthData.height;
+    let weight = BMRData.initialWeight;
+    let height = BMRData.height;
     let bmi;
     if (!!height && height > 0 && !!weight && weight > 0) {
       bmi = Number((weight / Math.pow(height, 2)).toFixed(1));
@@ -29,16 +36,16 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
 
     if (typeof(bmi) === 'number' && bmi > 0 && bmi < 100) {
       setValidBMI(true);
-      setHealthData({...healthData, 'bmi':bmi});
+      setBMRData({...BMRData, 'bmi':bmi});
     } else {
       setValidBMI(false);
     }
 
-  }, [healthData.initialWeight, healthData.height])
+  }, [BMRData.initialWeight, BMRData.height])
   
   // Add new locked BMI to traits, assign health status and colour to locked-in BMI value
   useEffect(() => {
-    const bmi = healthData.bmi;
+    const bmi = BMRData.bmi;
     if (!!!bmi) return;
 
     calculateBMR();
@@ -62,16 +69,16 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
         setHealthColor('#fd802e');     
         break;
   }
-    }, [healthData.bmi])
+    }, [BMRData.bmi])
 
     // Changing gender requires recalculation of BMR but not BMI
     useEffect(() => {
-      const {initialWeight, height, age } = healthData;
+      const {initialWeight, height, age } = BMRData;
       if (initialWeight !== '' && height !== '' && age !== '') calculateBMR();
-    }, [healthData.isMale, healthData.age])
+    }, [BMRData.isMale, BMRData.age])
 
   const calculateBMR = () => {
-    const { isMale, initialWeight, height, age } = healthData;
+    const { isMale, initialWeight, height, age } = BMRData;
     if (isMale) {
       setBMR((88.362 + (13.397 * initialWeight) + (479.9 * height) - (5.677 * age)).toFixed(0));
     } else {
@@ -81,8 +88,13 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
 
   useEffect(() => {
     // Add updated BMI and BMR to traits
-    setHealthData({...healthData, 'bmr':BMR});
+    setBMRData({...BMRData, 'bmr':BMR});
   }, [BMR])
+
+  const submitBMRData = () => {
+    console.log("SUCCESS: Submitted BMR data.")
+    setHealthData({...healthData, ...BMRData});
+  }
 
   return (
     <div>
@@ -97,9 +109,9 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
             </p>
           </div>
           <div className={`bmi-form-${useMetricSystem ? 'metric' : 'imperial'}`}>
-            <HealthDataForm 
-                healthData={healthData}
-                setHealthData={setHealthData}
+            <BMRForm 
+                BMRData={BMRData}
+                setBMRData={setBMRData}
                 useMetricSystem={useMetricSystem}
                 setMetricSystem={setMetricSystem}
                 setFormComplete={setFormComplete}/>
@@ -115,7 +127,7 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
                       borderBottom: `3px solid ${healthColor}`,
                       marginRight: '0.2rem'
                       }}
-                  >{healthData.bmi}</div>
+                  >{BMRData.bmi}</div>
                 </div>
                 <div className='bmi-output-column'>
                 <div style={{margin: '0.5rem 0rem'}}>Category</div>
@@ -169,16 +181,15 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
                 </div>
               </div>
             }
-
-
           </div>
       </div>
       <div className='page-spacer'>
-        <NextButton 
+        <NavButton 
           pageIndex={1} 
           enabled={isFormComplete && isValidBMI}
           activePageIndex={activePageIndex}
-          setActivePageIndex={setActivePageIndex}/>
+          setActivePageIndex={setActivePageIndex}
+          callbackNext={submitBMRData}/>
       </div>
     </div>
   )

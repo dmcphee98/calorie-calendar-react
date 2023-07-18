@@ -6,7 +6,7 @@ import NumInput from '../../Common/NumInput/NumInput';
 import SubmitButton from '../../Common/SubmitButton/SubmitButton';
 
 
-const HealthDataForm = ({ healthData, setHealthData, useMetricSystem, setMetricSystem, setFormComplete }) => {
+const BMRForm = ({ BMRData, setBMRData, useMetricSystem, setMetricSystem, setFormComplete }) => {
 
     const [isMale, setMale] = useState(true);
     const [age, setAge] = useState('');
@@ -29,18 +29,18 @@ const HealthDataForm = ({ healthData, setHealthData, useMetricSystem, setMetricS
         }
         
         // Update health data
-        let updatedHealthData = {
-            ...healthData,
+        let updatedBMRData = {
+            ...BMRData,
             isMale: isMale,
             age: age,
             height: (height === '' ? '' : height / 100.0),
             initialWeight: weight
         };
-        setHealthData(updatedHealthData);
+        setBMRData(updatedBMRData);
 
         // Update whether or not the form is completely filled out
         setFormComplete(age !== '' && height !== '' && weight !== '');
-        console.log("BMI form updated.");
+        console.log("Updated BMR data.");
     }
 
     useEffect(() => {
@@ -87,4 +87,4 @@ const HealthDataForm = ({ healthData, setHealthData, useMetricSystem, setMetricS
   )
 }
 
-export default HealthDataForm
+export default BMRForm
