@@ -43,7 +43,7 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
         nextDay.setDate(startDate.getDate() + 1);
         return nextDay.toISOString().split('T')[0];
       } else {
-        return null;
+        return undefined;
       }
     }
 

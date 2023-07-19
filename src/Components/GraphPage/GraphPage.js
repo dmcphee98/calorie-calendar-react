@@ -1,17 +1,22 @@
 import React from 'react'
 import './GraphPage.css';
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import TextButton from '../Common/TextButton/TextButton';
 import { ExportToCsv } from 'export-to-csv';
+import { Buffer } from 'buffer';
 import { VictoryChart, VictoryAxis, VictoryArea, VictoryScatter, VictoryLine, VictoryTheme, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
 
-const GraphPage = ({ projectionData, useMetricSystem }) => {
+const GraphPage = ({ projectionData, useMetricSystem, activePageIndex }) => {
 
     const [xTicks, setXTicks] = useState('');
     const [horizLineData, setHorizLineData] = useState([{x:0,y:0},{x:0,y:0}]);
     const [vertLineData, setVertLineData] = useState([{x:0,y:0},{x:0,y:0}]);
     const [currentPointData, setCurrentPointData] = useState([{x:0,y:0}]);
 
+    const svgRef = useRef();
+    const canvasRef = useRef();
+    const linkRef = useRef();
+  
     const csvOptions = { 
         filename: 'WeightForecast',
         title: 'Weight forecast',
@@ -65,7 +70,6 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
         return !!projectionData && projectionData.xy[projectionData.xMax-1].y > projectionData.xy[0].y;
     }
 
-
     useEffect(() => {
         if (!!projectionData) {
             const tickInterval = Math.floor(projectionData.xMax / 10);
@@ -78,35 +82,56 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
         }
     }, [projectionData]);
 
+    useLayoutEffect(() => {
+        if (!!!svgRef.current || !!!projectionData) return;
+        const ctx = canvasRef.current.getContext("2d");
+        const xml = new XMLSerializer().serializeToString(
+          svgRef.current.firstChild
+        );
+    
+        canvasRef.current.width = 580*3;
+        canvasRef.current.height = 360*3;
+    
+        var svg64 = Buffer.from(xml).toString('base64');
+        var b64Start = "data:image/svg+xml;base64,";
+    
+        var image64 = b64Start + svg64;
+        const image = new Image();
+    
+        image.src = image64;
+        image.onload = () => {
+          ctx.rect(0, 0, 580*3, 360*3);
+          ctx.fillStyle = "white";
+          ctx.fill();
+          ctx.drawImage(image, 0, 0, 580*3, 360*3);
+          linkRef.current.href = canvasRef.current.toDataURL();
+          linkRef.current.download = "chart.png";
+        };
+      }, [svgRef, projectionData, xTicks]);
+
+      // Clear the tooltip marker and lines when the user navigates back a page
+      useEffect(() => {
+        if (activePageIndex === 4) {
+            setHorizLineData([{x:0, y:0}, {x:0, y:0}]);
+            setVertLineData([{x:0, y:0}, {x:0, y:0}]);
+            setCurrentPointData([{x:0, y:0}])    
+        }
+    }, [activePageIndex]);
+
   return (
     <div>
         <div className='graph-page-container'>
-            { !!projectionData && !!xTicks &&
-                <div className='graph-page'>
-                    <div className='graph-header'>Finally, let's forecast your health journey.</div>
+            <div className='graph-page'>
+                <div className='graph-header'>Finally, let's forecast your health journey.</div>
+                { !!projectionData && !!xTicks &&
                     <div className='victory-container'>
-                        <svg style={{ height: 0, width: 0}}>
-                            <defs>
-                            <linearGradient 
-                                id="myGradient" 
-                                x1={isWeightGain() ? '1%' : '100%'} 
-                                y1="1%" 
-                                x2={isWeightGain() ? '100%' : '1%'} 
-                                y2="100%">
-                                <stop offset="0%" stopColor="#88cb66"/>
-                                <stop offset="50%" stopColor="#88cb66"/>
-                                <stop offset="60%" stopColor="#bdea7a"/>
-                                <stop offset="100%" stopColor="white"/>
-                            </linearGradient>
-                            </defs>
-                        </svg>
                         <VictoryChart 
                             theme={VictoryTheme.material}
-                            padding={{ top: 5, bottom: 50, left: 45, right: 20 }}
+                            padding={{ top: 15, bottom: 65, left: 55, right: 20 }}
                             containerComponent={ 
                                 <VictoryVoronoiContainer 
                                     onActivated={points => updateTooltipAxes(points[0])}
-                                    labels={({datum}) => `${getDateFromTickValue(datum.x)} (Day ${datum.x})\n- ${datum.y.toFixed(1)}${useMetricSystem ? 'kg' : 'lbs'} -`}
+                                    labels={({datum}) => `${getDateFromTickValue(datum.x)} (Day ${datum.x+1})\n- ${datum.y.toFixed(1)}${useMetricSystem ? 'kg' : 'lbs'} -`}
                                     labelComponent={
                                         <VictoryTooltip
                                             flyoutStyle={{stroke:'', fill:'rgba(0, 0, 0, 0.7)'}}
@@ -117,16 +142,32 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
                                         />
                                     }    
                                     voronoiBlacklist={["vertLine", "horizLine", "mouseMarker", "endMarkers"]}
+                                    containerRef={(ref) => {svgRef.current = ref}}
                                 /> 
                             }
                             domain={{
                                 x: [0, projectionData.xMax], 
                                 y: [projectionData.yMin, projectionData.yMax]
                             }}
-                            domainPadding={{x: 8, y:3}}
+                            domainPadding={{x: 8, y:5}}
                             width={580}
                             height={360}
                         >
+                            <svg style={{ height: 0, width: 0}}>
+                                <defs>
+                                    <linearGradient 
+                                        id="myGradient" 
+                                        x1={isWeightGain() ? '1%' : '100%'} 
+                                        y1="1%" 
+                                        x2={isWeightGain() ? '100%' : '1%'} 
+                                        y2="100%">
+                                        <stop offset="0%" stopColor="#88cb66"/>
+                                        <stop offset="50%" stopColor="#88cb66"/>
+                                        <stop offset="60%" stopColor="#bdea7a"/>
+                                        <stop offset="100%" stopColor="white"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
                             <VictoryArea
                                 style={{
                                     data: { stroke: '#88cb66', strokeWidth: 2, fill:'url(#myGradient)', fillOpacity: 0.75 },
@@ -187,18 +228,19 @@ const GraphPage = ({ projectionData, useMetricSystem }) => {
                             />
                             <VictoryScatter 
                                 name="endMarkers"
-                                data={[{x:0, y:projectionData.xy[0].y}, {x:projectionData.xMax, y:projectionData.xy[projectionData.xMax-1].y}]}
+                                data={[{x:0, y:projectionData.xy[0].y}, {x:projectionData.xMax-1, y:projectionData.xy[projectionData.xMax-1].y}]}
                                 size={5}
                                 style={{ data: { fill: "#88cb66" } }}
                             />
                         </VictoryChart> 
                     </div>
-                    <div className='export-container'>
-                        <TextButton text='Export to JPEG' icon='fa-solid fa-file-image' color='#bdea7a'/>
-                        <TextButton text='Export to CSV' icon='fa-solid fa-file-csv' color='#bdea7a' callback={exportToCsv}/>
-                    </div>
+                }
+                <div className='export-container'>
+                    <canvas ref={canvasRef} style={{display: 'none'}}/>
+                    <TextButton text='Export to JPEG' innerRef={linkRef} href='chart.png' icon='fa-solid fa-file-image' color='#bdea7a'/>
+                    <TextButton text='Export to CSV' icon='fa-solid fa-file-csv' color='#bdea7a' callback={exportToCsv}/>
                 </div>
-            }
+            </div>
         </div>
         <div className='graph-page-spacer'/>
     </div>

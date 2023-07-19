@@ -32,7 +32,7 @@ function App() {
   const [stats, setStats] = useState([{},{},{},{},{},{}]);
 
   useEffect(() => {
-    //document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
     window.scrollTo(0, 0)
   }, []);
 
@@ -75,7 +75,8 @@ function App() {
             useMetricSystem={useMetricSystem}/>
           <GraphPage 
             projectionData={projectionData}
-            useMetricSystem={useMetricSystem}/>
+            useMetricSystem={useMetricSystem}
+            activePageIndex={activePageIndex}/>
         </div>
       </div>
     </div>
