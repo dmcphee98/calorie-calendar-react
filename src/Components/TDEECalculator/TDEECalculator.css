@@ -15,10 +15,27 @@
 .tdee-info-container {
     height: 10%;
     width: 100%;
-    font-size: 1.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .tdee-info-container {
+        font-size: 1.1rem;
+    }
+    .tdee-result-container .result {
+        font-size: 3rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .tdee-info-container {
+        font-size: 1.25rem;
+    }
+    .tdee-result-container .result {
+        font-size: 4rem;
+    }
 }
 
 .tdee-info {
@@ -40,7 +57,6 @@
 .tdee-result-container .result {
     font-family: 'Lobster Two', cursive;
     font-weight: 700;
-    font-size: 4rem;
     padding: 0rem 1rem 0.5rem 1rem;
     margin-bottom: 0.5rem;
     display: flex;

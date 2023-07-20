@@ -1,6 +1,5 @@
 .text-btn-container {
     margin: 0.5rem;
-    height: 5vh;
     cursor: pointer;
     display: flex;
     border-radius: 35px;
@@ -14,4 +13,18 @@
 
 .text-btn-icon {
     font-size: 1.5rem;
+}
+
+@media screen and (min-width: 768px) {
+    .text-btn-container {
+        height: 5vh;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .text-btn-container {
+        min-height: 5vh;
+        padding: 1rem 1.5rem;
+    }
 }

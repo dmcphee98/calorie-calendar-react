@@ -18,6 +18,13 @@
     user-select: none; /* Standard */
 }
 
+@media screen and (max-width: 768px) {
+    .ni-container,
+    .ni-input {
+        font-size: 0.85rem;
+    }
+}
+
 .ni-desc {
     flex: 1.5;
     color: black;

@@ -31,9 +31,19 @@ function App() {
   const [projectionData, setProjectionData] = useState('');
   const [stats, setStats] = useState([{},{},{},{},{},{}]);
 
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia("(min-width: 768px)").matches
+  )
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     window.scrollTo(0, 0)
+  }, []);
+
+  useEffect(() => {
+    window
+    .matchMedia("(max-width: 768px)")
+    .addEventListener('change', e => setIsMobile( e.matches ));
   }, []);
 
   return (
@@ -42,7 +52,7 @@ function App() {
         activePageIndex={activePageIndex}/>
       <div className='body'>
         <div className={`pages-container page-index-${activePageIndex}`}>
-          <div className='page-spacer'/>
+          <div className='first page-spacer'/>
           <div className="page-header"/>
           <BMICalculator 
             healthData={healthData}
@@ -76,7 +86,8 @@ function App() {
           <GraphPage 
             projectionData={projectionData}
             useMetricSystem={useMetricSystem}
-            activePageIndex={activePageIndex}/>
+            activePageIndex={activePageIndex}
+            isMobile={isMobile}/>
         </div>
       </div>
     </div>

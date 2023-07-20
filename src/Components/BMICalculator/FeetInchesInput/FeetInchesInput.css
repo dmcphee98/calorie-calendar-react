@@ -85,3 +85,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+@media screen and (max-width: 768px) {
+    .fii-container,
+    .fii-input {
+        font-size: 0.85rem;
+    }
+}

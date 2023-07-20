@@ -31,7 +31,7 @@
     .proj-img {
         height: 85%;
     }
-  }
+}
   
 
 .proj-title {
@@ -95,7 +95,8 @@
 
 @media screen and (max-width: 768px) {
     .proj-page-container {
-        flex-direction: row;    
+        flex-direction: column;    
+        flex-wrap: nowrap;
     }
     .proj-content {
         flex-direction: column;
@@ -128,4 +129,19 @@
 .proj-warning-icon {
     font-size: 1.2rem;
     color: #dc60c1;
+}
+
+@media screen and (max-width: 768px) {
+    .proj-warning {
+        font-size: 0.9rem;
+    }
+    .proj-warning-bold {
+        font-size: 1.1rem;
+    }
+    .proj-warning-icon {
+        font-size: 0.9rem;
+    }
+    .proj-info-container {
+        font-size: 1.1rem;
+    }
 }

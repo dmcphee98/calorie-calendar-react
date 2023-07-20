@@ -6,7 +6,7 @@ import { ExportToCsv } from 'export-to-csv';
 import { Buffer } from 'buffer';
 import { VictoryChart, VictoryAxis, VictoryArea, VictoryScatter, VictoryLine, VictoryTheme, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
 
-const GraphPage = ({ projectionData, useMetricSystem, activePageIndex }) => {
+const GraphPage = ({ projectionData, useMetricSystem, activePageIndex, isMobile }) => {
 
     const [xTicks, setXTicks] = useState('');
     const [horizLineData, setHorizLineData] = useState([{x:0,y:0},{x:0,y:0}]);
@@ -127,7 +127,7 @@ const GraphPage = ({ projectionData, useMetricSystem, activePageIndex }) => {
                     <div className='victory-container'>
                         <VictoryChart 
                             theme={VictoryTheme.material}
-                            padding={{ top: 15, bottom: 65, left: 55, right: 20 }}
+                            padding={isMobile? { top: 5, bottom: 55, left: 60, right: 20 } : { top: 15, bottom: 65, left: 55, right: 20 }}
                             containerComponent={ 
                                 <VictoryVoronoiContainer 
                                     onActivated={points => updateTooltipAxes(points[0])}
@@ -150,7 +150,7 @@ const GraphPage = ({ projectionData, useMetricSystem, activePageIndex }) => {
                                 y: [projectionData.yMin, projectionData.yMax]
                             }}
                             domainPadding={{x: 8, y:5}}
-                            width={580}
+                            width={isMobile ? 440 : 580}
                             height={360}
                         >
                             <svg style={{ height: 0, width: 0}}>

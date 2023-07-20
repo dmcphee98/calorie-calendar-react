@@ -67,3 +67,10 @@ input[type=number] {
 .di-inactive {
     background-color: rgb(204, 204, 204);
 }
+
+@media screen and (max-width: 768px) {
+    .di-container,
+    .di-input {
+        font-size: 0.85rem;
+    }
+}
