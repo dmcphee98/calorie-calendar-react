@@ -1,15 +1,19 @@
 import React from 'react';
 import './BoolToggle.css';
 
-const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activeColor, activeTextColor, index }) => {
+const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activeColor, activeTextColor, index, pageIndex, activePageIndex }) => {
 
-  const toggleBoolValue = (e, isDefaultValue) => {
+  const setBool = (e, isDefaultValue) => {
     if (e.target.classList.contains("button-spacer")) {
       setBoolValue(!boolValue);
     } else {
       setBoolValue(isDefaultValue);
     }
-}
+  }
+
+  const toggleBool = () => {
+    setBoolValue(!boolValue);
+  }
 
   let active = {       
     backgroundColor: activeColor,
@@ -19,21 +23,25 @@ const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activ
   }
 
   return (
-    <div className={`bool-toggle-container element-${index}`}>
+    <div 
+      className={`bool-toggle-container element-${index}`}
+      tabIndex={pageIndex === activePageIndex ? 0 : -1}
+      onKeyDown={(event) => {if (event.key === 'Enter') toggleBool()}}
+    >
         <div 
           className="default-button"
           style={boolValue ? active : {}}
-          onClick={(e) => toggleBoolValue(e, true)}
+          onClick={(e) => setBool(e, true)}
         >
           {defaultText}</div>
         <div 
           className={`button-spacer a element-${index}`}
-          onClick={(e) => toggleBoolValue(e, false)}
+          onClick={(e) => setBool(e, false)}
         />
         <div 
           className="alternate-button"
           style={boolValue ? {} : active}
-          onClick={(e) => toggleBoolValue(e, false)}
+          onClick={(e) => setBool(e, false)}
         >{alternateText}</div>
     </div>
   )

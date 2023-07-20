@@ -2,7 +2,7 @@ import React from 'react';
 import './NumInput.css';
 
 
-const NumInput = ({ number, setNumber, description, units, index, isEnabled, callback }) => {
+const NumInput = ({ number, setNumber, isEnabled, description, units, index, pageIndex, activePageIndex, callback }) => {
 
     const handleChange = (e) => {
       const number = (e.target.value === '') ? '' : Math.abs(Number(e.target.value));
@@ -16,7 +16,14 @@ const NumInput = ({ number, setNumber, description, units, index, isEnabled, cal
     >
       <div className='ni-desc'>{description}</div>
         <div className='ni-input-div'>
-          <input className="ni-input" type='number' min='0' value={number} onChange={(e) => handleChange(e)}></input>
+          <input 
+            className="ni-input" 
+            type='number' 
+            min='0' 
+            value={number} 
+            onChange={(e) => handleChange(e)}
+            tabIndex={pageIndex === activePageIndex ? 0 : -1}
+          />
         </div>
         <div className='ni-units'>{`( ${units} )`}</div>
     </div>

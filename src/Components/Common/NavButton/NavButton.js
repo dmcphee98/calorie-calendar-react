@@ -69,6 +69,7 @@ const NavButton = ({ pageIndex, enabled, activePageIndex, setActivePageIndex, ca
       <button 
         className={`next-btn ${doPulseBorder ? 'pulse-border' : ''} ${isUpArrow ? 'up' : 'down'}`}
         onClick={handleClick}
+        tabIndex={[pageIndex, pageIndex + 1].includes(activePageIndex) ? 0 : -1}
         style={{
           borderColor: enabled && doPulseBorder && pageIndex === activePageIndex ? getButtonColor() : '#f1f1f1'
         }}>  

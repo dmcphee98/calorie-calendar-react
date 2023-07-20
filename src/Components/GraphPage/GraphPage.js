@@ -88,9 +88,12 @@ const GraphPage = ({ projectionData, useMetricSystem, activePageIndex, isMobile 
         const xml = new XMLSerializer().serializeToString(
           svgRef.current.firstChild
         );
-    
-        canvasRef.current.width = 580*3;
-        canvasRef.current.height = 360*3;
+
+        const imageWidth = 3 * (isMobile ? 440: 580);    
+        const imageHeight = 3 * 360;
+
+        canvasRef.current.width = imageWidth;
+        canvasRef.current.height = imageHeight;
     
         var svg64 = Buffer.from(xml).toString('base64');
         var b64Start = "data:image/svg+xml;base64,";
@@ -100,10 +103,10 @@ const GraphPage = ({ projectionData, useMetricSystem, activePageIndex, isMobile 
     
         image.src = image64;
         image.onload = () => {
-          ctx.rect(0, 0, 580*3, 360*3);
+          ctx.rect(0, 0, imageWidth, imageHeight);
           ctx.fillStyle = "white";
           ctx.fill();
-          ctx.drawImage(image, 0, 0, 580*3, 360*3);
+          ctx.drawImage(image, 0, 0, imageWidth, imageHeight);
           linkRef.current.href = canvasRef.current.toDataURL();
           linkRef.current.download = "chart.png";
         };
@@ -127,7 +130,7 @@ const GraphPage = ({ projectionData, useMetricSystem, activePageIndex, isMobile 
                     <div className='victory-container'>
                         <VictoryChart 
                             theme={VictoryTheme.material}
-                            padding={isMobile? { top: 5, bottom: 55, left: 60, right: 20 } : { top: 15, bottom: 65, left: 55, right: 20 }}
+                            padding={isMobile? { top: 15, bottom: 60, left: 60, right: 20 } : { top: 15, bottom: 65, left: 55, right: 20 }}
                             containerComponent={ 
                                 <VictoryVoronoiContainer 
                                     onActivated={points => updateTooltipAxes(points[0])}
@@ -237,8 +240,23 @@ const GraphPage = ({ projectionData, useMetricSystem, activePageIndex, isMobile 
                 }
                 <div className='export-container'>
                     <canvas ref={canvasRef} style={{display: 'none'}}/>
-                    <TextButton text='Export to JPEG' innerRef={linkRef} href='chart.png' icon='fa-solid fa-file-image' color='#bdea7a'/>
-                    <TextButton text='Export to CSV' icon='fa-solid fa-file-csv' color='#bdea7a' callback={exportToCsv}/>
+                    <TextButton 
+                        text='Export to JPEG' 
+                        innerRef={linkRef} 
+                        href='chart.png' 
+                        icon='fa-solid fa-file-image' 
+                        color='#bdea7a'
+                        pageIndex={5}
+                        activePageIndex={activePageIndex}
+                    />
+                    <TextButton 
+                        text='Export to CSV' 
+                        icon='fa-solid fa-file-csv' 
+                        color='#bdea7a' 
+                        callback={exportToCsv}
+                        pageIndex={5}
+                        activePageIndex={activePageIndex}
+                    />
                 </div>
             </div>
         </div>

@@ -23,6 +23,8 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
     'bmr': '',
   });
 
+  const canNavigateWithEnter = React.useRef(false);
+
   // Recalculate BMI as information is entered into form
   useEffect(() => {
     let weight = BMRData.initialWeight;
@@ -86,8 +88,8 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
     }
   }
 
+  // Add updated BMI and BMR to traits
   useEffect(() => {
-    // Add updated BMI and BMR to traits
     setBMRData({...BMRData, 'bmr':BMR});
   }, [BMR])
 
@@ -114,7 +116,8 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
                 setBMRData={setBMRData}
                 useMetricSystem={useMetricSystem}
                 setMetricSystem={setMetricSystem}
-                setFormComplete={setFormComplete}/>
+                setFormComplete={setFormComplete}
+                activePageIndex={activePageIndex}/>
           </div>
             {isFormComplete && isValidBMI &&
               <div className='bmi-output-valid'>

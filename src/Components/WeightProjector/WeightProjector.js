@@ -293,6 +293,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, setProjectionData,
                 setDailyCalsMode={setDailyCalsMode}
                 setProjectionData={setLocalProjectionData}
                 useMetricSystem={useMetricSystem}
+                activePageIndex={activePageIndex}
               />
             </div>
           </div>

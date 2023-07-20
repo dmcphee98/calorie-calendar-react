@@ -1,11 +1,12 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
-import SubmitButton from '../../Common/SubmitButton/SubmitButton';
+import { useState, useEffect, useRef } from 'react';
 import './ActivityForm.css';
 
-const ActivityForm = ({ TDEEData, setTDEEData, callback }) => {
+const ActivityForm = ({ TDEEData, setTDEEData, callback, pageIndex, activePageIndex }) => {
 
-    const [activityLvlNum, setActivityLvlNum] = useState('3');
+    const [activityLvlNum, _setActivityLvlNum] = useState('3');
+
+    const activityLvlNumRef = useRef(activityLvlNum);
 
     const activityLvl = [
         'Sedentary',
@@ -21,7 +22,7 @@ const ActivityForm = ({ TDEEData, setTDEEData, callback }) => {
         'Moderate exercise / 3-5 days per week',
         'Heavy exercise / 6-7 days per week',
         'Very heavy exercise / Twice daily'
-    ]
+    ];
 
     const onValueChange = (e) => {
         setActivityLvlNum(e.target.value);
@@ -35,11 +36,39 @@ const ActivityForm = ({ TDEEData, setTDEEData, callback }) => {
         callback();
       }
 
+    /*
+    React useState hooks are often stale in event handlers.
+    Created a useRef that is updated whenever useState hook changes value so the current value can be read from any stale context.
+    https://stackoverflow.com/questions/55265255/react-usestate-hook-event-handler-using-initial-state
+    */
+    const setActivityLvlNum = (activityLvlNum) => {
+        activityLvlNumRef.current = activityLvlNum;
+        _setActivityLvlNum(activityLvlNum);
+    }
+
+    // Navigate between options with left and right arrow keys
+    const handleKeyNavigation = (e) => {
+        if (e.key === 'ArrowLeft' && activityLvlNum > 1) {
+          const updatedActivityLvlNum = String(Number(activityLvlNum) - 1);
+          setActivityLvlNum(updatedActivityLvlNum);
+          setTDEEData({...TDEEData, 'activityLvl':updatedActivityLvlNum});
+        }
+        if (e.key === 'ArrowRight' && activityLvlNum < 5) {
+            const updatedActivityLvlNum = String(Number(activityLvlNum) + 1);
+            setActivityLvlNum(updatedActivityLvlNum);
+            setTDEEData({...TDEEData, 'activityLvl':updatedActivityLvlNum});
+        }
+    }
+
     return (
         <form className='TDEE-form' onSubmit={handleSubmit}>
-            <div className='radio-row'>
-            <div className={`radio radio-left ${activityLvlNum === '1' ? 'radio-selected-outer' : ''}`}>
-                <label className={`radio-lbl ${activityLvlNum === '1' ? 'radio-selected-inner' : ''}`}>
+            <div 
+                className='radio-row' 
+                tabIndex={pageIndex === activePageIndex ? 0 : -1}
+                onKeyDown={(event) => {handleKeyNavigation(event)}}
+            >
+                <div className={`radio radio-left ${activityLvlNumRef.current === '1' ? 'radio-selected-outer' : ''}`}>
+                    <label className={`radio-lbl ${activityLvlNumRef.current === '1' ? 'radio-selected-inner' : ''}`}>
                         1
                         <input                        
                             className="radio-btn"
@@ -50,8 +79,8 @@ const ActivityForm = ({ TDEEData, setTDEEData, callback }) => {
                         />
                     </label>
                 </div>
-                <div className={`radio radio-center ${activityLvlNum === '2' ? 'radio-selected-outer' : ''}`}>
-                    <label className={`radio-lbl ${activityLvlNum === '2' ? 'radio-selected-inner' : ''}`}>
+                <div className={`radio radio-center ${activityLvlNumRef.current === '2' ? 'radio-selected-outer' : ''}`}>
+                    <label className={`radio-lbl ${activityLvlNumRef.current === '2' ? 'radio-selected-inner' : ''}`}>
                         <input
                             className="radio-btn"
                             type="radio"
@@ -62,8 +91,8 @@ const ActivityForm = ({ TDEEData, setTDEEData, callback }) => {
                         2
                     </label>
                 </div>
-                <div className={`radio radio-center ${activityLvlNum === '3' ? 'radio-selected-outer' : ''}`}>
-                    <label className={`radio-lbl ${activityLvlNum === '3' ? 'radio-selected-inner' : ''}`}>
+                <div className={`radio radio-center ${activityLvlNumRef.current === '3' ? 'radio-selected-outer' : ''}`}>
+                    <label className={`radio-lbl ${activityLvlNumRef.current === '3' ? 'radio-selected-inner' : ''}`}>
                         <input
                             className="radio-btn"
                             type="radio"
@@ -74,8 +103,8 @@ const ActivityForm = ({ TDEEData, setTDEEData, callback }) => {
                         3
                     </label>
                 </div>
-                <div className={`radio radio-center ${activityLvlNum === '4' ? 'radio-selected-outer' : ''}`}>
-                    <label className={`radio-lbl ${activityLvlNum === '4' ? 'radio-selected-inner' : ''}`}>
+                <div className={`radio radio-center ${activityLvlNumRef.current === '4' ? 'radio-selected-outer' : ''}`}>
+                    <label className={`radio-lbl ${activityLvlNumRef.current === '4' ? 'radio-selected-inner' : ''}`}>
                         <input
                             className="radio-btn"
                             type="radio"
@@ -86,8 +115,8 @@ const ActivityForm = ({ TDEEData, setTDEEData, callback }) => {
                         4
                     </label>
                 </div>
-                <div className={`radio radio-right ${activityLvlNum === '5' ? 'radio-selected-outer' : ''}`}>
-                   <label className={`radio-lbl ${activityLvlNum === '5' ? 'radio-selected-inner' : ''}`}>
+                <div className={`radio radio-right ${activityLvlNumRef.current === '5' ? 'radio-selected-outer' : ''}`}>
+                   <label className={`radio-lbl ${activityLvlNumRef.current === '5' ? 'radio-selected-inner' : ''}`}>
                         <input
                             className="radio-btn"
                             type="radio"

@@ -32,7 +32,7 @@ function App() {
   const [stats, setStats] = useState([{},{},{},{},{},{}]);
 
   const [isMobile, setIsMobile] = useState(
-    window.matchMedia("(min-width: 768px)").matches
+    window.matchMedia("(max-width: 768px)").matches
   )
 
   useEffect(() => {

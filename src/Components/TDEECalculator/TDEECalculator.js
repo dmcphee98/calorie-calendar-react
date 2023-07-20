@@ -37,7 +37,7 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
         <div className='img-container'>
           <img className='tdee-img' src={soccerImg} alt="My Happy SVG"/>
         </div>
-        <div className='form-container'>
+        <div className='form-container tdee-form-container'>
           <div className='tdee-info-container'>
             <p className='tdee-info'>
               <span>Next, let's determine your activity level.</span>
@@ -47,6 +47,8 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
             <ActivityForm 
               TDEEData={TDEEData}
               setTDEEData={setTDEEData}
+              pageIndex={2}
+              activePageIndex={activePageIndex}
             />
           </div>
           <div className='tdee-result-container'>
