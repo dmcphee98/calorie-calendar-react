@@ -2,7 +2,7 @@ import React from 'react';
 import './NumInput.css';
 
 
-const NumInput = ({ number, setNumber, description, units, color, isEnabled, callback }) => {
+const NumInput = ({ number, setNumber, description, units, index, isEnabled, callback }) => {
 
     const handleChange = (e) => {
       const number = (e.target.value === '') ? '' : Math.abs(Number(e.target.value));
@@ -11,7 +11,7 @@ const NumInput = ({ number, setNumber, description, units, color, isEnabled, cal
 
   return (
     <div 
-      className={`di-container ${isEnabled === false ? 'ni-inactive' : 'ni-active-' + color}`}
+      className={`ni-container ${isEnabled === false ? 'ni-inactive' : `element-${index}`}`}
       onClick={callback === undefined ? undefined : () => callback(true)}
     >
       <div className='ni-desc'>{description}</div>

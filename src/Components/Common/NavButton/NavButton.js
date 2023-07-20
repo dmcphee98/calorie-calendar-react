@@ -43,20 +43,20 @@ const NavButton = ({ pageIndex, enabled, activePageIndex, setActivePageIndex, ca
   
   const goNextPage = () => {
     setActivePageIndex(activePageIndex + 1);
-    // Scroll by window height -10vh (page spacer) -8vh (navbar) +4px (page-container borders) 
+    /* Scroll by window height -10vh (page spacer) -8vh (navbar) +4px (page-container borders) 
     window.scrollBy({
       top: (0.82 * window.innerHeight) + 4,
       behavior: 'smooth'
-    });
+    });*/
   }
 
   const goPrevPage = () => {
     setActivePageIndex(activePageIndex - 1);
-    // Scroll by window height -10vh (page spacer) -8vh (navbar) +4px (page-container borders) 
+    /* Scroll by window height -10vh (page spacer) -8vh (navbar) +4px (page-container borders) 
     window.scrollBy({
       top: (-0.82 * window.innerHeight) - 4,
       behavior: 'smooth'
-    });
+    });*/
   }
 
   const getButtonColor = () => {

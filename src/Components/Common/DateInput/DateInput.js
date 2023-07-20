@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './DateInput.css';
 
-const DateInput = ({ number, setNumber, description, min, max, isEnabled, callback }) => {
+const DateInput = ({ number, setNumber, description, min, max, isEnabled, index, callback }) => {
 
     const handleChange = (e) => {
         setNumber(new Date(e.target.value));
@@ -22,7 +22,7 @@ const DateInput = ({ number, setNumber, description, min, max, isEnabled, callba
 
   return (
     <div 
-      className={`di-container ${isEnabled === undefined ? 'di-active' : (isEnabled ? 'di-active' : 'di-inactive')}`} 
+      className={`di-container ${isEnabled === undefined ? `element-${index}` : (isEnabled ? 'di-active' : `element-${index}`)}`} 
       onClick={callback === undefined ? undefined : () => callback(true)}
     >
       <div className='di-desc'>{description}</div>

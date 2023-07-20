@@ -41,7 +41,7 @@ function App() {
       <Navbar 
         activePageIndex={activePageIndex}/>
       <div className='body'>
-        <div className="pages-container">
+        <div className={`pages-container page-index-${activePageIndex}`}>
           <div className='page-spacer'/>
           <div className="page-header"/>
           <BMICalculator 

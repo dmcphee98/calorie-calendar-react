@@ -9,7 +9,6 @@
     justify-content: left;
     margin: 0.5rem;
     height: 5vh;
-    background-attachment: fixed;
     background-size: cover; 
     border-radius: 1.5rem;
 
@@ -69,9 +68,12 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+/*
 .ni-active-green {
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
+    background-attachment: fixed;
 }
+*/
 
 .ni-active-purple {
     background: #12c2e9;  /* fallback for old browsers */

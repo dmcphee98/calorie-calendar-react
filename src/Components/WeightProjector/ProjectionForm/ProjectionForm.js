@@ -49,8 +49,8 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
 
     return (
         <form className='proj-form'>
-            <NumInput number={goalWeight} setNumber={setGoalWeight} units={useMetricSystem ? 'kg' : 'lbs'} description='Goal Weight' color='purple'/>
-            <DateInput number={startDate} setNumber={setStartDate} description='Start Date'/>
+            <NumInput number={goalWeight} setNumber={setGoalWeight} units={useMetricSystem ? 'kg' : 'lbs'} description='Goal Weight' index={31}/>
+            <DateInput number={startDate} setNumber={setStartDate} description='Start Date' index={32}/>
             <div className="proj-container">
                 <div className={`option-1-background ${isDailyCalsMode? '' : 'active'}`}>
                   <div className='option-1'>
@@ -66,13 +66,13 @@ const ProjectionForm = ({ goalData, setGoalData, isDailyCalsMode, setDailyCalsMo
                   {!isDailyCalsMode &&
                     <div className='option-container'>
                       <div className="proj-desc-A">Provide a <em>finish date</em> and we'll <br/> recommend a daily calorie goal</div>
-                      <DateInput number={finishDate} setNumber={setFinishDate} description='Finish Date' min={getEarliestValidFinishDate(startDate)}/>
+                      <DateInput number={finishDate} setNumber={setFinishDate} description='Finish Date' min={getEarliestValidFinishDate(startDate)} index={33}/>
                     </div>
                   }
                   {isDailyCalsMode &&
                     <div className='option-container'>
                       Provide a <em>daily calorie goal </em>  and <br/>we'll estimate your finish date
-                      <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={isDailyCalsMode} callback={setDailyMode} color='purple'/>
+                      <NumInput number={dailyCals} setNumber={setDailyCals} description='Daily Cals' units='Cal' isEnabled={isDailyCalsMode} callback={setDailyMode} index={33}/>
                     </div>
                   }
                 </div>

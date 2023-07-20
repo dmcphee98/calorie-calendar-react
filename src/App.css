@@ -90,6 +90,7 @@
 
 .pages-container {
   transition: ease width 0.5s;
+  transition: ease transform 0.5s;
   background-color: white;
 }
 
@@ -171,4 +172,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.pages-container.page-index-1{
+  transform: translateY(0vh);
+}
+
+.pages-container.page-index-2{
+  transform: translateY(-82.5vh);
+}
+
+.pages-container.page-index-3{
+  transform: translateY(-165vh);
+}
+
+.pages-container.page-index-4{
+  transform: translateY(-247.5vh);
+}
+
+.pages-container.page-index-5{
+  transform: translateY(-330vh);
 }

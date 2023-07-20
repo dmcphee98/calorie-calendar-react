@@ -8,10 +8,11 @@
     height: 5vh;
     cursor: pointer;
     display: flex;
+    /*
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
     background-attachment: fixed;
+    */
     border-radius: 1.5rem;
-    /*border: solid rgb(218, 218, 218);*/
     border-width: 5px;
     display: flex;
     align-items: center;
@@ -42,18 +43,10 @@
 }
 
 .button-spacer {
+    /*
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
     background-attachment: fixed;
+    */
     flex-grow: 1;
     height: 75%;
 }
-
-
-
-/*
-.active {
-    background-color: rgb(86, 253, 123);
-    transition: background-color 0.2s ease;
-    border-radius: 1rem;
-}
-*/

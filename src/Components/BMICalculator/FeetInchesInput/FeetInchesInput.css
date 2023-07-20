@@ -9,8 +9,10 @@
     justify-content: left;
     height: 10vh;
     margin: 0.5rem;
+    /*
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
     background-attachment: fixed;
+    */
     border-radius: 1.5rem;
 }
 

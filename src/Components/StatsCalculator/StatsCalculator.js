@@ -32,37 +32,43 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
             name: 'Daily calories', 
             icon: 'fa-solid fa-utensils', 
             value: dailyCals.toFixed(0), 
-            units: 'cal' 
+            units: 'cal',
+            color: '#FC7E7A'
           },
           { 
             name: `Weekly ${isGain ? 'gain' : 'loss'}`, 
             icon: 'fa-solid fa-weight-scale', 
             value: Math.abs(useMetricSystem ? weeklyWeightChange : 2.2046 * weeklyWeightChange).toFixed(1), 
-            units: useMetricSystem ? 'kg' : 'lbs' 
+            units: useMetricSystem ? 'kg' : 'lbs',
+            color: '#FC8C6B'
           },
           { 
             name: `Daily ${isGain ? 'surplus' : 'deficit'}`, 
             icon: `fa-solid fa-angles-${isGain ? 'up' : 'down'}`, 
             value: Math.abs(caloricDeficit).toFixed(0), 
-            units: 'cal' 
+            units: 'cal',
+            color: '#FC9A5C'
           },
           { 
             name: `Total ${isGain ? 'surplus' : 'deficit'}`, 
             icon: `fa-solid fa-arrow-trend-${isGain ? 'up' : 'down'}`, 
             value: Math.abs(caloricDeficit*totalDays).toFixed(0), 
-            units: 'cal' 
+            units: 'cal',
+            color: '#FCA84D'
           },
           { 
             name: 'Finish date', 
             icon: 'fa-solid fa-flag-checkered', 
             value: finishDateString, 
-            units: '' 
+            units: '',
+            color: '#FCB63E'
           },
           { 
             name: 'Total days', 
             icon: 'fa-regular fa-calendar', 
             value: totalDays, 
-            units: '' 
+            units: '' ,
+            color: '#FEC22F'
           },
         ]);
       }
@@ -81,6 +87,7 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
                             icon={stat.icon}
                             units={stat.units}
                             activePageIndex={activePageIndex}
+                            color={stat.color}
                         />
                     )
                 })}
@@ -105,10 +112,10 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
 
 export default StatsCalculator
 
-export const StatBox = ( { name, icon, value, units, activePageIndex }) => {
+export const StatBox = ( { name, icon, value, units, color }) => {
     return (
       <div className='stat-box-container'>
-          <div className={`stat-box stat-color-${activePageIndex === 4 ? 'active' : 'inactive'}`}>
+          <div className='stat-box' style={{backgroundColor: color}}>
             <div className='stat-box-background'>
               <div className='stat-icon-container'>
                   <i className={`stat-icon ${icon}`}/>

@@ -51,8 +51,11 @@
 
     -webkit-background-clip: text;
 	background-clip: text;
+    /*
     background-image: linear-gradient(to top, #1f75e3, #2383ea, #2d90f0, #3c9ef5, #4cabfa, #4cb7fd, #52c2fe, #5ecdff, #63d9ff, #6fe5ff, #7ff0ff, #92fbff);
-    background-attachment: fixed;
+    background-attachment: fixed;*/
+    background-color: #42a3f7;
+
 	color: transparent;
 }
 

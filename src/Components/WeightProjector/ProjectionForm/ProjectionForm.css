@@ -21,10 +21,13 @@
 .proj-container .option-2-background {
     width: 50%;
 
-    background: #12c2e9;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /*
+    background: #6d5a75;
+    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);
+    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9);
     background-attachment: fixed;
+    */
+    background: linear-gradient(to top, #c072ec, #c76fe3);;
 }
 
 .proj-container .option-1-background.active,
@@ -66,19 +69,25 @@
     border-radius: 5px;
     padding: 0.2rem;
 
-    background: #6d5a75;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /*
+    background: #6d5a75;
+    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);
+    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9);
     background-attachment: fixed;
+    */
+    background-color: #c670e9;
 }
 
 .proj-container .option-container-background {
     width: 100%;
 
-    background: #12c2e9;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /*
+    background: #6d5a75;
+    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);
+    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9);
     background-attachment: fixed;
+    */
+    background: linear-gradient(to bottom, #c76fe3, #d963af);;
 
     border-radius: 0px 0px 10px 10px;
     padding: 0px 3px 3px 3px;
@@ -99,4 +108,16 @@
 
 .proj-container .hidden {
     transform: translateX(150%);
+}
+
+.proj-form .element-31 {
+    background-color: #9c83ec;
+}
+
+.proj-form .element-32 {
+    background-color: #b179ec;
+}
+
+.proj-form .element-33 {
+    background-color: #d467c0;
 }

@@ -5,7 +5,7 @@ import './FeetInchesInput.css';
 // Input: height in feet and inches
 // Output: height in cm
 
-const FeetInchesInput = ({ setOutput, description }) => {
+const FeetInchesInput = ({ setOutput, description, index }) => {
 
     const [ftValue, setFtValue] = useState('');
     const [inValue, setInValue] = useState('');
@@ -30,7 +30,7 @@ const FeetInchesInput = ({ setOutput, description }) => {
     }
 
   return (
-    <div className='fii-container'>
+    <div className={`fii-container element-${index}`}>
         <div className='fii-desc'>{description}</div>
         <div className='fii-stacked-inputs'>
             <input type='number' className='fii-input fii-top' value={ftValue} onChange={(e) => updateFtValue(e)}></input>

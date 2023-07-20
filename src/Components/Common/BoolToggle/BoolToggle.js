@@ -1,7 +1,7 @@
 import React from 'react';
 import './BoolToggle.css';
 
-const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activeColor, activeTextColor }) => {
+const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activeColor, activeTextColor, index }) => {
 
   const toggleBoolValue = (e, isDefaultValue) => {
     if (e.target.classList.contains("button-spacer")) {
@@ -19,7 +19,7 @@ const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activ
   }
 
   return (
-    <div className='bool-toggle-container'>
+    <div className={`bool-toggle-container element-${index}`}>
         <div 
           className="default-button"
           style={boolValue ? active : {}}
@@ -27,7 +27,7 @@ const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activ
         >
           {defaultText}</div>
         <div 
-          className="button-spacer a"
+          className={`button-spacer a element-${index}`}
           onClick={(e) => toggleBoolValue(e, false)}
         />
         <div 
