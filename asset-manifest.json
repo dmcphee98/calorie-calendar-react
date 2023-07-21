@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/calorie-calendar-react/static/css/main.41cc0f7c.css",
-    "main.js": "/calorie-calendar-react/static/js/main.13a6a6ed.js",
-    "static/media/NavArrow.svg": "/calorie-calendar-react/static/media/NavArrow.7f237dec9cb168a96c27ab338c768e6d.svg",
-    "static/media/soccer.svg": "/calorie-calendar-react/static/media/soccer.ad94e562295e030b668c2dbfb1444a1f.svg",
-    "static/media/tree.svg": "/calorie-calendar-react/static/media/tree.0c4a25cd143ff8208a1b7246a62d246b.svg",
-    "static/media/data.svg": "/calorie-calendar-react/static/media/data.ded103506556543fb60c057a77f18a7a.svg",
-    "index.html": "/calorie-calendar-react/index.html",
-    "main.41cc0f7c.css.map": "/calorie-calendar-react/static/css/main.41cc0f7c.css.map",
-    "main.13a6a6ed.js.map": "/calorie-calendar-react/static/js/main.13a6a6ed.js.map"
+    "main.css": "/caloriecast/static/css/main.41cc0f7c.css",
+    "main.js": "/caloriecast/static/js/main.11a923b7.js",
+    "static/media/NavArrow.svg": "/caloriecast/static/media/NavArrow.7f237dec9cb168a96c27ab338c768e6d.svg",
+    "static/media/soccer.svg": "/caloriecast/static/media/soccer.ad94e562295e030b668c2dbfb1444a1f.svg",
+    "static/media/tree.svg": "/caloriecast/static/media/tree.0c4a25cd143ff8208a1b7246a62d246b.svg",
+    "static/media/data.svg": "/caloriecast/static/media/data.ded103506556543fb60c057a77f18a7a.svg",
+    "index.html": "/caloriecast/index.html",
+    "main.41cc0f7c.css.map": "/caloriecast/static/css/main.41cc0f7c.css.map",
+    "main.11a923b7.js.map": "/caloriecast/static/js/main.11a923b7.js.map"
   },
   "entrypoints": [
     "static/css/main.41cc0f7c.css",
-    "static/js/main.13a6a6ed.js"
+    "static/js/main.11a923b7.js"
   ]
 }
