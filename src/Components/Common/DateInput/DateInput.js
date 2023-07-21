@@ -30,7 +30,6 @@ const DateInput = ({ number, setNumber, min, max, isEnabled, description, callba
         <input 
           className="di-input" 
           type='date' 
-          value={isValidDate(number)? formatToString(number) : undefined} 
           min={min} 
           max={max} 
           onChange={(e) => handleChange(e)}
