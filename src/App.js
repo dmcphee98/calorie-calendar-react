@@ -52,6 +52,19 @@ function App() {
     }
   }, []);
 
+  const fixMobileKeyboard = () => {
+    var viewport = document.querySelector("meta[name=viewport]");
+    viewport.setAttribute("content", viewport.content + ", height=" + window.innerHeight);
+  }
+
+  useEffect(() => {
+    window.addEventListener("load", () => fixMobileKeyboard());
+    return () => {
+      window.removeEventListener("load", () => fixMobileKeyboard());
+    }
+  }, []);
+
+
   return (
     <div className="App">
       <Navbar 
