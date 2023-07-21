@@ -7,7 +7,7 @@ import './TDEECalculator.css';
 import { Tooltip } from 'react-tooltip'
 import soccerImg from './soccer.svg'
 
-const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActivePageIndex }) => {
+const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActivePageIndex, isMobile }) => {
 
   const [TDEEData, setTDEEData] = useState({
     'activityLvl': 3,
@@ -56,7 +56,7 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
               TDEE 
               <i className='tooltip-anchor fa-solid fa-circle-question' style={{position: 'absolute', top: '55%', left: '110%', transform: 'translate(0%, -50%)'}}/>
             </div>
-            <Tooltip className='tooltip' anchorSelect='.tooltip-anchor' place='right'>
+            <Tooltip className='tooltip' anchorSelect='.tooltip-anchor' place={isMobile ? 'top' : 'right'}>
               Total Daily Energy Expenditure<br/>
               <span style={{color: 'rgb(150, 150, 150)'}}><i>The total number of calories your <br/> body burns each day, on average.</i></span>
             </Tooltip>

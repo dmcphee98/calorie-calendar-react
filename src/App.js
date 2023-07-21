@@ -83,7 +83,8 @@ function App() {
             healthData={healthData}
             setHealthData={setHealthData}
             activePageIndex={activePageIndex}
-            setActivePageIndex={setActivePageIndex}/>
+            setActivePageIndex={setActivePageIndex}
+            isMobile={isMobile}/>
           <WeightProjector
             healthData={healthData}
             goalData={goalData}
