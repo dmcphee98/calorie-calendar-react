@@ -9,6 +9,7 @@
     justify-content: left;
     margin: 0.5rem;
     height: 5vh;
+    min-height: 38px;
     background-size: cover; 
     border-radius: 1.5rem;
 

@@ -1,7 +1,7 @@
 {
-  "name": "calorie-calendar-react-v2",
+  "name": "caloriecast",
   "version": "0.1.0",
-  "homepage": "https://dmcphee98.github.io/calorie-calendar-react",
+  "homepage": "https://dmcphee98.github.io/caloriecast",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

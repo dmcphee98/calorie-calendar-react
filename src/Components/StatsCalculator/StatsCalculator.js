@@ -74,7 +74,7 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
       }
     
     return (
-        <div>
+        <div style={{height: '18%'}}>
           <div className='page-container stat-page-container'>
             <div className='stats-header'>Let's view some stats we prepared.</div>
             <div className='stats-container'>

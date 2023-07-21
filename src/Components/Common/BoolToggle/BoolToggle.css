@@ -6,6 +6,7 @@
 .bool-toggle-container {
     margin: 0.5rem;
     height: 5vh;
+    min-height: 38px;
     cursor: pointer;
     display: flex;
     /*

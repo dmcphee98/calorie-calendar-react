@@ -40,10 +40,16 @@ function App() {
     window.scrollTo(0, 0)
   }, []);
 
+  // Keeps an up-to-date record of whether the display is mobile or desktop
   useEffect(() => {
     window
     .matchMedia("(max-width: 768px)")
     .addEventListener('change', e => setIsMobile( e.matches ));
+    return () => {
+      window
+      .matchMedia("(max-width: 768px)")
+      .removeEventListener('change', e => setIsMobile( e.matches ));
+    }
   }, []);
 
   return (
@@ -53,7 +59,6 @@ function App() {
       <div className='body'>
         <div className={`pages-container page-index-${activePageIndex}`}>
           <div className='first page-spacer'/>
-          <div className="page-header"/>
           <BMICalculator 
             healthData={healthData}
             setHealthData={setHealthData}

@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: left;
     height: 10vh;
+    min-height: 76px;
     margin: 0.5rem;
     /*
     background-image: linear-gradient(to bottom, #eeda58, #c4e874, #9af29b, #73f7c5, #5af9eb);
