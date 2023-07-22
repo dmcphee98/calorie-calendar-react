@@ -32,7 +32,7 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
   }
     
   return (
-    <div style={{height: '18%'}}>
+    <div style={{height: '18%', minHeight: '400px'}}>
       <div className='page-container'>
         <div className='img-container'>
           <img className='tdee-img' src={soccerImg} alt="My Happy SVG"/>

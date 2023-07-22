@@ -12,6 +12,7 @@
 
 .radio-row {
     height: 6vh;
+    min-height: 46px;
     width: 85%;
     display: flex;
     justify-content: center;
@@ -22,7 +23,9 @@
 
 .radio {
     height: 6vh;
+    min-height: 46px;
     width: 6vh;
+    min-width: 46px;
     cursor: pointer;
     position: relative;
     display: flex;

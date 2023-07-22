@@ -102,3 +102,12 @@
         font-size: 1.25rem;
     }
 }
+
+@media screen and (max-height: 740px) {
+    .bmi-form-imperial {
+      min-height: 270px;
+    }
+    .bmi-form-metric {
+        min-height: 230px;
+    }
+  }

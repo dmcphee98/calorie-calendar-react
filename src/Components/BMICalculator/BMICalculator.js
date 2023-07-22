@@ -99,7 +99,7 @@ const BMICalculator = ({ healthData, setHealthData, useMetricSystem, setMetricSy
   }
 
   return (
-    <div style={{height: '18.8%'}}>
+    <div style={{height: '18.8%', minHeight: '400px'}}>
       <div className='page-container'>
         <div className='img-container'>
           <img className='bmi-img' src={treeImg} alt="My Happy SVG"/>

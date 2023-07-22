@@ -192,3 +192,16 @@
   align-items: center;
   justify-content: center;
 }
+
+@media screen and (max-height: 740px) {
+  .page-container {
+    min-height: 400px;
+    overflow: scroll;
+  }
+  .img-container {
+    display: none;
+  }
+  .form-container {
+    height: 100%;
+  }
+}

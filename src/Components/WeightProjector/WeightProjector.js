@@ -273,7 +273,7 @@ const WeightProjector = ({ healthData, goalData, setGoalData, setProjectionData,
 
   
   return (
-    <div style={{height: '18%'}}>
+    <div style={{height: '18%', minHeight: '400px'}}>
       <div className='page-container proj-page-container'>
         <div className='proj-content'>
           <div className='img-container proj-img-container'>

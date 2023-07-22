@@ -74,8 +74,8 @@ const StatsCalculator = ({ healthData, goalData, projectionData, stats, setStats
       }
     
     return (
-        <div style={{height: '18%'}}>
-          <div className='page-container stat-page-container'>
+      <div style={{height: '18%', minHeight: '400px'}}>
+        <div className='page-container stat-page-container'>
             <div className='stats-header'>Let's view some stats we prepared.</div>
             <div className='stats-container'>
                 {stats.map((stat, index) => {

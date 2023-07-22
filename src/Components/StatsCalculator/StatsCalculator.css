@@ -135,7 +135,9 @@
     }
     .stat-box {
         height: 14vh;
+        min-height: 100px;
         width: 14vh;
+        min-width: 100px;
         margin-top: 2vh;
         margin-bottom: 2vh;
     }
