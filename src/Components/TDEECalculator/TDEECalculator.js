@@ -54,7 +54,10 @@ const TDEECalculator = ({ healthData, setHealthData, activePageIndex, setActiveP
           <div className='tdee-result-container'>
             <div className='title' style={{position: 'relative'}}>
               TDEE 
-              <i className='tooltip-anchor fa-solid fa-circle-question' style={{position: 'absolute', top: '55%', left: '110%', transform: 'translate(0%, -50%)'}}/>
+              <i 
+                className='tooltip-anchor fa-solid fa-circle-question' 
+                tabIndex={2 === activePageIndex ? 1 : -1}
+                style={{position: 'absolute', top: '55%', left: '110%', transform: 'translate(0%, -50%)'}}/>
             </div>
             <Tooltip className='tooltip' anchorSelect='.tooltip-anchor' place={isMobile ? 'top' : 'right'}>
               Total Daily Energy Expenditure<br/>

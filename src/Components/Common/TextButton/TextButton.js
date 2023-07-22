@@ -10,7 +10,7 @@ const TextButton = ({ text, icon, color, innerRef, href, callback, pageIndex, ac
         onClick={() => { if (!!callback) callback() }}
         onKeyDown={(event) => {if (event.key === 'Enter') callback()}}
         style={{backgroundColor: 'white'}}
-        tabIndex={pageIndex === activePageIndex ? 0 : -1}
+        tabIndex={pageIndex === activePageIndex ? 1 : -1}
     >
         <i className={`text-btn-icon ${icon}`} style={{paddingRight: '0.5rem'}}/>
         {text}

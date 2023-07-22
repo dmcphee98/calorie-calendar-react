@@ -33,7 +33,7 @@ const DateInput = ({ number, setNumber, min, max, isEnabled, description, callba
           min={min} 
           max={max} 
           onChange={(e) => handleChange(e)}
-          tabIndex={pageIndex === activePageIndex ? 0 : -1}
+          tabIndex={pageIndex === activePageIndex ? 1 : -1}
         />
       </div>
     </div>

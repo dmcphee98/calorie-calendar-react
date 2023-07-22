@@ -22,7 +22,7 @@ const NumInput = ({ number, setNumber, isEnabled, description, units, index, pag
             min='0' 
             value={number} 
             onChange={(e) => handleChange(e)}
-            tabIndex={pageIndex === activePageIndex ? 0 : -1}
+            tabIndex={pageIndex === activePageIndex ? 1 : -1}
           />
         </div>
         <div className='ni-units'>{`( ${units} )`}</div>

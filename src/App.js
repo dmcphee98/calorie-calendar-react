@@ -68,7 +68,8 @@ function App() {
   return (
     <div className="App">
       <Navbar 
-        activePageIndex={activePageIndex}/>
+        activePageIndex={activePageIndex}
+        setActivePageIndex={setActivePageIndex}/>
       <div className='body'>
         <div className={`pages-container page-index-${activePageIndex}`}>
           <div className='first page-spacer'/>

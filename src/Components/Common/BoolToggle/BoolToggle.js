@@ -1,7 +1,7 @@
 import React from 'react';
 import './BoolToggle.css';
 
-const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activeColor, activeTextColor, index, pageIndex, activePageIndex }) => {
+const BoolToggle = ({ boolValue, setBoolValue, id, defaultText, alternateText, activeColor, activeTextColor, index, pageIndex, activePageIndex }) => {
 
   const setBool = (e, isDefaultValue) => {
     if (e.target.classList.contains("button-spacer")) {
@@ -25,7 +25,8 @@ const BoolToggle = ({ boolValue, setBoolValue, defaultText, alternateText, activ
   return (
     <div 
       className={`bool-toggle-container element-${index}`}
-      tabIndex={pageIndex === activePageIndex ? 0 : -1}
+      id={id}
+      tabIndex={pageIndex === activePageIndex ? 1 : -1}
       onKeyDown={(event) => {if (event.key === 'Enter') toggleBool()}}
     >
         <div 

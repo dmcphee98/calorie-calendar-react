@@ -55,6 +55,7 @@ const BMRForm = ({ BMRData, setBMRData, useMetricSystem, setMetricSystem, setFor
     <form className='bmr-form'>
         <BoolToggle 
             className="element-1"
+            id="start-tab-point"
             boolValue={useMetricSystem} 
             setBoolValue={setMetricSystem} 
             defaultText="Metric" 

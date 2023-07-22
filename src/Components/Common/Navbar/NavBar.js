@@ -3,7 +3,7 @@ import { navbarItems } from './NavbarItems';
 import './NavBar.css'
 import { useState } from 'react';
 
-const Navbar = ({ activePageIndex }) => {
+const Navbar = ({ activePageIndex, setActivePageIndex }) => {
 
     const [trayIsOpen, traySetOpen] = useState(false);
 
@@ -16,7 +16,18 @@ const Navbar = ({ activePageIndex }) => {
   return (
     <nav className='navbar'>
         <div className='navbar-logo-container'>
-            <h1 className="navbar-logo" style={{color: logoColors[activePageIndex]}}>
+            <h1 
+                className="navbar-logo" 
+                onClick={() => setActivePageIndex(1)}
+                onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                        setActivePageIndex(1);
+                        document.getElementById("start-tab-point").focus();
+                    }
+                }}
+                style={{color: logoColors[activePageIndex]}} 
+                tabIndex={2}
+                >
                 CalorieCast
             </h1>
         </div>

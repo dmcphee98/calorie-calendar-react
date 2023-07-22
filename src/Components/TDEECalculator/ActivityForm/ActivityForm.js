@@ -64,7 +64,7 @@ const ActivityForm = ({ TDEEData, setTDEEData, callback, pageIndex, activePageIn
         <form className='TDEE-form' onSubmit={handleSubmit}>
             <div 
                 className='radio-row' 
-                tabIndex={pageIndex === activePageIndex ? 0 : -1}
+                tabIndex={pageIndex === activePageIndex ? 1 : -1}
                 onKeyDown={(event) => {handleKeyNavigation(event)}}
             >
                 <div className={`radio radio-left ${activityLvlNumRef.current === '1' ? 'radio-selected-outer' : ''}`}>
